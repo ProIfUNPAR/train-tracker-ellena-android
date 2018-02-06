@@ -39,13 +39,16 @@ public class Test extends AppCompatActivity {
 
 
         //mengambil record dari tabel provinsi
-        String query="SELECT * FROM provinsi";
+        String query="SELECT * FROM stasiun";
         Cursor cursor = mDb.rawQuery(query, null);
         //melakukan iterasi untuk setiap record
         if (cursor.moveToFirst()) {
             do {
                 System.out.print(cursor.getString(0));
-                System.out.println(" "+cursor.getString(1));
+                System.out.print(" "+cursor.getString(1));
+                System.out.print(" "+cursor.getString(2));
+                System.out.print(" "+cursor.getString(3));
+                System.out.println(" "+cursor.getString(4));
             } while (cursor.moveToNext());
         }
 

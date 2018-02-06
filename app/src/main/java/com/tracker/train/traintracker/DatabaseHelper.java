@@ -15,7 +15,7 @@ import java.io.OutputStream;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
-    private static String DB_NAME = "Tabeltest.db";
+    private static String DB_NAME = "trackfind.db";
     private static String DB_PATH = "";
     private static final int DB_VERSION = 1;
 
