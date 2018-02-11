@@ -33,7 +33,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         copyDataBase();
 
-        this.getReadableDatabase();
+        this.mDataBase=this.getReadableDatabase();
+    }
+
+    public SQLiteDatabase getmDataBase() {
+        return mDataBase;
     }
 
     public void updateDataBase() throws IOException {
