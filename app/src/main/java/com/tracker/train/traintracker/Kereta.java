@@ -8,15 +8,27 @@ import java.util.ArrayList;
 
 public class Kereta {
     private String nama;
-    private ArrayList<String> trackDanJadwal;
+    private ArrayList<String> track,waktuBerangkat,waktuTiba;
 
-    public Kereta(String nama, ArrayList<String> trackDanJadwal) {
+    public Kereta(String nama, ArrayList<String> track,ArrayList<String> waktuBerangkat,ArrayList<String> waktuTiba) {
         this.nama = nama;
-        this.trackDanJadwal = trackDanJadwal;
+        this.track = track;
+        this.waktuBerangkat=waktuBerangkat;
+        this.waktuTiba=waktuTiba;
     }
 
-    public ArrayList<String> getTrackDanJadwal() {
-        return trackDanJadwal;
+    public ArrayList<String> getTrack() {
+        return track;
+    }
+
+
+
+    public ArrayList<String> getWaktuBerangkat() {
+        return waktuBerangkat;
+    }
+
+    public ArrayList<String> getWaktuTiba() {
+        return waktuTiba;
     }
 
     public String getNama() {

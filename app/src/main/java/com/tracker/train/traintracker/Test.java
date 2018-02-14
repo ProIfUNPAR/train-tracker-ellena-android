@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Test extends AppCompatActivity {
     private DatabaseHelper mDBHelper;
@@ -41,10 +43,27 @@ public class Test extends AppCompatActivity {
         mDBHelper.close();
          **/
 
-        DBKereta dbKereta=new DBKereta(mDBHelper);
-        dbKereta.getAllKereta();
+
+       DBKereta dbKereta=new DBKereta(mDBHelper);
+       ArrayList<Kereta> kereta=dbKereta.getAllKereta();
+        for (int i=0;i<kereta.size();i++){
+            System.out.print(kereta.get(i).getNama()+" ");
+            ArrayList<String> temp=kereta.get(i).getWaktuTiba();
+            for (int j=0;j<temp.size();j++){
+                System.out.print(temp.get(j)+" ");
+            }
+            System.out.println();
+        }
+
 
         DBStasiun dbStasiun=new DBStasiun(mDBHelper);
-        dbStasiun.getAllStasiun();
+        ArrayList<Stasiun> stasiun=dbStasiun.getAllStasiun();
+        for (int i=0;i<stasiun.size();i++){
+            System.out.print(stasiun.get(i).getNama()+" ");
+            System.out.print(stasiun.get(i).getKota()+" ");
+            System.out.print(stasiun.get(i).getLatitude()+" ");
+            System.out.println(stasiun.get(i).getLongitude());
+        }
+
     }
 }
