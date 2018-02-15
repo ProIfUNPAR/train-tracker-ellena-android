@@ -18,7 +18,7 @@ public class DBKereta {
 
     public ArrayList<Kereta> getAllKereta(){
         mDBHelper.openDataBase();
-        ArrayList<Kereta> trains=new  ArrayList<Kereta>();
+        ArrayList<Kereta> trains= new ArrayList<Kereta>();
 
         String query="SELECT * FROM track";
         Cursor cursor = mDBHelper.getmDataBase().rawQuery(query, null);
@@ -99,10 +99,13 @@ public class DBKereta {
             } while (cursor.moveToNext());
 
         }
-
-
-
         return trains;
-
     }
+
+    /*public ArrayList<String> getNamaKereta(){
+        mDBHelper.openDataBase();
+        ArrayList<String> nama = new ArrayList<String>();
+        String query = "SELECT nama FROM track";
+
+    }*/
 }
