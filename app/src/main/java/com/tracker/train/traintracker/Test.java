@@ -21,10 +21,7 @@ public class Test extends AppCompatActivity{
     private Spinner keretaSpinner, asalSpinner, tujuanSpinner;
     private ArrayList<Kereta> kereta;
     private ArrayList<String> trackList;
-    private ArrayList<Stasiun> stasiun;
     private Kereta selectedKereta;
-    private DBKereta keretaDB;
-    private DBStasiun stasiunDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +36,8 @@ public class Test extends AppCompatActivity{
         this.asalSpinner = (Spinner) findViewById(R.id.asal_list);
         this.tujuanSpinner = (Spinner) findViewById(R.id.tujuan_list);
 
-        this.keretaDB = new DBKereta(mDBHelper);
-        this.stasiunDB = new DBStasiun(mDBHelper);
+        DBKereta keretaDB = new DBKereta(mDBHelper);
         kereta = keretaDB.getAllKereta();
-        stasiun = stasiunDB.getAllStasiun();
         ArrayList<String> namaKereta = new ArrayList<String>();
 
         for(int i = 0; i < kereta.size(); i++){
@@ -57,8 +52,7 @@ public class Test extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String nama = adapterView.getItemAtPosition(i).toString();
-                //ArrayList<String> asalList = new ArrayList<>();
-                ArrayList<Stasiun> asalList = new ArrayList<>();
+                ArrayList<String> asalList = new ArrayList<>();
                 for(int x = 0; x < kereta.size(); x++){
                     if(kereta.get(i).getNama().equals(nama)){
                         selectedKereta = kereta.get(i);
@@ -66,31 +60,25 @@ public class Test extends AppCompatActivity{
                         break;
                     }
                 }
-                final ArrayList<Stasiun> stasiunList = Test.this.toStasiunList(trackList);
-                for(int x = 0; x < stasiunList.size() - 1; x++){
-                    asalList.add(stasiunList.get(x));
+                for(int x = 0; x < trackList.size() - 1; x++){
+                    asalList.add(trackList.get(x));
                 }
-                //ArrayAdapter<String> asalArrayAdapter = new ArrayAdapter<String>(Test.this, android.R.layout.simple_spinner_item, asalList);
-                StasiunAdapter asalStasiunAdapter = new StasiunAdapter(Test.this, asalList, true);
-                asalSpinner.setAdapter(asalStasiunAdapter);
+                ArrayAdapter<String> asalArrayAdapter = new ArrayAdapter<String>(Test.this, android.R.layout.simple_spinner_item, asalList);
+                asalSpinner.setAdapter(asalArrayAdapter);
                 asalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        //ArrayList<String> tujuanList = new ArrayList<String>();
-                        ArrayList<Stasiun> tujuanList = new ArrayList<Stasiun>();
-                        for(int x = 0; x < stasiunList.size(); x++){
-                            tujuanList.add(stasiunList.get(x));
+                        ArrayList<String> tujuanList = new ArrayList<String>();
+                        for(int x = 0; x < trackList.size(); x++){
+                            tujuanList.add(trackList.get(x));
                         }
                         int x = 0;
                         while(x <= asalSpinner.getSelectedItemPosition()){
                             tujuanList.remove(0);
                             x++;
                         }
-                        //ArrayAdapter<String> tujuanArrayAdapter = new ArrayAdapter<String>(Test.this, android.R.layout.simple_spinner_item, tujuanList);
-                        StasiunAdapter tujuanStasiunAdapter = new StasiunAdapter(Test.this, tujuanList, true);
-
-                        //tujuanSpinner.setAdapter(tujuanArrayAdapter);
-                        tujuanSpinner.setAdapter(tujuanStasiunAdapter);
+                        ArrayAdapter<String> tujuanArrayAdapter = new ArrayAdapter<String>(Test.this, android.R.layout.simple_spinner_item, tujuanList);
+                        tujuanSpinner.setAdapter(tujuanArrayAdapter);
                     }
 
                     @Override
@@ -174,20 +162,4 @@ public class Test extends AppCompatActivity{
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }*/
-
-    public ArrayList<Stasiun> toStasiunList(ArrayList<String> trackList){
-        ArrayList<Stasiun> stasiunList = new ArrayList<>();
-        ArrayList<Stasiun> temp = new ArrayList<>();
-        temp.addAll(stasiun);
-        for(int i = 0; i < trackList.size(); i++){
-            for(int j = 0; j < temp.size(); j++){
-                if(trackList.get(i).equals(temp.get(j).toString())){
-                    stasiunList.add(temp.get(j));
-                    temp.remove(j);
-                    break;
-                }
-            }
-        }
-        return stasiunList;
-    }
 }
