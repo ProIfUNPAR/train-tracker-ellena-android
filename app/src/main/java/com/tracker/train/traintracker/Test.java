@@ -20,6 +20,7 @@ public class Test extends AppCompatActivity{
     //private SQLiteDatabase mDb;
     private Spinner keretaSpinner, asalSpinner, tujuanSpinner;
     private ArrayList<Kereta> kereta;
+    private ArrayList<Stasiun> stasiun;
     private ArrayList<String> trackList;
     private Kereta selectedKereta;
 
@@ -37,22 +38,26 @@ public class Test extends AppCompatActivity{
         this.tujuanSpinner = (Spinner) findViewById(R.id.tujuan_list);
 
         DBKereta keretaDB = new DBKereta(mDBHelper);
-        kereta = keretaDB.getAllKereta();
+        kereta = keretaDB.getListTrains();
+
+        final DBStasiun dbStasiun=new DBStasiun(mDBHelper);
+
+
         ArrayList<String> namaKereta = new ArrayList<String>();
 
         for(int i = 0; i < kereta.size(); i++){
             namaKereta.add(kereta.get(i).getNama());
         }
 
-        //ArrayAdapter<Kereta> keretaArrayAdapter = new ArrayAdapter<Kereta>(this, android.R.layout.simple_spinner_item, kereta);
-        ArrayAdapter<String> keretaArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, namaKereta);
+        ArrayAdapter<Kereta> keretaArrayAdapter = new ArrayAdapter<Kereta>(this, android.R.layout.simple_spinner_item, kereta);
+        //ArrayAdapter<String> keretaArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, namaKereta);
         keretaSpinner.setAdapter(keretaArrayAdapter);
         keretaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String nama = adapterView.getItemAtPosition(i).toString();
-                ArrayList<String> asalList = new ArrayList<>();
+                ArrayList<Stasiun> asalList = new ArrayList<Stasiun>();
                 for(int x = 0; x < kereta.size(); x++){
                     if(kereta.get(i).getNama().equals(nama)){
                         selectedKereta = kereta.get(i);
@@ -61,23 +66,29 @@ public class Test extends AppCompatActivity{
                     }
                 }
                 for(int x = 0; x < trackList.size() - 1; x++){
-                    asalList.add(trackList.get(x));
+                    asalList.add(dbStasiun.getStasiunByName(trackList.get(x)));
+                    //Print latitude longitude
+                    System.out.println(asalList.get(x).getLatitude()+" "+asalList.get(x).getLongitude());
+                    System.out.println("end1");
                 }
-                ArrayAdapter<String> asalArrayAdapter = new ArrayAdapter<String>(Test.this, android.R.layout.simple_spinner_item, asalList);
+                ArrayAdapter<Stasiun> asalArrayAdapter = new ArrayAdapter<Stasiun>(Test.this, android.R.layout.simple_spinner_item, asalList);
                 asalSpinner.setAdapter(asalArrayAdapter);
                 asalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        ArrayList<String> tujuanList = new ArrayList<String>();
+                        ArrayList<Stasiun> tujuanList = new ArrayList<Stasiun>();
                         for(int x = 0; x < trackList.size(); x++){
-                            tujuanList.add(trackList.get(x));
+                            tujuanList.add(dbStasiun.getStasiunByName(trackList.get(x)));
+                            //Print latitude longitude
+                            System.out.println(tujuanList.get(x).getLatitude()+" "+tujuanList.get(x).getLongitude());
+                            System.out.println("end2");
                         }
                         int x = 0;
                         while(x <= asalSpinner.getSelectedItemPosition()){
                             tujuanList.remove(0);
                             x++;
                         }
-                        ArrayAdapter<String> tujuanArrayAdapter = new ArrayAdapter<String>(Test.this, android.R.layout.simple_spinner_item, tujuanList);
+                        ArrayAdapter<Stasiun> tujuanArrayAdapter = new ArrayAdapter<Stasiun>(Test.this, android.R.layout.simple_spinner_item, tujuanList);
                         tujuanSpinner.setAdapter(tujuanArrayAdapter);
                     }
 

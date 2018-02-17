@@ -30,4 +30,9 @@ public class Stasiun {
     public double getLongitude() {
         return longitude;
     }
+
+    @Override
+    public String toString(){
+        return this.getNama();
+    }
 }

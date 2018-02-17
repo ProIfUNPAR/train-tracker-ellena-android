@@ -11,12 +11,19 @@ import java.util.ArrayList;
 
 public class DBKereta {
     private DatabaseHelper mDBHelper;
+    private ArrayList<Kereta> listTrains;
 
     public DBKereta(DatabaseHelper mDBHelper) {
         this.mDBHelper = mDBHelper;
+        this.listTrains= new ArrayList<Kereta>();
+        this.getTrainsFromDB();
     }
 
-    public ArrayList<Kereta> getAllKereta(){
+    public ArrayList<Kereta> getListTrains() {
+        return this.listTrains;
+    }
+
+    private void getTrainsFromDB(){
         mDBHelper.openDataBase();
         ArrayList<Kereta> trains= new ArrayList<Kereta>();
 
@@ -88,7 +95,7 @@ public class DBKereta {
                 }
                 String namaKereta=""+cursor.getString(1);
                 Kereta kereta=new Kereta(namaKereta,routes,waktuBerangkat,waktuTiba);
-                trains.add(kereta);
+                this.listTrains.add(kereta);
                 //System.out.println(route);
                 //System.out.println(schedule);
 
@@ -99,8 +106,24 @@ public class DBKereta {
             } while (cursor.moveToNext());
 
         }
-        return trains;
+
+        cursor.close();
+        mDBHelper.close();
+
     }
+
+
+    public Kereta getKeretaByName(String name){
+        Kereta result=null;
+        for (int i=0;i<this.listTrains.size();i++){
+            if(this.listTrains.get(i).getNama().equals(name)){
+                result=this.listTrains.get(i);
+                break;
+            }
+        }
+        return result;
+    }
+
 
     /*public ArrayList<String> getNamaKereta(){
         mDBHelper.openDataBase();

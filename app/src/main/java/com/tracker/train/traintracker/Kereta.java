@@ -35,4 +35,9 @@ public class Kereta {
         return nama;
     }
 
+    @Override
+    public String toString(){
+        return this.getNama();
+    }
+
 }

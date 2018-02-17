@@ -12,14 +12,18 @@ import java.util.ArrayList;
 
 public class DBStasiun {
     private DatabaseHelper mDBHelper;
-
+    private ArrayList<Stasiun> listStasiun;
     public DBStasiun(DatabaseHelper mDBHelper) {
         this.mDBHelper = mDBHelper;
+        this.listStasiun=new ArrayList<Stasiun>();
+        this.getStasiunFromDB();
     }
 
-    public ArrayList<Stasiun> getAllStasiun(){
+    public ArrayList<Stasiun> getListStasiun() {
+        return this.listStasiun;
+    }
 
-        ArrayList<Stasiun> listStasiun=new ArrayList<Stasiun>();
+    private void getStasiunFromDB(){
         mDBHelper.openDataBase();
 
         //String query="SELECT * FROM stasiun";
@@ -36,7 +40,7 @@ public class DBStasiun {
                 double longitude=Double.parseDouble(cursor.getString(3)+"");
 
                 Stasiun stasiun=new Stasiun(namaStasiun,kota,latitude,longitude);
-                listStasiun.add(stasiun);
+                this.listStasiun.add(stasiun);
 
                /** System.out.print(" "+cursor.getString(0)); //nama stasiun
                 System.out.print(" "+cursor.getString(1)); //id kota, harus di join buat dapetin nama kota
@@ -48,6 +52,16 @@ public class DBStasiun {
 
         cursor.close();
         mDBHelper.close();
-        return listStasiun;
+    }
+
+    public Stasiun getStasiunByName(String name){
+        Stasiun result=null;
+        for (int i=0;i<this.listStasiun.size();i++){
+            if(this.listStasiun.get(i).getNama().equals(name)){
+                result=this.listStasiun.get(i);
+                break;
+            }
+        }
+        return result;
     }
 }
