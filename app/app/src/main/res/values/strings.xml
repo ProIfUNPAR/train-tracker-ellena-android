@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="button">Button</string>
+    <string name="title_activity_main3">Main3Activity</string>
+    <string name="title_Directions">Directions</string>
+    <string name="title_Alarm">Alarm</string>
+    <string name="title_Checkspeed">Check Speed</string>
+    <string name="search_bar1">Pilih Stasiun Keberangkatan</string>
+
+    <string-array name="OptionAlarm">
+        <item>Alarm</item>
+        <item>Ringtone</item>
+        <item>Vibrate When Alarm Sounds</item>
+    </string-array>
+
+    <string-array name="StationName">
+        <item>Stasiun 1, Bandung</item>
+        <item>Stasiun 2, Jakarta</item>
+        <item>Stasiun 3, Semarang</item>
+        <item>Stasiun 4, Solo</item>
+        <item>Stasiun 5, Surabaya</item>
+        <item>Stasiun 6, Jember</item>
+    </string-array>
+
+
+
+    <string name="title_activity_maps">Map</string>
+    <string name="settings">Settings</string>
+    <string name="users">Users</string>
+    <string name="about_us">About us</string>
+</resources>
