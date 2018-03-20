@@ -14,7 +14,6 @@ import android.widget.Spinner;
 public class Main3Activity extends AppCompatActivity {
 
 
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -25,13 +24,13 @@ public class Main3Activity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_directions:
-                    transaction.replace(android.R.id.content,new Directions2Fragment()).commit();
+                    transaction.replace(R.id.fragment_container,new Directions2Fragment()).commit();
                     return true;
                 case R.id.navigation_alarm:
-                    transaction.replace(android.R.id.content,new Alarm2Fragment()).commit();
+                    transaction.replace(R.id.fragment_container,new Alarm2Fragment()).commit();
                     return true;
                 case R.id.navigation_checkspeed:
-                    transaction.replace(android.R.id.content,new Checkspeed2Fragment()).commit();
+                    transaction.replace(R.id.fragment_container,new Checkspeed2Fragment()).commit();
                     return true;
             }
             return false;
@@ -43,8 +42,6 @@ public class Main3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-
-
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(Main3Activity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.StationName));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -53,7 +50,7 @@ public class Main3Activity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(android.R.id.content,new Directions2Fragment()).commit();
+        transaction.replace(R.id.fragment_container,new Directions2Fragment()).commit();
 
     }
 
