@@ -1,5 +1,7 @@
-package com.tracker.mapdatabase;
+package com.example.administrator.myapplication.Map;
 
+import com.example.administrator.myapplication.*;
+import com.example.administrator.myapplication.Database.*;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;

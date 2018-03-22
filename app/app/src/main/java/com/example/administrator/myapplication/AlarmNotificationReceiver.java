@@ -1,4 +1,4 @@
-package com.tracker.mapdatabase;
+package com.example.administrator.myapplication;
 
 import android.app.Notification;
 import android.app.NotificationManager;

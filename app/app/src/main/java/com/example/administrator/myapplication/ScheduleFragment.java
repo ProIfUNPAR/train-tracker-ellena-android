@@ -23,12 +23,13 @@ public class ScheduleFragment extends Fragment {
 
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_schedule, container, false);
         this.etSearch = view.findViewById(R.id.et_train_search);
         this.ivButton = view.findViewById(R.id.iv_get_schedule_btn);
         this.listResult = view.findViewById(R.id.listview_route);
+        return view;
     }
 }

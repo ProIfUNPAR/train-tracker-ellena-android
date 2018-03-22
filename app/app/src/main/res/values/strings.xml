@@ -28,4 +28,8 @@
     <string name="settings">Settings</string>
     <string name="users">Users</string>
     <string name="about_us">About us</string>
+    <string name="title_Schedule">Schedule</string>
+    <string name="schedule_title_bar">Schedule</string>
+    <string name="search_train_string">Cari Kereta</string>
+    <string name="search_train_hint">Masukan Nama Kereta</string>
 </resources>

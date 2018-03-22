@@ -1,4 +1,5 @@
-package com.tracker.mapdatabase;
+package com.example.administrator.myapplication.Database;
+
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;

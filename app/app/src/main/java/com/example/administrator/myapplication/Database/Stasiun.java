@@ -1,4 +1,4 @@
-package com.tracker.mapdatabase;
+package com.example.administrator.myapplication.Database;
 
 /**
  * Created by user on 2/11/2018.

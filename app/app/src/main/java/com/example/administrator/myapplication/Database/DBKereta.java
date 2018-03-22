@@ -1,4 +1,4 @@
-package com.tracker.mapdatabase;
+package com.example.administrator.myapplication.Database;
 
 import android.database.Cursor;
 import android.util.Log;
