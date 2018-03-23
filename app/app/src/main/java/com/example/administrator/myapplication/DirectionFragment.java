@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by user on 3/23/2018.
  */
 
-public class DirectionFragment extends Fragment {
+public class DirectionFragment extends Fragment implements View.OnClickListener{
     protected Spinner keretaSpinner, asalSpinner, tujuanSpinner;
     protected Button searchBtn;
     protected Switch alarmSwitch;
@@ -54,6 +54,7 @@ public class DirectionFragment extends Fragment {
        this.asalSpinner=view.findViewById(R.id.asal_list);
        this.tujuanSpinner=view.findViewById(R.id.tujuan_list);
 
+       this.searchBtn.setOnClickListener(this);
 
         this.asalList= new ArrayList<Stasiun>();
         this.tujuanList = new ArrayList<Stasiun>();
@@ -71,4 +72,10 @@ public class DirectionFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if(view.getId()==this.searchBtn.getId()){
+
+        }
+    }
 }
