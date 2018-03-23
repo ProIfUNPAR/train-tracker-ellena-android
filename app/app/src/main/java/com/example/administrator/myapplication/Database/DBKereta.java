@@ -13,6 +13,7 @@ public class DBKereta {
     private DatabaseHelper mDBHelper;
     private ArrayList<Kereta> listTrains;
 
+
     public DBKereta(DatabaseHelper mDBHelper) {
         this.mDBHelper = mDBHelper;
         this.listTrains= new ArrayList<Kereta>();

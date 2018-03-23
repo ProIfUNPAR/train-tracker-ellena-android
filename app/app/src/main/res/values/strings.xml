@@ -32,4 +32,7 @@
     <string name="schedule_title_bar">Schedule</string>
     <string name="search_train_string">Cari Kereta</string>
     <string name="search_train_hint">Masukan Nama Kereta</string>
+    <string name="search_btn_text">search</string>
+    <string name="alarm_tv">Alarm</string>
+
 </resources>

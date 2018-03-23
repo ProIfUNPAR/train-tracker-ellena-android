@@ -24,13 +24,16 @@ public class Main3Activity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_directions:
-                    transaction.replace(R.id.fragment_container,new Directions2Fragment()).commit();
+                    transaction.replace(R.id.fragment_container,new DirectionFragment()).commit();
                     return true;
                 case R.id.navigation_alarm:
                     transaction.replace(R.id.fragment_container,new Alarm2Fragment()).commit();
                     return true;
                 case R.id.navigation_checkspeed:
                     transaction.replace(R.id.fragment_container,new Checkspeed2Fragment()).commit();
+                    return true;
+                case R.id.navigation_schedule:
+                    transaction.replace(R.id.fragment_container,new ScheduleFragment()).commit();
                     return true;
             }
             return false;
