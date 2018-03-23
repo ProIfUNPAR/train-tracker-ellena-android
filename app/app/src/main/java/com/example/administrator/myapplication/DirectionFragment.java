@@ -1,4 +1,5 @@
 package com.example.administrator.myapplication;
+import android.content.Context;
 import android.location.LocationListener;
 import android.Manifest;
 import android.app.AlarmManager;
@@ -19,8 +20,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.administrator.myapplication.Map.Distance;
 import com.example.administrator.myapplication.Map.Duration;
@@ -44,6 +47,7 @@ import com.example.administrator.myapplication.Database.Stasiun;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -51,7 +55,7 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by user on 3/23/2018.
  */
 
-public class DirectionFragment extends Fragment implements View.OnClickListener,OnMapReadyCallback{
+public class DirectionFragment extends Fragment implements View.OnClickListener,OnMapReadyCallback,CompoundButton.OnCheckedChangeListener{
     protected Spinner keretaSpinner, asalSpinner, tujuanSpinner;
     protected Button searchBtn;
     protected Switch alarmSwitch;
@@ -105,7 +109,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
        this.tujuanSpinner=view.findViewById(R.id.tujuan_list);
 
        this.searchBtn.setOnClickListener(this);
-
+        this.alarmFlag=false;
         this.asalList= new ArrayList<Stasiun>();
         this.tujuanList = new ArrayList<Stasiun>();
         this.kereta=new ArrayList<Kereta>();
@@ -118,9 +122,18 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         this.dbStasiun=new DBStasiun(this.mDBHelper);
         this.stasiun=this.dbStasiun.getListStasiun();
 
+        this.isAlarmSet = false;
+        this.manager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        this.alarmIntent = new Intent(getActivity(),AlarmNotificationReceiver.class);
+        this.pendingIntent = PendingIntent.getBroadcast(getContext(),0,alarmIntent,0);
+
+        this.alarmSwitch.setOnCheckedChangeListener(this);
+
+
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        this.jarak = new Distance();
+        this.dur = new Duration();
 
         ArrayList<String> namaKereta = new ArrayList<String>();
 
@@ -240,7 +253,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     Log.d("Time", time);
 
                     if(jarakResult<=15 && isAlarmSet) {
-                        //startAlarm();
+                        startAlarm();
                         isAlarmSet = false;
                         //btnSetAlarm.setText("set alarm");
                     }
@@ -307,9 +320,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     Log.d("Time", time);
 
                     if (jarakResult <= 15 && isAlarmSet) {
-                        // startAlarm();
+                        startAlarm();
                         isAlarmSet = false;
-                        // btnSetAlarm.setText("set alarm");
                     }
                 }
 
@@ -446,5 +458,41 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             LatLng coordinate = new LatLng(latitude, longitude);
             CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.5f);
             mMap.animateCamera(yourLocation);}
+    }
+
+    public void startAlarm() {
+        Calendar cal = Calendar.getInstance();
+        this.alarmFlag = true;
+        // 1 minutes = 60.000 millis
+        manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis()+3000, pendingIntent);
+
+    }
+
+    public void cancelAlarm(){
+        if(manager!=null){
+            manager.cancel(pendingIntent);
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if(!b){
+            cancelAlarm();
+            isAlarmSet = false;
+            System.out.println("1");
+        }
+        else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !isAlarmSet){
+            Toast.makeText(getActivity().getApplicationContext(),"Alarm is already set",Toast.LENGTH_LONG).show();
+            isAlarmSet = true;
+            if(!isAlarmSet){
+                cancelAlarm();
+            }
+            System.out.println("2");
+
+        }
+        else {
+            Toast.makeText(getActivity().getApplicationContext(), "Cannot set alarm.", Toast.LENGTH_LONG).show();
+        }
+
     }
 }
