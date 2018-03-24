@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.GaKepake;
+package com.example.administrator.myapplication;
 import android.content.Context;
 import android.location.LocationListener;
 import android.Manifest;
@@ -25,10 +25,8 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.example.administrator.myapplication.AlarmNotificationReceiver;
 import com.example.administrator.myapplication.Map.Distance;
 import com.example.administrator.myapplication.Map.Duration;
-import com.example.administrator.myapplication.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

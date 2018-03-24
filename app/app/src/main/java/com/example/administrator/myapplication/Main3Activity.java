@@ -10,8 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
-import com.example.administrator.myapplication.GaKepake.DirectionFragment;
-
 public class Main3Activity extends AppCompatActivity {
 
 
@@ -25,7 +23,7 @@ public class Main3Activity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_directions:
-                    transaction.replace(R.id.fragment_container,new DirectionFragment()).commit();
+                    transaction.replace(R.id.fragment_container,new Checkspeed2Fragment.DirectionFragment()).commit();
                     return true;
                 case R.id.navigation_alarm:
                     transaction.replace(R.id.fragment_container,new Alarm2Fragment()).commit();
