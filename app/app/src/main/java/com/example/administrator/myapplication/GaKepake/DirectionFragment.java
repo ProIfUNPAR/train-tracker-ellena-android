@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication;
+package com.example.administrator.myapplication.GaKepake;
 import android.content.Context;
 import android.location.LocationListener;
 import android.Manifest;
@@ -25,8 +25,10 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.administrator.myapplication.AlarmNotificationReceiver;
 import com.example.administrator.myapplication.Map.Distance;
 import com.example.administrator.myapplication.Map.Duration;
+import com.example.administrator.myapplication.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,7 +46,6 @@ import com.example.administrator.myapplication.Database.DBStasiun;
 import com.example.administrator.myapplication.Database.DatabaseHelper;
 import com.example.administrator.myapplication.Database.Kereta;
 import com.example.administrator.myapplication.Database.Stasiun;
-import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -101,7 +102,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-       View view=inflater.inflate(R.layout.activity_maps,container,false);
+       View view=inflater.inflate(R.layout.maps_fragment,container,false);
        this.searchBtn=view.findViewById(R.id.btn_search);
        this.alarmSwitch=view.findViewById(R.id.sw_alarm);
        this.keretaSpinner=view.findViewById(R.id.kereta_list);

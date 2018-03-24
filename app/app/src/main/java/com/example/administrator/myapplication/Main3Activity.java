@@ -9,7 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+
+import com.example.administrator.myapplication.GaKepake.DirectionFragment;
 
 public class Main3Activity extends AppCompatActivity {
 
