@@ -219,14 +219,14 @@ public class Checkspeed2Fragment extends Fragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-           View view=inflater.inflate(R.layout.maps_fragment,container,false);
-           this.searchBtn=view.findViewById(R.id.btn_search);
-           this.alarmSwitch=view.findViewById(R.id.sw_alarm);
-           this.keretaSpinner=view.findViewById(R.id.kereta_list);
-           this.asalSpinner=view.findViewById(R.id.asal_list);
-           this.tujuanSpinner=view.findViewById(R.id.tujuan_list);
+            View view=inflater.inflate(R.layout.maps_fragment,container,false);
+            this.searchBtn=view.findViewById(R.id.btn_search);
+            this.alarmSwitch=view.findViewById(R.id.sw_alarm);
+            this.keretaSpinner=view.findViewById(R.id.kereta_list);
+            this.asalSpinner=view.findViewById(R.id.asal_list);
+            this.tujuanSpinner=view.findViewById(R.id.tujuan_list);
 
-           this.searchBtn.setOnClickListener(this);
+            this.searchBtn.setOnClickListener(this);
             this.alarmFlag=false;
             this.asalList= new ArrayList<Stasiun>();
             this.tujuanList = new ArrayList<Stasiun>();

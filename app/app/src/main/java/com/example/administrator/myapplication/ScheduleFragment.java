@@ -10,14 +10,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.administrator.myapplication.Database.Kereta;
+import com.example.administrator.myapplication.Database.Stasiun;
+
+import java.util.ArrayList;
+
 /**
  * Created by Asus on 11/03/2018.
  */
 
-public class ScheduleFragment extends Fragment {
+public class ScheduleFragment extends Fragment implements Runnable {
     private EditText etSearch;
     private ImageView ivButton;
     private ListView listResult;
+
+    protected ArrayList<Stasiun> asalList;
+    protected ArrayList<Stasiun> tujuanList;
+    protected ArrayList<Kereta> kereta;
+    protected ArrayList<Stasiun> stasiun;
+    protected ArrayList<String> trackList;
 
     public ScheduleFragment(){
 
@@ -31,5 +42,15 @@ public class ScheduleFragment extends Fragment {
         this.ivButton = view.findViewById(R.id.iv_get_schedule_btn);
         this.listResult = view.findViewById(R.id.listview_route);
         return view;
+    }
+
+    public static ScheduleFragment newInstance(){
+        ScheduleFragment scheduleFragment = new ScheduleFragment();
+        return scheduleFragment;
+    }
+
+    @Override
+    public void run() {
+
     }
 }
