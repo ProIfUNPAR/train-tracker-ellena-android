@@ -5,24 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"
-        />
 
-    <TextView
-        android:id="@+id/tv_schedule_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/schedule_title_bar"
-        android:textColor="@color/white"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-        android:visibility="visible" />
+
+
 
     <TextView
         android:id="@+id/tv_search"
-        android:layout_below="@id/tv_schedule_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/search_train_string"
