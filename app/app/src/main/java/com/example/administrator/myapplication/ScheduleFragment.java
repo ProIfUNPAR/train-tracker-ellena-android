@@ -1,15 +1,18 @@
 package com.example.administrator.myapplication;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.administrator.myapplication.Database.DBKereta;
+import com.example.administrator.myapplication.Database.DBStasiun;
+import com.example.administrator.myapplication.Database.DatabaseHelper;
 import com.example.administrator.myapplication.Database.Kereta;
 import com.example.administrator.myapplication.Database.Stasiun;
 
@@ -23,6 +26,10 @@ public class ScheduleFragment extends Fragment implements Runnable {
     private EditText etSearch;
     private ImageView ivButton;
     private ListView listResult;
+    protected DatabaseHelper mDBHelper;
+    protected DBKereta dbKereta;
+    protected DBStasiun dbStasiun;
+    protected ArrayAdapter<Kereta> keretaAdapter;
 
     protected ArrayList<Stasiun> asalList;
     protected ArrayList<Stasiun> tujuanList;
@@ -41,6 +48,11 @@ public class ScheduleFragment extends Fragment implements Runnable {
         this.etSearch = view.findViewById(R.id.et_train_search);
         this.ivButton = view.findViewById(R.id.iv_get_schedule_btn);
         this.listResult = view.findViewById(R.id.listview_route);
+        this.mDBHelper=new DatabaseHelper(this.getContext());
+        this.dbKereta=new DBKereta(this.mDBHelper);
+        this.kereta = this.dbKereta.getListTrains();
+        this.keretaAdapter = new ArrayAdapter<>(getActivity(), R.layout.string_list_kereta, kereta);
+        this.listResult.setAdapter(keretaAdapter);
         return view;
     }
 
