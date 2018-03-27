@@ -15,8 +15,6 @@
         android:id="@+id/kereta_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/direction_margin"
-        android:layout_marginBottom="@dimen/direction_margin"
         android:layout_marginRight="@dimen/direction_margin_right"
         android:layout_alignParentTop="true"/>
     <LinearLayout
@@ -25,7 +23,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/direction_margin"
-        android:layout_marginBottom="@dimen/direction_margin"
         android:layout_below="@id/kereta_list">
         <Spinner
             android:id="@+id/asal_list"
@@ -45,7 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/stasiun_list"
-        android:layout_marginTop="@dimen/direction_margin"
         android:text="@string/search_btn_text"/>
     <Switch
         android:id="@+id/sw_alarm"
