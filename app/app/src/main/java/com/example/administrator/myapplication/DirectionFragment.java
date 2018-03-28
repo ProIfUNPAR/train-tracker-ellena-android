@@ -66,6 +66,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     protected ArrayList<Kereta> kereta;
     protected ArrayList<Stasiun> stasiun;
     protected ArrayList<String> trackList;
+    protected ArrayList<Stasiun> stasiunListAll;
+    protected ArrayList<Marker> markerList;
 
     protected DatabaseHelper mDBHelper;
     protected DBKereta dbKereta;
@@ -113,6 +115,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         this.tujuanList = new ArrayList<Stasiun>();
         this.kereta=new ArrayList<Kereta>();
         this.trackList=new ArrayList<String>();
+        this.markerList = new ArrayList<>();
 
         this.mDBHelper=new DatabaseHelper(this.getContext());
         this.dbKereta=new DBKereta(this.mDBHelper);
@@ -134,12 +137,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         this.jarak = new Distance();
         this.dur = new Duration();
 
-        ArrayList<String> namaKereta = new ArrayList<String>();
-
-
-        for (int i = 0; i < kereta.size(); i++) {
-            namaKereta.add(kereta.get(i).getNama());
-        }
+        stasiunListAll = new ArrayList<Stasiun>();
 
         ArrayAdapter<Kereta> keretaArrayAdapter = new ArrayAdapter<Kereta>(getContext(), android.R.layout.simple_spinner_item, kereta);
         keretaSpinner.setAdapter(keretaArrayAdapter);
@@ -150,6 +148,9 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String nama = adapterView.getItemAtPosition(i).toString();
                 deleteList(asalList);
+                if(!stasiunListAll.isEmpty()){
+                    stasiunListAll.clear();
+                }
                 for (int x = 0; x < kereta.size(); x++) {
                     if (kereta.get(i).getNama().equals(nama)) {
                         selectedKereta = kereta.get(i);
@@ -169,7 +170,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
                         for (int x = 0; x < trackList.size(); x++) {
                             tujuanList.add(dbStasiun.getStasiunByName(trackList.get(x)));
-
                         }
                         int x = 0;
                         while (x <= asalSpinner.getSelectedItemPosition()) {
@@ -179,6 +179,30 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
                         ArrayAdapter<Stasiun> tujuanArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), android.R.layout.simple_spinner_item, tujuanList);
                         tujuanSpinner.setAdapter(tujuanArrayAdapter);
+                        tujuanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                if(!stasiunListAll.isEmpty()){
+                                    stasiunListAll.clear();
+                                }
+                                //stasiunListAll.addAll(asalSpinner);
+                                Stasiun tujuanTemp = dbStasiun.getStasiunByName(tujuanSpinner.getSelectedItem().toString());
+                                Log.d("stasiunname", tujuanTemp.getNama());
+                                for(int j = asalSpinner.getSelectedItemPosition(); j < asalSpinner.getAdapter().getCount(); j++){
+                                    Stasiun stasiunTemp = dbStasiun.getStasiunByName(asalSpinner.getItemAtPosition(j).toString());
+                                    if(stasiunTemp.equals(tujuanTemp)){
+                                        break;
+                                    }
+                                    stasiunListAll.add(stasiunTemp);
+                                }
+                                stasiunListAll.add(tujuanTemp);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -187,7 +211,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     }
                 });
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -372,25 +395,60 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             Log.d("Stasiun", stasiunAwal.getLatitude() + " " + stasiunAwal.getLongitude());
             Log.d("Stasiun", stasiunAkhir.getLatitude() + " " + stasiunAkhir.getLongitude());
 
-            if(awal != null || tujuan != null){
-                awal.remove();
-                tujuan.remove();
-                poly.remove();
+            //if(awal != null || tujuan != null){
+                //awal.remove();
+            mMap.clear();
+            if(!markerList.isEmpty()){
+                //poly.remove();
+                Log.d("markerlog", "polylog");
             }
+            //markerList.clear();
+            while(!markerList.isEmpty()){
+                //
+                // markerList.get(0).remove();
+                markerList.remove(0);
+                Log.d("markerlog", "markerlog");
+            }
+            //tujuan.remove();
+            //}
 
             LatLng koorAwal = new LatLng(stasiunAwal.getLatitude(),stasiunAwal.getLongitude());
             LatLng koorAkhir = new LatLng(stasiunAkhir.getLatitude(),stasiunAkhir.getLongitude());
-            awal = mMap.addMarker(new MarkerOptions().position(koorAwal));
-            tujuan = mMap.addMarker(new MarkerOptions().position(koorAkhir));
-            Stasiun temp1 = asalList.get(0);
-            Stasiun temp2 = tujuanList.get(0);
+            //awal = mMap.addMarker(new MarkerOptions().position(koorAwal));
+            //tujuan = mMap.addMarker(new MarkerOptions().position(koorAkhir));
 
+            for (int i = 0; i< stasiunListAll.size()-1;i++){
+                LatLng first = new LatLng(stasiunListAll.get(i).getLatitude(),stasiunListAll.get(i).getLongitude());
+                LatLng last = new LatLng(stasiunListAll.get(i+1).getLatitude(),stasiunListAll.get(i+1).getLongitude());
+                Marker stasiun1;
+                if(i == 0){
+                    stasiun1 = mMap.addMarker(new MarkerOptions().position(first).title("Start"));
+                    stasiun1.showInfoWindow();
+                }
+                else{
+                    stasiun1 = mMap.addMarker(new MarkerOptions().position(first));
+                }
+                Marker stasiun2;
+                if(i == stasiunListAll.size() - 2){
+                    stasiun2 = mMap.addMarker(new MarkerOptions().position(last).title("Finish"));
+                }
+                else {
+                    stasiun2 = mMap.addMarker(new MarkerOptions().position(last));
+                }
+                if(!markerList.isEmpty()){
+                    markerList.get(i).remove();
+                    markerList.remove(i);
+                }
+                markerList.add(stasiun1);
+                markerList.add(stasiun2);
 
-            poly = mMap.addPolyline(new PolylineOptions()
-                    .add(new LatLng(stasiunAwal.getLatitude(),stasiunAwal.getLongitude()), new LatLng(stasiunAkhir.getLatitude(),stasiunAkhir.getLongitude()))
-                    .width(5)
-                    .color(Color.BLUE));
-            poly.setVisible(true);
+                poly = mMap.addPolyline(new PolylineOptions()
+                        .add(first, last)
+                        .width(5)
+                        .color(Color.BLUE));
+                poly.setVisible(true);
+            }
+
             /** for(int i = 0; !temp2.getNama().equals(stasiunAkhir.getNama()); i++){
              distance += jarak.getDistance(temp1.getLatitude(), temp1.getLongitude(), temp2.getLatitude(), temp2.getLongitude());
              temp1 = temp2;
@@ -444,19 +502,25 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
         }
         mMap.setMyLocationEnabled(true);
-        LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        try{
+            LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
 
-        if (location != null) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            myPosition = new LatLng(latitude, longitude);
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            System.out.println("masuk");
-            LatLng coordinate = new LatLng(latitude, longitude);
-            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.5f);
-            mMap.animateCamera(yourLocation);}
+            if (location != null) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                LatLng latLng = new LatLng(latitude, longitude);
+                myPosition = new LatLng(latitude, longitude);
+
+                System.out.println("masuk");
+                LatLng coordinate = new LatLng(latitude, longitude);
+                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.5f);
+                mMap.animateCamera(yourLocation);}
+        }
+        catch(Exception e){
+            Log.d("ErrorLog", "Error location");
+        }
     }
 
     public void startAlarm() {
