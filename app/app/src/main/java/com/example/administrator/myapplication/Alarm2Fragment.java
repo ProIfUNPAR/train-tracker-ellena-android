@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,8 @@ public class Alarm2Fragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-   Toolbar toolbar;
-   ListView listViewAlarmMenu;
+    Toolbar toolbar;
+    ListView listViewAlarmMenu;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -87,7 +88,7 @@ public class Alarm2Fragment extends Fragment {
         //toolbar =(Toolbar) view.findViewById(R.id.toolbar);
         listViewAlarmMenu = (ListView) view.findViewById(R.id.listview3);
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(Alarm2Fragment.super.getContext(),android.R.layout.simple_list_item_1,
-                                        getResources().getStringArray(R.array.OptionAlarm));
+                getResources().getStringArray(R.array.OptionAlarm));
 
 
         listViewAlarmMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,8 +120,8 @@ public class Alarm2Fragment extends Fragment {
 
         }
     }
-   //Toast.makeText(context,"",Toast.LENGTH_SHORT).show();
-   //Alarm Fragment Attached
+    //Toast.makeText(context,"",Toast.LENGTH_SHORT).show();
+    //Alarm Fragment Attached
     @Override
     public void onDetach() {
         super.onDetach();

@@ -8,9 +8,14 @@
     <string name="search_bar1">Pilih Stasiun Keberangkatan</string>
 
     <string-array name="OptionAlarm">
-        <item>Alarm</item>
-        <item>Ringtone</item>
-        <item>Vibrate When Alarm Sounds</item>
+        <item>Choose Mode</item>
+        <item>Choose Ringtone</item>
+    </string-array>
+
+    <string-array name="OptionAlarmMode">
+        <item>Just Vibrate</item>
+        <item>Just Alarm</item>
+        <item>Alarm and Vibrate</item>
     </string-array>
 
     <string-array name="StationName">
