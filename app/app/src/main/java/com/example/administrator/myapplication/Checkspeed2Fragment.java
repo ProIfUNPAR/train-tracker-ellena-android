@@ -69,7 +69,6 @@ public class Checkspeed2Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
     public Button but2;
-
     private OnFragmentInteractionListener mListener;
 
     public Checkspeed2Fragment() {
