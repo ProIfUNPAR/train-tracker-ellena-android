@@ -78,7 +78,7 @@ public class Main3Activity extends AppCompatActivity implements NavigationView.O
             ft.replace(R.id.fragment_container,new Alarm2Fragment()).commit();
             getSupportActionBar().setTitle("Alarm");
         }  else if (id == R.id.navigation_directions) {
-            ft.replace(R.id.fragment_container,new Checkspeed2Fragment.DirectionFragment()).commit();
+            ft.replace(R.id.fragment_container,new DirectionFragment()).commit();
             getSupportActionBar().setTitle("Directions");
         } else if (id == R.id.navigation_schedule) {
             ft.replace(R.id.fragment_container,new ScheduleFragment()).commit();
