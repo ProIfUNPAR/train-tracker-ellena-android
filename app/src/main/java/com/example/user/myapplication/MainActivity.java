@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
 import com.example.user.myapplication.Fragment.AlarmFragment;
+import com.example.user.myapplication.Fragment.CheckspeedFragment;
 import com.example.user.myapplication.Fragment.DirectionFragment;
 import com.example.user.myapplication.Fragment.ScheduleFragment;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected AlarmFragment alarmFragment;
     protected DirectionFragment directionFragment;
     protected ScheduleFragment scheduleFragment;
+    protected CheckspeedFragment checkSpeedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.alarmFragment=AlarmFragment.newInstance();
         this.directionFragment=DirectionFragment.newInstance();
         this.scheduleFragment=ScheduleFragment.newInstance();
+        this.checkSpeedFragment=CheckspeedFragment.newInstance();
 
         FragmentTransaction ft=this.fragmentManager.beginTransaction();
 
@@ -94,7 +97,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(this.directionFragment);
             }
             getSupportActionBar().setTitle("Alarm");
-        }  else if (id == R.id.navigation_directions) {
+        }
+        else if (id == R.id.navigation_directions) {
             if(this.directionFragment.isAdded()){
                 ft.show(this.directionFragment);
             }
@@ -109,7 +113,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(this.alarmFragment);
             }
             getSupportActionBar().setTitle("Directions");
-        } else if (id == R.id.navigation_schedule) {
+        }
+        else if (id == R.id.navigation_schedule) {
             if(this.scheduleFragment.isAdded()){
                 ft.show(this.scheduleFragment);
             }
@@ -124,6 +129,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(this.alarmFragment);
             }
             getSupportActionBar().setTitle("Schedule");
+        }
+        else if (id == R.id.navigation_speed) {
+            if(this.checkSpeedFragment.isAdded()){
+                ft.show(this.checkSpeedFragment);
+            }
+            else{
+                ft.add(R.id.fragment_container,this.checkSpeedFragment);
+            }
+
+            if(this.directionFragment.isAdded()){
+                ft.hide(this.directionFragment);
+            }
+            if(this.alarmFragment.isAdded()){
+                ft.hide(this.alarmFragment);
+            }
+            if(this.scheduleFragment.isAdded()){
+                ft.hide(this.scheduleFragment);
+            }
+            getSupportActionBar().setTitle("Check Speed");
         }
         ft.commit();
         this.drawer.closeDrawer(GravityCompat.START);

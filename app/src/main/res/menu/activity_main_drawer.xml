@@ -16,6 +16,10 @@
             android:id="@+id/navigation_alarm"
             android:icon="@drawable/ic_access_alarm_black_24dp"
             android:title="@string/title_Alarm" />
+        <item
+            android:id="@+id/navigation_speed"
+            android:icon="@drawable/ic_network_check_black_24dp"
+            android:title="Check Speed" />
 
     </group>
 

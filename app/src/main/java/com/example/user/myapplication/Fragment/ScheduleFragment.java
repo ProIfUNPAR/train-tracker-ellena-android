@@ -2,6 +2,9 @@ package com.example.user.myapplication.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +40,7 @@ public class ScheduleFragment extends Fragment implements Runnable {
     protected ArrayList<Kereta> kereta;
     protected ArrayList<Stasiun> stasiun;
     protected ArrayList<String> trackList;
+    ArrayList<Kereta> temp;
 
     public ScheduleFragment(){
 
@@ -52,8 +56,9 @@ public class ScheduleFragment extends Fragment implements Runnable {
         this.mDBHelper=new DatabaseHelper(this.getContext());
         this.dbKereta=new DBKereta(this.mDBHelper);
         this.kereta = this.dbKereta.getListTrains();
-        this.keretaAdapter = new ArrayAdapter<>(getActivity(), R.layout.string_list_kereta, kereta);
-        this.listResult.setAdapter(keretaAdapter);
+        this.temp = new ArrayList<>();
+        etSearch.addTextChangedListener(new CustomTextWatcher());
+
         return view;
     }
 
@@ -65,5 +70,50 @@ public class ScheduleFragment extends Fragment implements Runnable {
     @Override
     public void run() {
 
+    }
+
+    public void searchItem(String textToSearch){
+        initList();
+        Log.d("textText", textToSearch);
+        Log.d("keretaRemoved", "start");
+        for(int i = 0; i < temp.size(); i++){
+            if(!temp.get(i).getNama().toLowerCase().contains(textToSearch)){
+                Log.d("keretaRemoved", temp.get(i).getNama());
+                temp.remove(i);
+                i--;
+            }
+        }
+        keretaAdapter.notifyDataSetChanged();
+    }
+
+    public void initList(){
+        this.temp.clear();
+        this.temp.addAll(kereta);
+        this.keretaAdapter = new ArrayAdapter<>(getActivity(), R.layout.string_list_kereta, temp);
+        this.listResult.setAdapter(keretaAdapter);
+    }
+
+    private class CustomTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if(charSequence.toString().equals("")){
+                //reset listview
+                initList();
+            } else{
+                //perform search
+                searchItem(charSequence.toString());
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
     }
 }
