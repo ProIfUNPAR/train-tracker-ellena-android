@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
  * Created by Asus on 11/03/2018.
  */
 
-public class ScheduleFragment extends Fragment implements Runnable {
+public class ScheduleFragment extends Fragment implements Runnable, View.OnClickListener {
     private EditText etSearch;
     private ImageView ivButton;
     private ListView listResult;
@@ -58,7 +59,15 @@ public class ScheduleFragment extends Fragment implements Runnable {
         this.kereta = this.dbKereta.getListTrains();
         this.temp = new ArrayList<>();
         etSearch.addTextChangedListener(new CustomTextWatcher());
-
+        listResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Kereta selectedKereta = keretaAdapter.getItem(i);
+                assert selectedKereta != null;
+                etSearch.setText(selectedKereta.getNama());
+            }
+        });
+        this.ivButton.setOnClickListener(this);
         return view;
     }
 
@@ -74,11 +83,8 @@ public class ScheduleFragment extends Fragment implements Runnable {
 
     public void searchItem(String textToSearch){
         initList();
-        Log.d("textText", textToSearch);
-        Log.d("keretaRemoved", "start");
         for(int i = 0; i < temp.size(); i++){
             if(!temp.get(i).getNama().toLowerCase().contains(textToSearch)){
-                Log.d("keretaRemoved", temp.get(i).getNama());
                 temp.remove(i);
                 i--;
             }
@@ -91,6 +97,13 @@ public class ScheduleFragment extends Fragment implements Runnable {
         this.temp.addAll(kereta);
         this.keretaAdapter = new ArrayAdapter<>(getActivity(), R.layout.string_list_kereta, temp);
         this.listResult.setAdapter(keretaAdapter);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == ivButton.getId()){
+            Log.d("clicktrigger", "clicked");
+        }
     }
 
     private class CustomTextWatcher implements TextWatcher {
