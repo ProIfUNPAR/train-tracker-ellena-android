@@ -41,13 +41,23 @@
         android:layout_marginStart="20dp" />
 
     <ListView
+        android:id="@+id/listview_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/et_train_search"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <ListView
         android:id="@+id/listview_route"
         android:layout_below="@id/et_train_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp">
     </ListView>
 </RelativeLayout>
