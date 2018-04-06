@@ -27,6 +27,16 @@ public class ScheduleListAdapter extends BaseAdapter {
         this.arrivalList = kereta.getWaktuTiba();
         this.departureList = kereta.getWaktuBerangkat();
         this.scheduleFragment = scheduleFragment;
+        String arrDebug = "";
+        for(int i = 0; i < arrivalList.size(); i++){
+            arrDebug = arrDebug + " " + arrivalList.get(i);
+        }
+        String depDebug = "";
+        for(int i = 0; i < departureList.size(); i++){
+            depDebug = depDebug + " " + departureList.get(i);
+        }
+        Log.d("arrdepdebug", "arrival : " + arrDebug);
+        Log.d("arrdepdebug", "departure : " + depDebug);
         //Log.d("debugStation", String.valueOf(stasiunList.size()));
         //Log.d("debugStation", String.valueOf(arrivalList.size()));
         //Log.d("debugStation", String.valueOf(departureList.size()));
