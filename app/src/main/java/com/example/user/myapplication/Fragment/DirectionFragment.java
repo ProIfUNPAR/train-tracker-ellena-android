@@ -236,6 +236,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
                 double latitude, longitude, speed;
+                int i = 1;
+
                 /*TextView editText;
                 TextView distanceView;
                 TextView timeView;*/
@@ -252,16 +254,30 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                         speed = location.getSpeed() * 3.6;
                         //editText.setText(String.format("%.2f",speed));
                     }
+
+                    double jarakKeStasiunTerdekat = 0;
                     jarakResult = 0;
+
                     if (stasiunAkhir != null) {
-                        jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
+                        jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,stasiunListAll.get(i).getLatitude(),stasiunListAll.get(i).getLongitude());
+
+                        if(jarakKeStasiunTerdekat < 2){
+                            i++;
+                        }
+
+                        jarakResult = jarakKeStasiunTerdekat;
+                        for (int j = i;j< stasiunListAll.size()-1;j++){
+                            jarakResult += jarak.getDistance(stasiunListAll.get(j).getLatitude(),stasiunListAll.get(j).getLongitude(),
+                                    stasiunListAll.get(j+1).getLatitude(),stasiunListAll.get(j+1).getLongitude());
+                        }
+                        //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
                     }
                     //distanceView = findViewById(R.id.textView12);
 
                     //double time = (jarakResult/speed)*60;
                     String time;
                     if (speed != 0) {
-                        time = dur.calculateTime(speed, jarakResult);
+                        time = dur.calculateTime(speed, jarakKeStasiunTerdekat);
                     } else {
                         time = "Not moving";
                     }
@@ -303,6 +319,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 double latitude, longitude, speed;
+                int i = 0;
                 /*TextView editText;
                 TextView distanceView;
                 TextView timeView;*/
@@ -319,16 +336,31 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                         speed = location.getSpeed() * 3.6;
                         //editText.setText(String.format("%.2f",speed));
                     }
+
+                    double jarakKeStasiunTerdekat = 0;
                     double jarakResult = 0;
+
                     if (stasiunAkhir != null) {
-                        jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
+                        jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,stasiunListAll.get(i).getLatitude(),stasiunListAll.get(i).getLongitude());
+
+                        if(jarakKeStasiunTerdekat < 2){
+                            i++;
+                        }
+
+                        jarakResult = jarakKeStasiunTerdekat;
+                        for (int j = i;j< stasiunListAll.size()-1;j++){
+                            jarakResult += jarak.getDistance(stasiunListAll.get(j).getLatitude(),stasiunListAll.get(j).getLongitude(),
+                                    stasiunListAll.get(j+1).getLatitude(),stasiunListAll.get(j+1).getLongitude());
+                        }
+
+                        //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
                     }
                     //distanceView = findViewById(R.id.textView12);
 
                     //double time = (jarakResult/speed)*60;
                     String time;
                     if (speed != 0) {
-                        time = dur.calculateTime(speed, jarakResult);
+                        time = dur.calculateTime(speed, jarakKeStasiunTerdekat);
                     } else {
                         time = "Not moving";
                     }
