@@ -90,8 +90,9 @@ public class ScheduleListAdapter extends BaseAdapter {
 
         public void updateView(String station, String arrival, String departure){
             this.tvStation.setText(station);
-            this.tvArrival.setText(arrival);
-            this.tvDeparture.setText(departure);
+            //departure dan arrivalnya sengaja dibalik
+            this.tvArrival.setText(departure);
+            this.tvDeparture.setText(arrival);
         }
     }
 }
