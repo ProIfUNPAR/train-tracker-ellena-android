@@ -14,6 +14,7 @@ import com.example.user.myapplication.Fragment.CheckspeedFragment;
 
 public class ListViewSecondActivity extends AppCompatActivity {
     public static int alarm_mode = 2;
+    public static int ringtone_mode = 0;
     android.support.v7.widget.Toolbar mToolbar;
     Fragment RingtoneFragment;
     CheckspeedFragment CheckSpeed = new CheckspeedFragment();
@@ -46,6 +47,27 @@ public class ListViewSecondActivity extends AppCompatActivity {
                             alarm_mode = 2;
                         }
                         Toast.makeText(ListViewSecondActivity.this, "Mode has changed to " + s, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            if(mToolbar.getTitle().toString().equalsIgnoreCase("Choose Ringtone")){
+                lv = findViewById(R.id.modeAlarmListView);
+                lv.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
+                        getResources().getStringArray(R.array.OptionRingtoneMode)));
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        String s = lv.getItemAtPosition(i).toString();
+                        if(s.equalsIgnoreCase("Default")){
+                            ringtone_mode = 0;
+                        }
+                        else if(s.equalsIgnoreCase("Ringtone 1")){
+                            ringtone_mode = 1;
+                        }
+                        else if(s.equalsIgnoreCase("Ringtone 2")){
+                            ringtone_mode = 2;
+                        }
+                        Toast.makeText(ListViewSecondActivity.this, "Ringtone set to " + s, Toast.LENGTH_LONG).show();
                     }
                 });
             }

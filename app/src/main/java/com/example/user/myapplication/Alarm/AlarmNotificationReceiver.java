@@ -30,18 +30,23 @@ public class AlarmNotificationReceiver  extends BroadcastReceiver{
                 .setContentTitle("Train Tracker")
                 .setContentText("Sebentar lagi Anda sampai ke tujuan!")
                 .setContentInfo("Alarm");
-        if (ListViewSecondActivity.alarm_mode==0){
+
+        if (ListViewSecondActivity.alarm_mode==0 || ListViewSecondActivity.alarm_mode==2){
             builder.setVibrate(new long[]{1000, 1000});
         }
-        else if (ListViewSecondActivity.alarm_mode==1){
-            builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
-                    .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+        if (ListViewSecondActivity.alarm_mode==1 || ListViewSecondActivity.alarm_mode==2){
+            builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
+            if (ListViewSecondActivity.ringtone_mode==0) {
+                builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+            }
+            else if (ListViewSecondActivity.ringtone_mode==1){
+                //builder.setSound(R.drawable.ring1);
+            }
+            else if (ListViewSecondActivity.ringtone_mode==2){
+
+            }
         }
-        else if (ListViewSecondActivity.alarm_mode==2){
-            builder.setVibrate(new long[]{1000, 1000})
-                    .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
-                    .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-        }
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, builder.build());
 

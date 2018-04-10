@@ -18,6 +18,12 @@
         <item>Alarm and Vibrate</item>
     </string-array>
 
+    <string-array name="OptionRingtoneMode">
+        <item>Default</item>
+        <item>Ringotne 1</item>
+        <item>Ringtone 2</item>
+    </string-array>
+
     <string-array name="StationName">
         <item>Stasiun 1, Bandung</item>
         <item>Stasiun 2, Jakarta</item>
