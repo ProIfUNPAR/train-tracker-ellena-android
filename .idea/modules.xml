@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Github\train-tracker-ellena-angelica\app\app.iml" filepath="D:\Github\train-tracker-ellena-angelica\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/train-tracker-ellena-angelica.iml" filepath="$PROJECT_DIR$/train-tracker-ellena-angelica.iml" />
     </modules>
   </component>

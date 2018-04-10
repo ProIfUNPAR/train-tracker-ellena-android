@@ -128,8 +128,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
         this.isAlarmSet = false;
         this.manager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        this.alarmIntent = new Intent(getActivity(),AlarmNotificationReceiver.class);
-        this.pendingIntent = PendingIntent.getBroadcast(getContext(),0,alarmIntent,0);
 
         this.alarmSwitch.setOnCheckedChangeListener(this);
 
@@ -559,9 +557,11 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     public void startAlarm() {
         Calendar cal = Calendar.getInstance();
+        this.alarmIntent = new Intent(getActivity(),AlarmNotificationReceiver.class);
+        this.pendingIntent = PendingIntent.getBroadcast(getContext(),0,alarmIntent,0);
         this.alarmFlag = true;
         // 1 minutes = 60.000 millis
-        manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis()+3000, pendingIntent);
+        manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
 
     }
 

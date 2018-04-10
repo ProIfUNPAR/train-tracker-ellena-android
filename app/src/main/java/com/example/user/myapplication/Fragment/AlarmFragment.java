@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.user.myapplication.ListViewSecondActivity;
@@ -34,18 +35,6 @@ public class AlarmFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alarm2,container,false);
-        /*
-        Button directionsButton = (Button) view.findViewById(R.id.alarm_button);
-        directionsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(),"Alarm Button",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        */
-
-        //toolbar =(Toolbar) view.findViewById(R.id.toolbar);
         listViewAlarmMenu = (ListView) view.findViewById(R.id.listview3);
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(AlarmFragment.super.getContext(),android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.OptionAlarm));
@@ -60,7 +49,6 @@ public class AlarmFragment extends Fragment {
             }
         });
         listViewAlarmMenu.setAdapter(mAdapter);
-
         return  view;
     }
 }
