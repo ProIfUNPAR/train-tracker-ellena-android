@@ -93,6 +93,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     protected Stasiun stasiunAwal, stasiunAkhir;
     protected boolean isAlarmSet;
 
+    FragmentListener listener;
+
     public DirectionFragment() {
     }
 
@@ -234,7 +236,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
                 double latitude, longitude, speed;
-                int i = 1;
+                int i = asalSpinner.getSelectedItemPosition() + 1;
 
                 /*TextView editText;
                 TextView distanceView;
@@ -288,7 +290,10 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     // mark = mMap.addMarker(new MarkerOptions().position(latlong));
                     // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
                     Log.d("Distance2", String.format("%.2f", jarakResult));
+                    Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
                     Log.d("Time", time);
+
+                    listener.setSpeedETA(jarakResult, time);
 
                     if(jarakResult<=15 && isAlarmSet) {
                         startAlarm();
@@ -317,7 +322,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 double latitude, longitude, speed;
-                int i = 0;
+                int i = asalSpinner.getSelectedItemPosition() + 1;
+
                 /*TextView editText;
                 TextView distanceView;
                 TextView timeView;*/
@@ -372,6 +378,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
                     Log.d("Distance2", String.format("%.2f", jarakResult));
                     Log.d("Time", time);
+                    listener.setSpeedETA(jarakResult, time);
 
                     if (jarakResult <= 15 && isAlarmSet) {
                         startAlarm();
@@ -401,6 +408,14 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     private void deleteList(ArrayList<Stasiun> list){
         while(!list.isEmpty()){
             list.remove(0);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof FragmentListener){
+            this.listener = (FragmentListener) context;
         }
     }
 

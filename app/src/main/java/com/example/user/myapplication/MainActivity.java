@@ -9,15 +9,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
 import com.example.user.myapplication.Fragment.AlarmFragment;
 import com.example.user.myapplication.Fragment.CheckspeedFragment;
 import com.example.user.myapplication.Fragment.DirectionFragment;
+import com.example.user.myapplication.Fragment.FragmentListener;
 import com.example.user.myapplication.Fragment.ScheduleFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentListener {
 
     protected DrawerLayout drawer;
     protected FragmentManager fragmentManager;
@@ -96,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.directionFragment.isAdded()){
                 ft.hide(this.directionFragment);
             }
+            if(this.checkSpeedFragment.isAdded()){
+                ft.hide(this.checkSpeedFragment);
+            }
             getSupportActionBar().setTitle("Alarm");
         }
         else if (id == R.id.navigation_directions) {
@@ -112,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.alarmFragment.isAdded()){
                 ft.hide(this.alarmFragment);
             }
+            if(this.checkSpeedFragment.isAdded()){
+                ft.hide(this.checkSpeedFragment);
+            }
             getSupportActionBar().setTitle("Directions");
         }
         else if (id == R.id.navigation_schedule) {
@@ -127,6 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             if(this.alarmFragment.isAdded()){
                 ft.hide(this.alarmFragment);
+            }
+            if(this.checkSpeedFragment.isAdded()){
+                ft.hide(this.checkSpeedFragment);
             }
             getSupportActionBar().setTitle("Schedule");
         }
@@ -152,5 +163,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.commit();
         this.drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void setSpeedETA(double jarak, String time) {
+        //this.checkSpeedFragment.setTvJarak(String.valueOf(jarak));
+        //this.checkSpeedFragment.setTvWaktu(time);
+        Log.d("debugCheckSpeed", jarak + " " + time);
+        double tempJarak = jarak / 1000;
+        String jarakS = String.format("%.2f km", tempJarak);
+        Bundle bundle = new Bundle();
+        bundle.putString("jarak", jarakS);
+        bundle.putString("waktu", time);
+        this.checkSpeedFragment.setArguments(bundle);
+        //this.checkSpeedFragment = CheckspeedFragment.newInstance(String.valueOf(jarak), time);
+        this.checkSpeedFragment.setEverything();
     }
 }

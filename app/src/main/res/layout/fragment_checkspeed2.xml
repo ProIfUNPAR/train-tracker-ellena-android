@@ -5,13 +5,44 @@
     tools:context="com.example.user.myapplication.Fragment.CheckspeedFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <include layout="@layout/toolbar"
+    <!-- <include layout="@layout/toolbar"
         android:id="@+id/toolbar"
 
-        />
+        /> -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_jarak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_jarak"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_waktu"
+            android:layout_below="@id/tv_jarak"/>
+        <TextView
+            android:id="@+id/tv_jarak_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_jarak"
+            android:layout_alignBottom="@id/tv_jarak"
+            android:layout_toEndOf="@id/tv_jarak"
+            android:layout_toRightOf="@id/tv_jarak" />
+        <TextView
+            android:id="@+id/tv_time_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_time"
+            android:layout_alignBottom="@id/tv_time"
+            android:layout_toEndOf="@id/tv_jarak"
+            android:layout_toRightOf="@id/tv_jarak"
+            android:layout_below="@id/tv_jarak_result"/>
+    </RelativeLayout>
 
-
-    <Button
+    <!-- <Button
         android:id="@+id/checkspeed_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +66,6 @@
         android:layout_margin="@dimen/activity_vertical_margin"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:visibility="visible" />
-
-
+    -->
 
 </FrameLayout>
