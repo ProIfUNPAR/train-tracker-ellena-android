@@ -23,7 +23,6 @@ public class AlarmNotificationReceiver  extends BroadcastReceiver{
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
         builder.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
