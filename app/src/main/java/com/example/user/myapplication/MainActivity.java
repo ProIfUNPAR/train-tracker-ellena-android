@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle bundle = new Bundle();
         bundle.putString("jarak", jarakS);
         bundle.putString("waktu", time);
-        this.checkSpeedFragment.setArguments(bundle);
+        this.checkSpeedFragment.getArguments().putAll(bundle);
         //this.checkSpeedFragment = CheckspeedFragment.newInstance(String.valueOf(jarak), time);
         this.checkSpeedFragment.setEverything();
     }
