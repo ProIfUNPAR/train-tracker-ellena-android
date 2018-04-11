@@ -2,6 +2,7 @@ package com.example.user.myapplication;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -19,7 +20,7 @@ import com.example.user.myapplication.Fragment.DirectionFragment;
 import com.example.user.myapplication.Fragment.FragmentListener;
 import com.example.user.myapplication.Fragment.ScheduleFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentListener, ExitDialogFragment.ExitDialogListener {
 
     protected DrawerLayout drawer;
     protected FragmentManager fragmentManager;
@@ -68,6 +69,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    public void showNoticeDialog() {
+
+        DialogFragment dialog = new ExitDialogFragment();
+        dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+    }
+
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        System.out.println("yes");
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        System.out.println("no");
+    }
 
     @Override
     public void onBackPressed() {
@@ -75,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (this.drawer.isDrawerOpen(GravityCompat.START)) {
             this.drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            showNoticeDialog();
         }
     }
 
@@ -159,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(this.scheduleFragment);
             }
             getSupportActionBar().setTitle("Check Speed");
+
+
         }
         ft.commit();
         this.drawer.closeDrawer(GravityCompat.START);

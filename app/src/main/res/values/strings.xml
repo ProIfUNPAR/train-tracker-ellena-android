@@ -50,4 +50,7 @@
     <string name="text_jarak">Jarak : </string>
     <string name="text_waktu">Waktu : </string>
 
+    <string name="text_exit">Exit?</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_no">No</string>
 </resources>
