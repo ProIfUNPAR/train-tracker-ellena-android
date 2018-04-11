@@ -61,10 +61,10 @@ public class ListViewSecondActivity extends AppCompatActivity {
                         if(s.equalsIgnoreCase("Default")){
                             ringtone_mode = 0;
                         }
-                        else if(s.equalsIgnoreCase("Ringtone 1")){
+                        else if(s.equalsIgnoreCase("Lucky1")){
                             ringtone_mode = 1;
                         }
-                        else if(s.equalsIgnoreCase("Ringtone 2")){
+                        else if(s.equalsIgnoreCase("Lucky2")){
                             ringtone_mode = 2;
                         }
                         Toast.makeText(ListViewSecondActivity.this, "Ringtone set to " + s, Toast.LENGTH_LONG).show();
