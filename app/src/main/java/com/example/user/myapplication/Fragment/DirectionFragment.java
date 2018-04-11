@@ -47,6 +47,7 @@ import com.example.user.myapplication.Database.DatabaseHelper;
 import com.example.user.myapplication.Database.Kereta;
 import com.example.user.myapplication.Database.Stasiun;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -295,9 +296,10 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
                     listener.setSpeedETA(jarakResult, time);
 
-                    if(jarakResult<=15 && isAlarmSet) {
+                    if(jarakResult/1000<=15 && isAlarmSet) {
                         startAlarm();
                         isAlarmSet = false;
+                        Log.d("alarmdebug", String.valueOf(isAlarmSet));
                         //btnSetAlarm.setText("set alarm");
                     }
                 }
@@ -380,9 +382,10 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     Log.d("Time", time);
                     listener.setSpeedETA(jarakResult, time);
 
-                    if (jarakResult <= 15 && isAlarmSet) {
+                    if (jarakResult/1000 <= 15 && isAlarmSet) {
                         startAlarm();
                         isAlarmSet = false;
+                        Log.d("alarmdebug", String.valueOf(isAlarmSet));
                     }
                 }
 
@@ -548,6 +551,9 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             }
 
         }
+        //if(!isAlarmSet){
+        //    cancelAlarm();
+        //}
         mMap.setMyLocationEnabled(true);
         try{
             LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
@@ -575,9 +581,9 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         this.alarmIntent = new Intent(getActivity(),AlarmNotificationReceiver.class);
         this.pendingIntent = PendingIntent.getBroadcast(getContext(),0,alarmIntent,0);
         this.alarmFlag = true;
+        this.alarmSwitch.setChecked(false);
         // 1 minutes = 60.000 millis
         manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-
     }
 
     public void cancelAlarm(){
@@ -589,18 +595,16 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if(!b){
-            cancelAlarm();
+            if(isAlarmSet){
+                cancelAlarm();
+            }
             isAlarmSet = false;
             System.out.println("1");
         }
         else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !isAlarmSet){
             Toast.makeText(getActivity().getApplicationContext(),"Alarm is already set",Toast.LENGTH_LONG).show();
             isAlarmSet = true;
-            if(!isAlarmSet){
-                cancelAlarm();
-            }
             System.out.println("2");
-
         }
         else {
             Toast.makeText(getActivity().getApplicationContext(), "Cannot set alarm.", Toast.LENGTH_LONG).show();
