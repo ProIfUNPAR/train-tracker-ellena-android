@@ -46,7 +46,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_maps_activityaaa">Map</string>
     <string name="text_no_data">Data tidak ditemukan</string>
-    <string name="text_jarak">Jarak :</string>
-    <string name="text_waktu">Waktu :</string>
+    <string name="text_jarak">Jarak : </string>
+    <string name="text_waktu">Waktu : </string>
 
 </resources>
