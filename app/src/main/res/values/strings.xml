@@ -20,8 +20,8 @@
 
     <string-array name="OptionRingtoneMode">
         <item>Default</item>
-        <item>Ringotne 1</item>
-        <item>Ringtone 2</item>
+        <item>Lucky1</item>
+        <item>Lucky2</item>
     </string-array>
 
     <string-array name="StationName">
@@ -39,7 +39,8 @@
     <string name="title_Schedule">Schedule</string>
     <string name="search_train_string">Cari Kereta</string>
     <string name="search_train_hint">Masukan Nama Kereta</string>
-    <string name="search_btn_text">search</string>
+
+    <string name="search_btn_text">Set Stasiun</string>
     <string name="alarm_tv">Alarm</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
