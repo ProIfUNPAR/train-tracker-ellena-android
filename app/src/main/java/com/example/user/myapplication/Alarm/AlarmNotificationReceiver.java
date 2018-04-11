@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v7.app.NotificationCompat;
@@ -19,6 +21,7 @@ public class AlarmNotificationReceiver  extends BroadcastReceiver{
         PowerManager.WakeLock w1 = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP
                 | PowerManager.ON_AFTER_RELEASE, "Turn On Screen");
         w1.acquire();
+        //Uri ringtoneLucky = RingtoneManager.getDefaultUri(R.raw.lucky);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
@@ -34,15 +37,15 @@ public class AlarmNotificationReceiver  extends BroadcastReceiver{
             builder.setVibrate(new long[]{1000, 1000});
         }
         if (ListViewSecondActivity.alarm_mode==1 || ListViewSecondActivity.alarm_mode==2){
-            builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
+            builder.setDefaults(Notification.DEFAULT_LIGHTS);
             if (ListViewSecondActivity.ringtone_mode==0) {
                 builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
             }
             else if (ListViewSecondActivity.ringtone_mode==1){
-                //builder.setSound(R.drawable.ring1);
+                builder.setSound(Uri.parse("android.resource://com.example.user.myapplication/" + R.raw.lucky1));
             }
             else if (ListViewSecondActivity.ringtone_mode==2){
-
+                builder.setSound(Uri.parse("android.resource://com.example.user.myapplication/" + R.raw.lucky2));
             }
         }
 

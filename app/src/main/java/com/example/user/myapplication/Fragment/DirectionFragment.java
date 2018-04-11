@@ -296,7 +296,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
                     listener.setSpeedETA(jarakResult, time);
 
-                    if(jarakResult/1000<=15 && isAlarmSet) {
+                    if(jarakResult>0 && jarakResult/1000<=150 && isAlarmSet) {
                         startAlarm();
                         isAlarmSet = false;
                         Log.d("alarmdebug", String.valueOf(isAlarmSet));
@@ -382,7 +382,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     Log.d("Time", time);
                     listener.setSpeedETA(jarakResult, time);
 
-                    if (jarakResult/1000 <= 15 && isAlarmSet) {
+                    if (jarakResult>0 && jarakResult/1000 <= 15 && isAlarmSet) {
                         startAlarm();
                         isAlarmSet = false;
                         Log.d("alarmdebug", String.valueOf(isAlarmSet));
