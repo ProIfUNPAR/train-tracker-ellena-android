@@ -68,7 +68,7 @@ public class Activity extends AppCompatActivity {
 
     private void noGPSAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("GPS is disabled. Please turn on.").setCancelable(false)
+        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

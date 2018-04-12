@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             showNoticeDialog();
         }
+        //moveTaskToBack(true);
     }
 
     @Override

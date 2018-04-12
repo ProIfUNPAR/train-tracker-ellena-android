@@ -53,7 +53,7 @@ public class AlarmNotificationReceiver  extends BroadcastReceiver{
         notificationManager.notify(1, builder.build());
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(0);
             if (w1.isHeld()){
                 w1.release();
             }
