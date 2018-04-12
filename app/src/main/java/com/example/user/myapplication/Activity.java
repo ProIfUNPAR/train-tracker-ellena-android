@@ -45,7 +45,7 @@ public class Activity extends AppCompatActivity {
                 // for ActivityCompat#requestPermissions for more details.
                 Log.d("debugpermis", "AB");
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                         0);
             } else {
                 final Intent i = new Intent(this, MainActivity.class);
