@@ -1,8 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.user.myapplication.Fragment.CheckspeedFragment">
+    tools:context="com.example.user.myapplication.Fragment.CheckspeedFragment"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
     <!-- <include layout="@layout/toolbar"
@@ -11,7 +13,8 @@
         /> -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/tv_jarak"
@@ -20,13 +23,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="75dp"
-            android:layout_marginRight="81dp"
-            android:layout_marginTop="179dp"
             android:text="@string/text_jarak"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/tv_jarakTotal"
+            android:layout_marginTop="30dp"
+            />
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
@@ -35,77 +36,142 @@
             android:layout_alignStart="@+id/tv_jarak"
             android:layout_below="@+id/tv_jarak"
             android:text="@string/text_waktu"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-       <!--
-        <TextView
-            android:id="@+id/tv_jarak_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/tv_time"
-            android:layout_toEndOf="@+id/tv_time"
-            android:layout_toRightOf="@+id/tv_time" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         <TextView
-            android:id="@+id/tv_time_result"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_jarakTotal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_jarak_result"
-            android:layout_toEndOf="@+id/tv_jarak_result"
-            android:layout_toLeftOf="@+id/tv_jarak_result"
-            android:layout_toRightOf="@+id/tv_jarak_result"
-            android:layout_toStartOf="@+id/tv_jarak_result"
-        />
-        -->
+            android:layout_marginLeft="105dp"
+            android:text="@string/text_jarakTotal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
         <TextView
             android:id="@+id/tv_jarak_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="81dp"
-            android:layout_marginTop="179dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_toEndOf="@+id/tv_jarak"
+            android:layout_toRightOf="@+id/tv_jarak"
+            android:layout_below="@id/tv_jarakTotal"
+            android:layout_marginTop="10dp"
 
-        <TextView
-            android:id="@+id/tv_time_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="81dp"
-            android:layout_marginTop="210dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             />
 
+        <TextView
+            android:id="@+id/tv_time_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_toEndOf="@+id/tv_time"
+            android:layout_toRightOf="@+id/tv_time"
+            android:layout_below="@id/tv_jarak"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <TextView
+            android:id="@+id/tv_jarakNextStasiun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="@string/text_jarakNext"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+        <TextView
+            android:id="@+id/tv_jarakNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/text_jarak"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/tv_jarakNextStasiun"
+            android:layout_marginTop="30dp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_timeNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_jarakNext"
+            android:layout_alignStart="@+id/tv_jarakNext"
+            android:layout_below="@+id/tv_jarakNext"
+            android:text="@string/text_waktu"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <TextView
+            android:id="@+id/tv_jarak_result2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_toEndOf="@+id/tv_jarakNext"
+            android:layout_toRightOf="@+id/tv_jarakNext"
+            android:layout_below="@id/tv_jarakNextStasiun"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_time_result2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_toEndOf="@+id/tv_timeNext"
+            android:layout_toRightOf="@+id/tv_timeNext"
+            android:layout_below="@id/tv_jarakNext"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <TextView
+            android:id="@+id/tv_kecepatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/text_kecepatan"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_marginLeft="120dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_kecepatanKereta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Kecepatan :"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/tv_kecepatan"
+            android:layout_marginTop="30dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_kecepatan_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_toEndOf="@+id/tv_kecepatanKereta"
+            android:layout_toRightOf="@+id/tv_kecepatanKereta"
+            android:layout_below="@id/tv_kecepatan"
+            android:layout_marginTop="10dp"
+            />
 
 
 
     </RelativeLayout>
 
-
-    <!-- <Button
-        android:id="@+id/checkspeed_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check Speed Button"
-        android:layout_marginTop="250dp"/>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check Speed"
-        android:textColor="@color/white"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-        android:visibility="visible" />
-    -->
-
-</FrameLayout>
+</LinearLayout>
