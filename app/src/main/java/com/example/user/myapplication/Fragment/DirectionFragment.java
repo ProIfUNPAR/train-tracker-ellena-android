@@ -1,5 +1,7 @@
 package com.example.user.myapplication.Fragment;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.LocationListener;
 import android.Manifest;
 import android.app.AlarmManager;
@@ -11,6 +13,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -316,12 +319,12 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
                 @Override
                 public void onProviderDisabled(String s) {
-
+                    noGPSAlert();
                 }
             });
         }
         // BUAT DEBUG
-        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+        else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 double latitude, longitude, speed;
                 int i = asalSpinner.getSelectedItemPosition() + 1;
@@ -401,7 +404,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
                 @Override
                 public void onProviderDisabled(String s) {
-
+                    noGPSAlert();
                 }
             });
         }
@@ -609,6 +612,17 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         else {
             Toast.makeText(getActivity().getApplicationContext(), "Cannot set alarm.", Toast.LENGTH_LONG).show();
         }
-
+    }
+    private void noGPSAlert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 }
