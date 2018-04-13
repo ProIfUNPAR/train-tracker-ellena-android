@@ -60,7 +60,7 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by user on 3/23/2018.
  */
 
-public class DirectionFragment extends Fragment implements View.OnClickListener,OnMapReadyCallback,CompoundButton.OnCheckedChangeListener{
+public class DirectionFragment extends Fragment implements View.OnClickListener,OnMapReadyCallback,CompoundButton.OnCheckedChangeListener, LocationListener{
     protected Spinner keretaSpinner, asalSpinner, tujuanSpinner;
     protected Button searchBtn;
     protected Switch alarmSwitch;
@@ -88,6 +88,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     protected Duration dur;
     protected Polyline poly;
     protected boolean alarmFlag;
+    double latitude, longitude, speed;
 
     AlarmManager manager;
     Intent alarmIntent;
@@ -237,176 +238,14 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
         }
 
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-                double latitude, longitude, speed;
-                int i = asalSpinner.getSelectedItemPosition() + 1;
-
-                /*TextView editText;
-                TextView distanceView;
-                TextView timeView;*/
-
-                @Override
-                public void onLocationChanged(Location location) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    LatLng latlong = new LatLng(latitude, longitude);
-
-                    if (mark != null) {
-                        mark.remove();
-                        //editText = findViewById(R.id.textView2);
-                        speed = location.getSpeed() * 3.6;
-                        //editText.setText(String.format("%.2f",speed));
-                    }
-
-                    double jarakKeStasiunTerdekat = 0;
-                    jarakResult = 0;
-
-                    if (stasiunAkhir != null) {
-                        jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,stasiunListAll.get(i).getLatitude(),stasiunListAll.get(i).getLongitude());
-
-                        if(jarakKeStasiunTerdekat < 2){
-                            i++;
-                        }
-
-                        jarakResult = jarakKeStasiunTerdekat;
-                        for (int j = i;j< stasiunListAll.size()-1;j++){
-                            jarakResult += jarak.getDistance(stasiunListAll.get(j).getLatitude(),stasiunListAll.get(j).getLongitude(),
-                                    stasiunListAll.get(j+1).getLatitude(),stasiunListAll.get(j+1).getLongitude());
-                        }
-                        //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
-                    }
-                    //distanceView = findViewById(R.id.textView12);
-
-                    //double time = (jarakResult/speed)*60;
-                    String time;
-                    if (speed != 0) {
-                        time = dur.calculateTime(speed, jarakKeStasiunTerdekat);
-                    } else {
-                        time = "Not moving";
-                    }
-                    //timeView = findViewById(R.id.textView5);
-
-                    //Buat output
-                    //distanceView.setText(String.format("%.2f",jarakResult));
-                    //timeView.setText(String.format("%.2f",time));
-
-                    // mark = mMap.addMarker(new MarkerOptions().position(latlong));
-                    // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
-                    Log.d("Distance2", String.format("%.2f", jarakResult));
-                    Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
-                    Log.d("Time", time);
-
-                    listener.setSpeedETA(jarakResult, time);
-
-                    if(jarakResult>0 && jarakResult/1000<=150 && isAlarmSet) {
-                        startAlarm();
-                        isAlarmSet = false;
-                        Log.d("alarmdebug", String.valueOf(isAlarmSet));
-                        //btnSetAlarm.setText("set alarm");
-                    }
-                }
-
-                @Override
-                public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String s) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String s) {
-                    noGPSAlert();
-                }
-            });
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            Log.d("debuggps", "Susa");
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         }
-        // BUAT DEBUG
-        else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
-                double latitude, longitude, speed;
-                int i = asalSpinner.getSelectedItemPosition() + 1;
 
-                /*TextView editText;
-                TextView distanceView;
-                TextView timeView;*/
-
-                @Override
-                public void onLocationChanged(Location location) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    LatLng latlong = new LatLng(latitude, longitude);
-
-                    if (mark != null) {
-                        mark.remove();
-                        //editText = findViewById(R.id.textView2);
-                        speed = location.getSpeed() * 3.6;
-                        //editText.setText(String.format("%.2f",speed));
-                    }
-
-                    double jarakKeStasiunTerdekat = 0;
-                    double jarakResult = 0;
-
-                    if (stasiunAkhir != null) {
-                        jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,stasiunListAll.get(i).getLatitude(),stasiunListAll.get(i).getLongitude());
-
-                        if(jarakKeStasiunTerdekat < 2){
-                            i++;
-                        }
-
-                        jarakResult = jarakKeStasiunTerdekat;
-                        for (int j = i;j< stasiunListAll.size()-1;j++){
-                            jarakResult += jarak.getDistance(stasiunListAll.get(j).getLatitude(),stasiunListAll.get(j).getLongitude(),
-                                    stasiunListAll.get(j+1).getLatitude(),stasiunListAll.get(j+1).getLongitude());
-                        }
-
-                        //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
-                    }
-                    //distanceView = findViewById(R.id.textView12);
-
-                    //double time = (jarakResult/speed)*60;
-                    String time;
-                    if (speed != 0) {
-                        time = dur.calculateTime(speed, jarakKeStasiunTerdekat);
-                    } else {
-                        time = "Not moving";
-                    }
-                    //timeView = findViewById(R.id.textView5);
-
-                    //Buat output
-                    //distanceView.setText(String.format("%.2f",jarakResult));
-                    //timeView.setText(String.format("%.2f",time));
-
-                    // mark = mMap.addMarker(new MarkerOptions().position(latlong));
-                    // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
-                    Log.d("Distance2", String.format("%.2f", jarakResult));
-                    Log.d("Time", time);
-                    listener.setSpeedETA(jarakResult, time);
-
-                    if (jarakResult>0 && jarakResult/1000 <= 15 && isAlarmSet) {
-                        startAlarm();
-                        isAlarmSet = false;
-                        Log.d("alarmdebug", String.valueOf(isAlarmSet));
-                    }
-                }
-
-                @Override
-                public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String s) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String s) {
-                    noGPSAlert();
-                }
-            });
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Log.d("debuggps", "Asus");
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         }
        return view;
     }
@@ -560,8 +399,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         mMap.setMyLocationEnabled(true);
         try{
             LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
-
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             if (location != null) {
                 double latitude = location.getLatitude();
@@ -613,16 +452,82 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             Toast.makeText(getActivity().getApplicationContext(), "Cannot set alarm.", Toast.LENGTH_LONG).show();
         }
     }
-    private void noGPSAlert() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
+
+    @Override
+    public void onLocationChanged(Location location) {
+        int i = asalSpinner.getSelectedItemPosition() + 1;
+        Log.d("debuggps", "ADSADSAD");
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        LatLng latlong = new LatLng(latitude, longitude);
+
+        if (mark != null) {
+            mark.remove();
+            //editText = findViewById(R.id.textView2);
+            speed = location.getSpeed() * 3.6;
+            //editText.setText(String.format("%.2f",speed));
+        }
+
+        double jarakKeStasiunTerdekat = 0;
+        jarakResult = 0;
+
+        if (stasiunAkhir != null) {
+            jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,stasiunListAll.get(i).getLatitude(),stasiunListAll.get(i).getLongitude());
+
+            if(jarakKeStasiunTerdekat < 2){
+                i++;
+            }
+
+            jarakResult = jarakKeStasiunTerdekat;
+            for (int j = i;j< stasiunListAll.size()-1;j++){
+                jarakResult += jarak.getDistance(stasiunListAll.get(j).getLatitude(),stasiunListAll.get(j).getLongitude(),
+                        stasiunListAll.get(j+1).getLatitude(),stasiunListAll.get(j+1).getLongitude());
+            }
+            //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
+        }
+        //distanceView = findViewById(R.id.textView12);
+
+        //double time = (jarakResult/speed)*60;
+        String time;
+        if (speed != 0) {
+            time = dur.calculateTime(speed, jarakKeStasiunTerdekat);
+        } else {
+            time = "Not moving";
+        }
+        //timeView = findViewById(R.id.textView5);
+
+        //Buat output
+        //distanceView.setText(String.format("%.2f",jarakResult));
+        //timeView.setText(String.format("%.2f",time));
+
+        // mark = mMap.addMarker(new MarkerOptions().position(latlong));
+        // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
+        Log.d("Distance2", String.format("%.2f", jarakResult));
+        Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
+        Log.d("Time", time);
+
+        listener.setSpeedETA(jarakResult, time);
+
+        if(jarakResult>0 && jarakResult/1000<=150 && isAlarmSet) {
+            startAlarm();
+            isAlarmSet = false;
+            Log.d("alarmdebug", String.valueOf(isAlarmSet));
+            //btnSetAlarm.setText("set alarm");
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 }
