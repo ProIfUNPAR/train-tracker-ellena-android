@@ -61,8 +61,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.checkSpeedFragment=CheckspeedFragment.newInstance();
 
         FragmentTransaction ft=this.fragmentManager.beginTransaction();
-
-        ft.add(R.id.fragment_container,this.directionFragment).commit();
+        ft.add(R.id.fragment_container,this.scheduleFragment);
+        ft.add(R.id.fragment_container,this.directionFragment);
+        ft.add(R.id.fragment_container,this.checkSpeedFragment);
+        ft.add(R.id.fragment_container,this.alarmFragment);
+        ft.hide(this.scheduleFragment);
+        ft.hide(this.checkSpeedFragment);
+        ft.hide(this.alarmFragment);
+        ft.commit();
 
         navigationView.setCheckedItem(R.id.navigation_directions);
         getSupportActionBar().setTitle("Directions");
@@ -101,14 +107,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        FragmentTransaction ft=this.fragmentManager.beginTransaction();
+        final FragmentTransaction ft=this.fragmentManager.beginTransaction();
 
         if (id == R.id.navigation_alarm) {
             if(this.alarmFragment.isAdded()){
                 ft.show(this.alarmFragment);
-            }
-            else{
-                ft.add(R.id.fragment_container,this.alarmFragment);
             }
 
             if(this.scheduleFragment.isAdded()){
@@ -126,9 +129,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.directionFragment.isAdded()){
                 ft.show(this.directionFragment);
             }
-            else{
-                ft.add(R.id.fragment_container,this.directionFragment);
-            }
 
             if(this.scheduleFragment.isAdded()){
                 ft.hide(this.scheduleFragment);
@@ -145,9 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.scheduleFragment.isAdded()){
                 ft.show(this.scheduleFragment);
             }
-            else{
-                ft.add(R.id.fragment_container,this.scheduleFragment);
-            }
+
 
             if(this.directionFragment.isAdded()){
                 ft.hide(this.directionFragment);
@@ -164,9 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.checkSpeedFragment.isAdded()){
                 ft.show(this.checkSpeedFragment);
             }
-            else{
-                ft.add(R.id.fragment_container,this.checkSpeedFragment);
-            }
+
 
             if(this.directionFragment.isAdded()){
                 ft.hide(this.directionFragment);
@@ -181,8 +177,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         }
+
         ft.commit();
-        this.drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
