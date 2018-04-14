@@ -183,6 +183,8 @@ public class ScheduleFragment extends Fragment implements Runnable, View.OnClick
             if(charSequence.toString().equals("")){
                 //reset listview
                 clearList();
+                scheduleClearList();
+
             } else{
                 //perform search
                 searchItem(charSequence.toString());
