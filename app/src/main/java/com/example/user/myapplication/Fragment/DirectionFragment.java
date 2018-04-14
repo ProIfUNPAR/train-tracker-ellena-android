@@ -38,6 +38,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -341,6 +342,13 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                 poly.setVisible(true);
             }
 
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(koorAwal);
+            builder.include(koorAkhir);
+            LatLngBounds bounds = builder.build();
+
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
+            mMap.animateCamera(cu);
             /** for(int i = 0; !temp2.getNama().equals(stasiunAkhir.getNama()); i++){
              distance += jarak.getDistance(temp1.getLatitude(), temp1.getLongitude(), temp2.getLatitude(), temp2.getLongitude());
              temp1 = temp2;
