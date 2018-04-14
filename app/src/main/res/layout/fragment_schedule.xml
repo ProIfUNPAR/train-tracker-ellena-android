@@ -42,8 +42,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/et_train_search"
         android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="35dp"
         android:layout_marginBottom="20dp"/>
 
     <ListView
@@ -67,5 +67,6 @@
         android:layout_alignRight="@id/listview_route"
         android:layout_alignEnd="@id/listview_route"
         android:text="@string/text_no_data"
+        android:textSize="16dp"
         android:visibility="invisible"/>
 </RelativeLayout>
