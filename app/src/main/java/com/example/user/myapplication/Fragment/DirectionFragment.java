@@ -101,6 +101,9 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     FragmentListener listener;
 
+    // 0 = sudah sampai 1 = sebentar lagi
+    public static int jenisAlarm;
+
     public DirectionFragment() {
     }
 
@@ -517,10 +520,13 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         listener.setSpeedETA(jarakResult, time);
 
         if(jarakResult>0 && jarakResult/1000<=150 && isAlarmSet) {
+            jenisAlarm = 1;
+            startAlarm();
+        }
+        if(jarakResult>0 && jarakResult/1000<=0.5 && isAlarmSet){
+            jenisAlarm = 0;
             startAlarm();
             isAlarmSet = false;
-            Log.d("alarmdebug", String.valueOf(isAlarmSet));
-            //btnSetAlarm.setText("set alarm");
         }
     }
 

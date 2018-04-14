@@ -11,6 +11,7 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v7.app.NotificationCompat;
 
+import com.example.user.myapplication.Fragment.DirectionFragment;
 import com.example.user.myapplication.ListViewSecondActivity;
 import com.example.user.myapplication.R;
 
@@ -29,8 +30,6 @@ public class AlarmNotificationReceiver  extends BroadcastReceiver{
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setContentTitle("Train Tracker")
-                .setContentText("Sebentar lagi Anda sampai ke tujuan!")
                 .setContentInfo("Alarm");
 
         if (ListViewSecondActivity.alarm_mode==0 || ListViewSecondActivity.alarm_mode==2){
@@ -47,6 +46,14 @@ public class AlarmNotificationReceiver  extends BroadcastReceiver{
             else if (ListViewSecondActivity.ringtone_mode==2){
                 builder.setSound(Uri.parse("android.resource://com.example.user.myapplication/" + R.raw.lucky2));
             }
+        }
+        if(DirectionFragment.jenisAlarm==1){
+            builder.setContentTitle("Siap - siap!")
+                    .setContentText("Sebentar lagi Anda akan sampai ke tujuan");
+        }
+        else if(DirectionFragment.jenisAlarm==0){
+            builder.setContentTitle("Anda sudah sampai!")
+                    .setContentText("Saatnya Anda turun");
         }
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
