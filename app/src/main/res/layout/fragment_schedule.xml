@@ -9,11 +9,11 @@
         android:id="@+id/tv_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search_train_string"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="20dp"
-        android:textSize="18sp"/>
+        android:text="@string/search_train_string"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
 
     <EditText
         android:id="@+id/et_train_search"
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/et_train_search"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="35dp"
         android:layout_marginBottom="20dp"/>
@@ -51,7 +51,7 @@
         android:layout_below="@id/et_train_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp">
@@ -67,6 +67,8 @@
         android:layout_alignRight="@id/listview_route"
         android:layout_alignEnd="@id/listview_route"
         android:text="@string/text_no_data"
-        android:textSize="16dp"
-        android:visibility="invisible"/>
+        android:textSize="18dp"
+        android:visibility="invisible"
+        android:layout_marginLeft="15dp"
+        />
 </RelativeLayout>

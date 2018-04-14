@@ -37,7 +37,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="settings">Settings</string>
     <string name="title_Schedule">Schedule</string>
-    <string name="search_train_string">Cari Kereta</string>
+    <string name="search_train_string">Cari Jadwal Kereta </string>
     <string name="search_train_hint">Masukan Nama Kereta</string>
 
     <string name="search_btn_text">Set Stasiun</string>
