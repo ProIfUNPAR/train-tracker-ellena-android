@@ -25,7 +25,7 @@
                 android:id="@+id/iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/traintracker3" />
+                android:src="@drawable/logo" />
         </LinearLayout>
 
 
