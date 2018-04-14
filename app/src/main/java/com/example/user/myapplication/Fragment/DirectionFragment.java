@@ -480,16 +480,16 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         jarakResult = 0;
 
         if (stasiunAkhir != null) {
-            jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,stasiunListAll.get(i).getLatitude(),stasiunListAll.get(i).getLongitude());
+            jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,markerList.get(i).getPosition().latitude,markerList.get(i).getPosition().longitude);
 
             if(jarakKeStasiunTerdekat < 2){
                 i++;
             }
 
             jarakResult = jarakKeStasiunTerdekat;
-            for (int j = i;j< stasiunListAll.size()-1;j++){
-                jarakResult += jarak.getDistance(stasiunListAll.get(j).getLatitude(),stasiunListAll.get(j).getLongitude(),
-                        stasiunListAll.get(j+1).getLatitude(),stasiunListAll.get(j+1).getLongitude());
+            for (int j = i;j< markerList.size()-1;j++){
+                jarakResult += jarak.getDistance(markerList.get(j).getPosition().latitude,markerList.get(j).getPosition().longitude,
+                        markerList.get(j+1).getPosition().latitude,markerList.get(j+1).getPosition().longitude);
             }
             //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
         }
