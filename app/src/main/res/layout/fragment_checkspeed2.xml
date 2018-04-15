@@ -70,7 +70,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/text_jarakTotal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:background="@color/endblue"
+            />
 
         <TextView
             android:id="@+id/tv_jarak_result"
@@ -111,6 +113,7 @@
             android:text="@string/text_jarakNext"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:gravity="center"
+            android:background="@color/endblue"
             />
         <TextView
             android:id="@+id/tv_jarakNext"
@@ -204,7 +207,7 @@
             android:text="@string/text_kecepatan"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:gravity="center_horizontal"
-
+            android:background="@color/endblue"
             />
 
         <TextView
