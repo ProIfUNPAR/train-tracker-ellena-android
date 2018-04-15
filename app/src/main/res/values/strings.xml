@@ -47,11 +47,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_maps_activityaaa">Map</string>
     <string name="text_no_data">Data tidak ditemukan</string>
-    <string name="text_jarakTotal">Jarak dan Waktu Total</string>
-    <string name="text_jarakNext">Jarak dan Waktu ke Stasiun Selanjutnya</string>
+    <string name="text_jarakTotal">Estimasi Jarak dan Waktu ke Stasiun Tujuan</string>
+    <string name="text_jarakNext">Estimasi Jarak dan Waktu ke Stasiun Selanjutnya</string>
     <string name="text_kecepatan">Kecepatan Kereta</string>
-    <string name="text_jarak">Jarak : </string>
-    <string name="text_waktu">Waktu : </string>
+    <string name="text_jarak">Jarak</string>
+    <string name="text_waktu">Waktu</string>
+    <string name="text_titikDua">:</string>
+
 
     <string name="text_exit">Exit?</string>
     <string name="text_yes">Yes</string>
