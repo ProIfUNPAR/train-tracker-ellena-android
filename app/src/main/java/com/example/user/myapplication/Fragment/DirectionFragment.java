@@ -61,7 +61,7 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by user on 3/23/2018.
  */
 
-public class DirectionFragment extends Fragment implements View.OnClickListener,OnMapReadyCallback,CompoundButton.OnCheckedChangeListener, LocationListener{
+public class DirectionFragment extends Fragment implements View.OnClickListener,OnMapReadyCallback,CompoundButton.OnCheckedChangeListener{
     protected Spinner keretaSpinner, asalSpinner, tujuanSpinner;
     protected Button searchBtn;
     protected Switch alarmSwitch;
@@ -244,12 +244,12 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             Log.d("debuggps", "Susa");
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new MyLocationListener());
         }
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Log.d("debuggps", "Asus");
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener());
         }
        return view;
     }
@@ -410,7 +410,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         mMap.setMyLocationEnabled(true);
         try{
             LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener());
             Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (location != null) {
@@ -466,87 +466,89 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        int i = 1;
-        Log.d("debuggps", "ADSADSAD");
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        LatLng latlong = new LatLng(latitude, longitude);
+    private class MyLocationListener implements LocationListener{
 
-        if (mark != null) {
-            mark.remove();
-            //editText = findViewById(R.id.textView2);
-            speed = location.getSpeed() * 3.6;
-            //editText.setText(String.format("%.2f",speed));
-        }
+        @Override
+        public void onLocationChanged(Location location) {
+            int i = 1;
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            LatLng latlong = new LatLng(latitude, longitude);
 
-        double jarakKeStasiunTerdekat = 0;
-        jarakResult = 0;
-
-        if (stasiunAkhir != null) {
-            jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,markerList.get(i).getPosition().latitude,markerList.get(i).getPosition().longitude);
-
-            if(jarakKeStasiunTerdekat < 2){
-                i++;
+            if (mark != null) {
+                mark.remove();
+                //editText = findViewById(R.id.textView2);
+                speed = location.getSpeed() * 3.6;
+                //editText.setText(String.format("%.2f",speed));
             }
 
-            jarakResult = jarakKeStasiunTerdekat;
-            for (int j = i;j< markerList.size()-1;j++){
-                jarakResult += jarak.getDistance(markerList.get(j).getPosition().latitude,markerList.get(j).getPosition().longitude,
-                        markerList.get(j+1).getPosition().latitude,markerList.get(j+1).getPosition().longitude);
+            double jarakKeStasiunTerdekat = 0;
+            jarakResult = 0;
+
+            if (stasiunAkhir != null) {
+                jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,markerList.get(i).getPosition().latitude,markerList.get(i).getPosition().longitude);
+
+                if(jarakKeStasiunTerdekat < 2){
+                    i++;
+                }
+
+                jarakResult = jarakKeStasiunTerdekat;
+                for (int j = i;j< markerList.size()-1;j++){
+                    jarakResult += jarak.getDistance(markerList.get(j).getPosition().latitude,markerList.get(j).getPosition().longitude,
+                            markerList.get(j+1).getPosition().latitude,markerList.get(j+1).getPosition().longitude);
+                }
+                //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
             }
-            //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
+            //distanceView = findViewById(R.id.textView12);
+
+            //double time = (jarakResult/speed)*60;
+            String time;
+            String time2;
+            if (speed != 0) {
+                time = dur.calculateTime(speed, jarakResult);
+                time2 = dur.calculateTime(speed, jarakKeStasiunTerdekat);
+            } else {
+                time = "Not moving";
+                time2 = "Not moving";
+            }
+            //timeView = findViewById(R.id.textView5);
+
+            //Buat output
+            //distanceView.setText(String.format("%.2f",jarakResult));
+            //timeView.setText(String.format("%.2f",time));
+
+            // mark = mMap.addMarker(new MarkerOptions().position(latlong));
+            // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
+            Log.d("Distance2", String.format("%.2f", jarakResult));
+            Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
+            Log.d("Time", time);
+
+            listener.setSpeedETA(jarakResult, time, jarakKeStasiunTerdekat, time2, speed);
+
+            if(jarakResult>0 && jarakResult/1000<=150 && isAlarmSet) {
+                jenisAlarm = 1;
+                startAlarm();
+            }
+            if(jarakResult>0 && jarakResult/1000<=0.5 && isAlarmSet){
+                jenisAlarm = 0;
+                startAlarm();
+                isAlarmSet = false;
+            }
         }
-        //distanceView = findViewById(R.id.textView12);
 
-        //double time = (jarakResult/speed)*60;
-        String time;
-        String time2;
-        if (speed != 0) {
-            time = dur.calculateTime(speed, jarakResult);
-            time2 = dur.calculateTime(speed, jarakKeStasiunTerdekat);
-        } else {
-            time = "Not moving";
-            time2 = "Not moving";
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
         }
-        //timeView = findViewById(R.id.textView5);
 
-        //Buat output
-        //distanceView.setText(String.format("%.2f",jarakResult));
-        //timeView.setText(String.format("%.2f",time));
+        @Override
+        public void onProviderEnabled(String s) {
 
-        // mark = mMap.addMarker(new MarkerOptions().position(latlong));
-        // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
-        Log.d("Distance2", String.format("%.2f", jarakResult));
-        Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
-        Log.d("Time", time);
-
-        listener.setSpeedETA(jarakResult, time, jarakKeStasiunTerdekat, time2, speed);
-
-        if(jarakResult>0 && jarakResult/1000<=150 && isAlarmSet) {
-            jenisAlarm = 1;
-            startAlarm();
         }
-        if(jarakResult>0 && jarakResult/1000<=0.5 && isAlarmSet){
-            jenisAlarm = 0;
-            startAlarm();
-            isAlarmSet = false;
+
+        @Override
+        public void onProviderDisabled(String s) {
+
         }
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
     }
 }
