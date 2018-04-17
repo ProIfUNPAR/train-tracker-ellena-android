@@ -11,8 +11,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -80,7 +84,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     protected DBKereta dbKereta;
     protected DBStasiun dbStasiun;
 
-
     protected GoogleMap mMap;
     protected LocationManager locationManager;
     protected Marker mark;
@@ -99,10 +102,29 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     protected Stasiun stasiunAwal, stasiunAkhir;
     protected boolean isAlarmSet;
 
+    static final int NO_GPS_MESSAGE = 1;
+    static final int NO_INTERNET_MESSAGE = 2;
+
     FragmentListener listener;
 
     // 0 = sudah sampai 1 = sebentar lagi
     public static int jenisAlarm;
+
+    Handler handler = new Handler(new Handler.Callback() {
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(msg.arg1 == NO_GPS_MESSAGE) {
+                noGPSAlert();
+            }
+            else if(msg.arg1 == NO_INTERNET_MESSAGE){
+                noInternetAlert();
+            }
+            return false;
+        }
+    });
+
+    Thread thread = new Thread(new CustomThread());
 
     public DirectionFragment() {
     }
@@ -115,14 +137,14 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-       View view=inflater.inflate(R.layout.maps_fragment,container,false);
-       this.searchBtn=view.findViewById(R.id.btn_search);
-       this.alarmSwitch=view.findViewById(R.id.sw_alarm);
-       this.keretaSpinner=view.findViewById(R.id.kereta_list);
-       this.asalSpinner=view.findViewById(R.id.asal_list);
-       this.tujuanSpinner=view.findViewById(R.id.tujuan_list);
+        View view=inflater.inflate(R.layout.maps_fragment,container,false);
+        this.searchBtn=view.findViewById(R.id.btn_search);
+        this.alarmSwitch=view.findViewById(R.id.sw_alarm);
+        this.keretaSpinner=view.findViewById(R.id.kereta_list);
+        this.asalSpinner=view.findViewById(R.id.asal_list);
+        this.tujuanSpinner=view.findViewById(R.id.tujuan_list);
 
-       this.searchBtn.setOnClickListener(this);
+        this.searchBtn.setOnClickListener(this);
         this.alarmFlag=false;
         this.asalList= new ArrayList<Stasiun>();
         this.tujuanList = new ArrayList<Stasiun>();
@@ -141,7 +163,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         this.manager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
         this.alarmSwitch.setOnCheckedChangeListener(this);
-
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -251,13 +272,28 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             Log.d("debuggps", "Asus");
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener());
         }
-       return view;
+        thread.start();
+
+        return view;
     }
 
     private void deleteList(ArrayList<Stasiun> list){
         while(!list.isEmpty()){
             list.remove(0);
         }
+    }
+
+    public boolean isGpsOn(){
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+    public boolean isNetworkOn(){
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = null;
+        if (connectivityManager != null) {
+            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override
@@ -466,6 +502,38 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+    public void noGPSAlert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        //Intent intent = getActivity().getIntent();
+                        //getActivity().finish();
+                        //startActivity(intent);
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void noInternetAlert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Internet is disabled. Please connect to internet using Wi-Fi or Mobile Data.").setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
+                        //Intent intent = getActivity().getIntent();
+                        //getActivity().finish();
+                        //startActivity(intent);
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     private class MyLocationListener implements LocationListener{
 
         @Override
@@ -549,6 +617,28 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         @Override
         public void onProviderDisabled(String s) {
 
+        }
+    }
+
+    private class CustomThread extends Thread{
+        @Override
+        public void run() {
+            while(true){
+                if(!isGpsOn()){
+                    Message msg = new Message();
+                    Log.d("debug_provider", "gps off");
+                    msg.arg1 = NO_GPS_MESSAGE;
+                    handler.sendMessage(msg);
+                    break;
+                }
+                if(!isNetworkOn()){
+                    Message msg = new Message();
+                    Log.d("debug_provider", "network off");
+                    msg.arg1 = NO_INTERNET_MESSAGE;
+                    handler.sendMessage(msg);
+                    break;
+                }
+            }
         }
     }
 }
