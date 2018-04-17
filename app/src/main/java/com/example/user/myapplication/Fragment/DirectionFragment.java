@@ -466,7 +466,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onLocationChanged(Location location) {
-        int i = asalSpinner.getSelectedItemPosition() + 1;
+        int i = 1;
         Log.d("debuggps", "ADSADSAD");
         latitude = location.getLatitude();
         longitude = location.getLongitude();
