@@ -441,7 +441,9 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     public void cancelAlarm(){
         if(manager!=null){
-            manager.cancel(pendingIntent);
+            if(pendingIntent != null) {
+                manager.cancel(pendingIntent);
+            }
         }
     }
 
