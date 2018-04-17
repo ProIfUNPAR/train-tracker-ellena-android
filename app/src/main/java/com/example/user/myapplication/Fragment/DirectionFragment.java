@@ -500,10 +500,13 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
         //double time = (jarakResult/speed)*60;
         String time;
+        String time2;
         if (speed != 0) {
-            time = dur.calculateTime(speed, jarakKeStasiunTerdekat);
+            time = dur.calculateTime(speed, jarakResult);
+            time2 = dur.calculateTime(speed, jarakKeStasiunTerdekat);
         } else {
             time = "Not moving";
+            time2 = "Not moving";
         }
         //timeView = findViewById(R.id.textView5);
 
@@ -517,7 +520,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
         Log.d("Time", time);
 
-        listener.setSpeedETA(jarakResult, time);
+        listener.setSpeedETA(jarakResult, time, jarakKeStasiunTerdekat, time2, speed);
 
         if(jarakResult>0 && jarakResult/1000<=150 && isAlarmSet) {
             jenisAlarm = 1;

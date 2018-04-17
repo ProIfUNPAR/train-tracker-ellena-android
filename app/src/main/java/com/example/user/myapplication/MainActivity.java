@@ -184,15 +184,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void setSpeedETA(double jarak, String time) {
+    public void setSpeedETA(double jarak, String time, double jarakNext, String waktuNext, double kecepatan) {
         //this.checkSpeedFragment.setTvJarak(String.valueOf(jarak));
         //this.checkSpeedFragment.setTvWaktu(time);
         Log.d("debugCheckSpeed", jarak + " " + time);
         double tempJarak = jarak / 1000;
+        double tempJarak2 = jarak / 1000;
         String jarakS = String.format("%.2f km", tempJarak);
+        String jarakS2 = String.format("%.2f km", tempJarak2);
         Bundle bundle = new Bundle();
         bundle.putString("jarak", jarakS);
         bundle.putString("waktu", time);
+        bundle.putString("jarakNext", jarakS2);
+        bundle.putString("waktuNext", waktuNext);
+        bundle.putString("kecepatan", String.valueOf(kecepatan));
         this.checkSpeedFragment.getArguments().putAll(bundle);
         //this.checkSpeedFragment = CheckspeedFragment.newInstance(String.valueOf(jarak), time);
         this.checkSpeedFragment.setEverything();

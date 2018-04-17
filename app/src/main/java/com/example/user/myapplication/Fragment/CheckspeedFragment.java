@@ -25,9 +25,15 @@ public class CheckspeedFragment extends Fragment {
 
     protected TextView tvJarak;
     protected TextView tvWaktu;
+    protected TextView tvJarakNext;
+    protected TextView tvWaktuNext;
+    protected TextView tvKecepatan;
 
     private String jarak;
     private String waktu;
+    private String jarakNext;
+    private String waktuNext;
+    private String kecepatan;
 
 
     public CheckspeedFragment() {
@@ -38,17 +44,23 @@ public class CheckspeedFragment extends Fragment {
     public static CheckspeedFragment newInstance() {
         CheckspeedFragment fragment = new CheckspeedFragment();
         Bundle args = new Bundle();
-        args.putString("jarak", "");
-        args.putString("waktu", "");
+        args.putString("jarak", "Belum ada data");
+        args.putString("waktu", "Belum ada data");
+        args.putString("jarakNext", "Belum ada data");
+        args.putString("waktuNext", "Belum ada data");
+        args.putString("kecepatan", "Belum ada data");
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static CheckspeedFragment newInstance(String jarak, String waktu) {
+    public static CheckspeedFragment newInstance(String jarak, String waktu, String jarakNext, String waktuNext, String kecepatan) {
         CheckspeedFragment fragment = new CheckspeedFragment();
         Bundle args = new Bundle();
         args.putString("jarak", jarak);
         args.putString("waktu", waktu);
+        args.putString("jarakNext", jarakNext);
+        args.putString("waktuNext", waktuNext);
+        args.putString("kecepatan", kecepatan);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,16 +71,31 @@ public class CheckspeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_checkspeed2,container,false);
         this.tvJarak = view.findViewById(R.id.tv_jarak_result);
         this.tvWaktu = view.findViewById(R.id.tv_time_result);
+        this.tvJarakNext = view.findViewById(R.id.tv_jarak_result2);
+        this.tvWaktuNext = view.findViewById(R.id.tv_time_result2);
+        this.tvKecepatan = view.findViewById(R.id.tv_kecepatan_result);
         //jarak = this.getArguments().getString("jarak", "");
         //waktu = this.getArguments().getString("waktu", "");
         if(jarak == null){
-            jarak = "";
+            jarak = "Belum ada data";
         }
         if(waktu == null){
-            waktu = "";
+            waktu = "Belum ada data";
+        }
+        if(jarakNext== null){
+            jarakNext = "Belum ada data";
+        }
+        if(waktuNext == null){
+            waktuNext = "Belum ada data";
+        }
+        if(kecepatan == null){
+            kecepatan = "Belum ada data";
         }
         tvJarak.setText(jarak);
         tvWaktu.setText(waktu);
+        tvJarakNext.setText(jarakNext);
+        tvWaktuNext.setText(waktuNext);
+        tvKecepatan.setText(kecepatan);
         /*Button directionsButton = (Button) view.findViewById(R.id.checkspeed_button);
         directionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,12 +118,17 @@ public class CheckspeedFragment extends Fragment {
     }
     public void setEverything(){
         Bundle bundle = getArguments();
-        Log.d("debugCheckSPeed", "abc");
         jarak = bundle.getString("jarak", "");
         waktu = bundle.getString("waktu", "");
+        jarakNext = bundle.getString("jarakNext", "");
+        waktuNext = bundle.getString("waktuNext", "");
+        kecepatan = bundle.getString("kecepatan", "");
         if(isVisible()) {
             tvJarak.setText(jarak);
             tvWaktu.setText(waktu);
+            tvJarakNext.setText(jarakNext);
+            tvWaktuNext.setText(waktuNext);
+            tvKecepatan.setText(kecepatan);
         }
         /*tvJarak.setText(jarak);
         tvWaktu.setText(waktu);*/

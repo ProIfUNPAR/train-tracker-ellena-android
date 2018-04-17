@@ -5,5 +5,5 @@ package com.example.user.myapplication.Fragment;
  */
 
 public interface FragmentListener {
-    void setSpeedETA(double jarak, String time);
+    void setSpeedETA(double jarak, String time, double jarak2, String time2, double speed);
 }
