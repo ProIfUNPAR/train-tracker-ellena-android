@@ -1,7 +1,9 @@
 package com.example.user.myapplication.Fragment;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.location.LocationListener;
 import android.Manifest;
 import android.app.AlarmManager;
@@ -86,18 +88,18 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     protected GoogleMap mMap;
     protected LocationManager locationManager;
-    protected Marker mark;
+    //protected Marker mark;
     protected Marker awal, tujuan;
     protected Distance jarak;
     protected Duration dur;
     protected Polyline poly;
     protected boolean alarmFlag;
-    double latitude, longitude, speed;
+    //double latitude, longitude, speed;
 
     AlarmManager manager;
     Intent alarmIntent;
     PendingIntent pendingIntent;
-    double jarakResult;
+    //double jarakResult;
 
     protected Stasiun stasiunAwal, stasiunAkhir;
     protected boolean isAlarmSet;
@@ -110,7 +112,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     // 0 = sudah sampai 1 = sebentar lagi
     public static int jenisAlarm;
 
-    Handler handler = new Handler(new Handler.Callback() {
+    /*Handler handler = new Handler(new Handler.Callback() {
 
         @Override
         public boolean handleMessage(Message msg) {
@@ -122,11 +124,12 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             }
             return false;
         }
-    });
+    });*/
 
-    Thread thread = new Thread(new CustomThread());
+    //Thread thread = new Thread(new CustomThread());
 
-    public DirectionFragment() {
+    public DirectionFragment(){
+        Log.d("debuginit", "avv");
     }
 
 
@@ -249,6 +252,13 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             }
         });
 
+        IntentFilter filterGPS = new IntentFilter();
+        filterGPS.addAction("android.location.PROVIDERS_CHANGED");
+        filterGPS.addCategory("android.intent.category.DEFAULT");
+
+        IntentFilter filterNet = new IntentFilter();
+        filterNet.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        filterNet.addCategory("android.intent.category.DEFAULT");
 
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
@@ -262,17 +272,18 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             // for ActivityCompat#requestPermissions for more details.
 
         }
-
+        MyLocationListener loclistenerNetwork = new MyLocationListener(this);
+        MyLocationListener loclistenerGPS = new MyLocationListener(this);
+        this.getContext().registerReceiver(loclistenerNetwork, filterNet);
+        this.getContext().registerReceiver(loclistenerGPS, filterGPS);
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            Log.d("debuggps", "Susa");
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new MyLocationListener());
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, loclistenerNetwork);
         }
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Log.d("debuggps", "Asus");
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener());
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, loclistenerGPS);
         }
-        thread.start();
+        //thread.start();
 
         return view;
     }
@@ -281,19 +292,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         while(!list.isEmpty()){
             list.remove(0);
         }
-    }
-
-    public boolean isGpsOn(){
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
-    public boolean isNetworkOn(){
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = null;
-        if (connectivityManager != null) {
-            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        }
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override
@@ -404,6 +402,29 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+    public Stasiun getStasiunAwal(){
+        return stasiunAwal;
+    }
+
+    public Stasiun getStasiunAkhir(){
+        return stasiunAkhir;
+    }
+
+    public Distance getJarak(){
+        return jarak;
+    }
+
+    public Duration getDuration(){
+        return dur;
+    }
+
+    public FragmentListener getListener(){
+        return listener;
+    }
+
+    public ArrayList<Marker> getMarkerList(){
+        return markerList;
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -446,7 +467,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         mMap.setMyLocationEnabled(true);
         try{
             LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener());
+            MyLocationListener loclistener = new MyLocationListener(this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, loclistener);
             Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (location != null) {
@@ -504,7 +526,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     public void noGPSAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(false)
+        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(true)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -519,126 +541,20 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     }
 
     public void noInternetAlert() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Internet is disabled. Please connect to internet using Wi-Fi or Mobile Data.").setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
-                        //Intent intent = getActivity().getIntent();
-                        //getActivity().finish();
-                        //startActivity(intent);
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    private class MyLocationListener implements LocationListener{
-
-        @Override
-        public void onLocationChanged(Location location) {
-            int i = 1;
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-            LatLng latlong = new LatLng(latitude, longitude);
-
-            if (mark != null) {
-                mark.remove();
-                //editText = findViewById(R.id.textView2);
-                speed = location.getSpeed() * 3.6;
-                //editText.setText(String.format("%.2f",speed));
-            }
-
-            double jarakKeStasiunTerdekat = 0;
-            jarakResult = 0;
-
-            if (stasiunAkhir != null) {
-                jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,markerList.get(i).getPosition().latitude,markerList.get(i).getPosition().longitude);
-
-                if(jarakKeStasiunTerdekat < 2){
-                    i++;
-                }
-
-                jarakResult = jarakKeStasiunTerdekat;
-                for (int j = i;j< markerList.size()-1;j++){
-                    jarakResult += jarak.getDistance(markerList.get(j).getPosition().latitude,markerList.get(j).getPosition().longitude,
-                            markerList.get(j+1).getPosition().latitude,markerList.get(j+1).getPosition().longitude);
-                }
-                //jarakResult = jarak.getDistance(latitude, longitude, stasiunAkhir.getLatitude(), stasiunAkhir.getLongitude()) / 1000;
-            }
-            //distanceView = findViewById(R.id.textView12);
-
-            //double time = (jarakResult/speed)*60;
-            String time;
-            String time2;
-            if (speed != 0) {
-                time = dur.calculateTime(speed, jarakResult);
-                time2 = dur.calculateTime(speed, jarakKeStasiunTerdekat);
-            } else {
-                time = "Not moving";
-                time2 = "Not moving";
-            }
-            //timeView = findViewById(R.id.textView5);
-
-            //Buat output
-            //distanceView.setText(String.format("%.2f",jarakResult));
-            //timeView.setText(String.format("%.2f",time));
-
-            // mark = mMap.addMarker(new MarkerOptions().position(latlong));
-            // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
-            Log.d("Distance2", String.format("%.2f", jarakResult));
-            Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
-            Log.d("Time", time);
-
-            listener.setSpeedETA(jarakResult, time, jarakKeStasiunTerdekat, time2, speed);
-
-            if(jarakResult>0 && jarakResult/1000<=150 && isAlarmSet) {
-                jenisAlarm = 1;
-                startAlarm();
-            }
-            if(jarakResult>0 && jarakResult/1000<=0.5 && isAlarmSet){
-                jenisAlarm = 0;
-                startAlarm();
-                isAlarmSet = false;
-            }
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-
-        }
-    }
-
-    private class CustomThread extends Thread{
-        @Override
-        public void run() {
-            while(true){
-                if(!isGpsOn()){
-                    Message msg = new Message();
-                    Log.d("debug_provider", "gps off");
-                    msg.arg1 = NO_GPS_MESSAGE;
-                    handler.sendMessage(msg);
-                    break;
-                }
-                if(!isNetworkOn()){
-                    Message msg = new Message();
-                    Log.d("debug_provider", "network off");
-                    msg.arg1 = NO_INTERNET_MESSAGE;
-                    handler.sendMessage(msg);
-                    break;
-                }
-            }
+        if(getContext() != null) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Internet is disabled. Please connect to internet using Wi-Fi or Mobile Data.").setCancelable(true)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
+                            //Intent intent = getActivity().getIntent();
+                            //getActivity().finish();
+                            //startActivity(intent);
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 }
