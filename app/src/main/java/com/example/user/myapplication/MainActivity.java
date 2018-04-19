@@ -1,6 +1,15 @@
 package com.example.user.myapplication;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Message;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -124,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(this.checkSpeedFragment);
             }
             getSupportActionBar().setTitle("Alarm");
+            checkProvider();
         }
         else if (id == R.id.navigation_directions) {
             if(this.directionFragment.isAdded()){
@@ -139,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.checkSpeedFragment.isAdded()){
                 ft.hide(this.checkSpeedFragment);
             }
+            checkProvider();
             getSupportActionBar().setTitle("Directions");
         }
         else if (id == R.id.navigation_schedule) {
@@ -157,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(this.checkSpeedFragment);
             }
             getSupportActionBar().setTitle("Schedule");
+            checkProvider();
         }
         else if (id == R.id.navigation_speed) {
             if(this.checkSpeedFragment.isAdded()){
@@ -174,13 +186,74 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(this.scheduleFragment);
             }
             getSupportActionBar().setTitle("Check Speed");
-
-
+            checkProvider();
         }
 
         ft.commit();
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void checkProvider(){
+        if(!isGpsOn()){
+            noGPSAlert();
+        }
+        if(!isNetworkOn()){
+            noInternetAlert();
+        }
+    }
+
+    public boolean isGpsOn(){
+        LocationManager locman = (LocationManager) getSystemService(LOCATION_SERVICE);
+        return locman.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+    public boolean isNetworkOn() {
+        if (this != null) {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = null;
+            if (connectivityManager != null) {
+                activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            }
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        else{
+            return false;
+        }
+    }
+
+    public void noGPSAlert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        //Intent intent = getActivity().getIntent();
+                        //getActivity().finish();
+                        //startActivity(intent);
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void noInternetAlert() {
+        if(this != null) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Internet is disabled. Please connect to internet using Wi-Fi or Mobile Data.").setCancelable(false)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
+                            //Intent intent = getActivity().getIntent();
+                            //getActivity().finish();
+                            //startActivity(intent);
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     @Override
@@ -189,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //this.checkSpeedFragment.setTvWaktu(time);
         Log.d("debugCheckSpeed", jarak + " " + time);
         double tempJarak = jarak / 1000;
-        double tempJarak2 = jarak / 1000;
+        double tempJarak2 = jarakNext / 1000;
         String jarakS = String.format("%.2f km", tempJarak);
         String jarakS2 = String.format("%.2f km", tempJarak2);
         Bundle bundle = new Bundle();
