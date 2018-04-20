@@ -14,8 +14,10 @@ import android.util.Log;
 import com.example.user.myapplication.Database.Stasiun;
 import com.example.user.myapplication.Map.Distance;
 import com.example.user.myapplication.Map.Duration;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
@@ -31,17 +33,20 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
     Marker mark;
     DirectionFragment dirFragment;
     ArrayList<Marker> markerList;
+    GoogleMap mMap;
 
-    public MyLocationListener(DirectionFragment d){
+    public MyLocationListener(DirectionFragment d, GoogleMap mmap){
         this.dirFragment = d;
         this.jarak = dirFragment.getJarak();
         this.dur = dirFragment.getDuration();
+        this.mMap = mmap;
     }
 
     public MyLocationListener(){
         this.dirFragment = new DirectionFragment();
         this.jarak = dirFragment.getJarak();
         this.dur = dirFragment.getDuration();
+
     }
 
     @Override
@@ -52,14 +57,12 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
         longitude = location.getLongitude();
         double jarakResult;
         LatLng latlong = new LatLng(latitude, longitude);
-
-        if (mark != null) {
-            mark.remove();
-            //editText = findViewById(R.id.textView2);
-            speed = location.getSpeed() * 3.6;
+        //mark = mMap.addMarker(new MarkerOptions().position(latlong));
+        //if (mark != null) {
+        //    mark.remove();/
             //editText.setText(String.format("%.2f",speed));
-        }
-
+        //}
+        speed = location.getSpeed() * 3.6;
         Stasiun stasiunAkhir = dirFragment.getStasiunAkhir();
 
         double jarakKeStasiunTerdekat = 0;
@@ -97,7 +100,7 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
         //distanceView.setText(String.format("%.2f",jarakResult));
         //timeView.setText(String.format("%.2f",time));
 
-        // mark = mMap.addMarker(new MarkerOptions().position(latlong));
+
         // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlong, 15.5f));
         Log.d("Distance2", String.format("%.2f", jarakResult));
         Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
@@ -105,12 +108,13 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
 
         dirFragment.listener.setSpeedETA(jarakResult, time, jarakKeStasiunTerdekat, time2, speed);
 
-        if(jarakResult>0 && jarakResult/1000<=150 && dirFragment.isAlarmSet) {
-            dirFragment.jenisAlarm = 1;
+        if(jarakResult>0 && jarakResult/1000<=2 && dirFragment.isAlarmSet) {
+            DirectionFragment.jenisAlarm = 1;
             dirFragment.startAlarm();
+
         }
         if(jarakResult>0 && jarakResult/1000<=0.5 && dirFragment.isAlarmSet){
-            dirFragment.jenisAlarm = 0;
+            DirectionFragment.jenisAlarm = 0;
             dirFragment.startAlarm();
             dirFragment.isAlarmSet = false;
         }
@@ -150,7 +154,6 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
         }
     }
     public boolean isNetworkOn(Context context) {
-
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());

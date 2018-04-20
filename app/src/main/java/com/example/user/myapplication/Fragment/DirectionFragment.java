@@ -272,8 +272,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             // for ActivityCompat#requestPermissions for more details.
 
         }
-        MyLocationListener loclistenerNetwork = new MyLocationListener(this);
-        MyLocationListener loclistenerGPS = new MyLocationListener(this);
+        MyLocationListener loclistenerNetwork = new MyLocationListener(this, mMap);
+        MyLocationListener loclistenerGPS = new MyLocationListener(this, mMap);
         this.getContext().registerReceiver(loclistenerNetwork, filterNet);
         this.getContext().registerReceiver(loclistenerGPS, filterGPS);
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -467,7 +467,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         mMap.setMyLocationEnabled(true);
         try{
             LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
-            MyLocationListener loclistener = new MyLocationListener(this);
+            MyLocationListener loclistener = new MyLocationListener(this, mMap);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, loclistener);
             Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
