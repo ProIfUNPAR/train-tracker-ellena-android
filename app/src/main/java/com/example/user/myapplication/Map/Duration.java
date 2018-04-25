@@ -18,9 +18,10 @@ public class Duration {
             menit -= 60;
             hasil = jam + "jam ";
         }*/
-        jam = menit % 60;
-        menit = menit - (60 * jam);
-
+        if(menit >= 60) {
+            jam = menit % 60;
+            menit = menit - (60 * jam);
+        }
         hasil = jam + " jam " +  menit + " menit";
         return hasil;
     }

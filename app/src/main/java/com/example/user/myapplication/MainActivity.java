@@ -265,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         double tempJarak2 = jarakNext / 1000;
         String jarakS = String.format("%.2f km", tempJarak);
         String jarakS2 = String.format("%.2f km", tempJarak2);
+        String kecepatanString = String.format("%.2f", kecepatan);
         Bundle bundle = new Bundle();
         bundle.putString("jarak", jarakS);
         bundle.putString("waktu", time);
