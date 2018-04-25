@@ -58,4 +58,8 @@
     <string name="text_exit">Exit?</string>
     <string name="text_yes">Yes</string>
     <string name="text_no">No</string>
+
+    <string name="text_select_kereta">Pilih Kereta yang Digunakan</string>
+    <string name="text_select_awal">Stasiun Awal</string>
+    <string name="text_select_akhir">Stasiun Akhir</string>
 </resources>

@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.example.user.myapplication.Alarm.AlarmNotificationReceiver;
 import com.example.user.myapplication.Map.Distance;
 import com.example.user.myapplication.Map.Duration;
+import com.example.user.myapplication.NoDefaultSpinner;
 import com.example.user.myapplication.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -68,7 +69,8 @@ import static android.content.Context.LOCATION_SERVICE;
  */
 
 public class DirectionFragment extends Fragment implements View.OnClickListener,OnMapReadyCallback,CompoundButton.OnCheckedChangeListener{
-    protected Spinner keretaSpinner, asalSpinner, tujuanSpinner;
+    protected NoDefaultSpinner keretaSpinner;
+    protected NoDefaultSpinner asalSpinner, tujuanSpinner;
     protected Button searchBtn;
     protected Switch alarmSwitch;
 
@@ -111,22 +113,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     // 0 = sudah sampai 1 = sebentar lagi
     public static int jenisAlarm;
-
-    /*Handler handler = new Handler(new Handler.Callback() {
-
-        @Override
-        public boolean handleMessage(Message msg) {
-            if(msg.arg1 == NO_GPS_MESSAGE) {
-                noGPSAlert();
-            }
-            else if(msg.arg1 == NO_INTERNET_MESSAGE){
-                noInternetAlert();
-            }
-            return false;
-        }
-    });*/
-
-    //Thread thread = new Thread(new CustomThread());
 
     public DirectionFragment(){
         Log.d("debuginit", "avv");
@@ -173,78 +159,94 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         this.dur = new Duration();
 
         stasiunListAll = new ArrayList<Stasiun>();
+        ArrayList<Stasiun> dummyList = new ArrayList<>();
+        dummyList.add(new Stasiun("Pilih kereta terlebih dahulu", "Pilih kereta terlebih dahulu", 0, 0));
+
+        ArrayAdapter<Stasiun> defaultAdapter = new ArrayAdapter<Stasiun>(getContext(), android.R.layout.simple_spinner_item, dummyList);
+        asalSpinner.setAdapter(defaultAdapter);
+        tujuanSpinner.setAdapter(defaultAdapter);
+        asalSpinner.setSelection(-1);
+        tujuanSpinner.setSelection(-1);
+        asalSpinner.setEnabled(false);
+        tujuanSpinner.setEnabled(false);
 
         ArrayAdapter<Kereta> keretaArrayAdapter = new ArrayAdapter<Kereta>(getContext(), android.R.layout.simple_spinner_item, kereta);
         keretaSpinner.setAdapter(keretaArrayAdapter);
-
         keretaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String nama = adapterView.getItemAtPosition(i).toString();
-                deleteList(asalList);
-                if(!stasiunListAll.isEmpty()){
-                    stasiunListAll.clear();
-                }
-                for (int x = 0; x < kereta.size(); x++) {
-                    if (kereta.get(i).getNama().equals(nama)) {
-                        selectedKereta = kereta.get(i);
-                        trackList = selectedKereta.getTrack();
-                        break;
+                if (i > -1) {
+                    asalSpinner.setEnabled(true);
+                    tujuanSpinner.setEnabled(true);
+                    asalSpinner.setClickable(true);
+                    tujuanSpinner.setClickable(true);
+                    String nama = adapterView.getItemAtPosition(i).toString();
+                    deleteList(asalList);
+                    if (!stasiunListAll.isEmpty()) {
+                        stasiunListAll.clear();
                     }
-                }
-                for (int x = 0; x < trackList.size() - 1; x++) {
-                    asalList.add(dbStasiun.getStasiunByName(trackList.get(x)));
-                }
-                ArrayAdapter<Stasiun> asalArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), android.R.layout.simple_spinner_item, asalList);
-                asalSpinner.setAdapter(asalArrayAdapter);
-                asalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        deleteList(tujuanList);
-
-                        for (int x = 0; x < trackList.size(); x++) {
-                            tujuanList.add(dbStasiun.getStasiunByName(trackList.get(x)));
+                    for (int x = 0; x < kereta.size(); x++) {
+                        if (kereta.get(i).getNama().equals(nama)) {
+                            selectedKereta = kereta.get(i);
+                            trackList = selectedKereta.getTrack();
+                            break;
                         }
-                        int x = 0;
-                        while (x <= asalSpinner.getSelectedItemPosition()) {
-                            tujuanList.remove(0);
-                            x++;
-                        }
+                    }
+                    for (int x = 0; x < trackList.size() - 1; x++) {
+                        asalList.add(dbStasiun.getStasiunByName(trackList.get(x)));
+                    }
+                    ArrayAdapter<Stasiun> asalArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), android.R.layout.simple_spinner_item, asalList);
+                    asalSpinner.setAdapter(asalArrayAdapter);
+                    asalSpinner.setSelection(0);
+                    asalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            deleteList(tujuanList);
 
-                        ArrayAdapter<Stasiun> tujuanArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), android.R.layout.simple_spinner_item, tujuanList);
-                        tujuanSpinner.setAdapter(tujuanArrayAdapter);
-                        tujuanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                if(!stasiunListAll.isEmpty()){
-                                    stasiunListAll.clear();
-                                }
-                                //stasiunListAll.addAll(asalSpinner);
-                                Stasiun tujuanTemp = dbStasiun.getStasiunByName(tujuanSpinner.getSelectedItem().toString());
-                                Log.d("stasiunname", tujuanTemp.getNama());
-                                for(int j = asalSpinner.getSelectedItemPosition(); j < asalSpinner.getAdapter().getCount(); j++){
-                                    Stasiun stasiunTemp = dbStasiun.getStasiunByName(asalSpinner.getItemAtPosition(j).toString());
-                                    if(stasiunTemp.equals(tujuanTemp)){
-                                        break;
+                            for (int x = 0; x < trackList.size(); x++) {
+                                tujuanList.add(dbStasiun.getStasiunByName(trackList.get(x)));
+                            }
+                            int x = 0;
+                            while (x <= asalSpinner.getSelectedItemPosition()) {
+                                tujuanList.remove(0);
+                                x++;
+                            }
+
+                            ArrayAdapter<Stasiun> tujuanArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), android.R.layout.simple_spinner_item, tujuanList);
+                            tujuanSpinner.setAdapter(tujuanArrayAdapter);
+                            tujuanSpinner.setSelection(tujuanList.size() - 1);
+                            tujuanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                    if (!stasiunListAll.isEmpty()) {
+                                        stasiunListAll.clear();
                                     }
-                                    stasiunListAll.add(stasiunTemp);
+                                    //stasiunListAll.addAll(asalSpinner);
+                                    Stasiun tujuanTemp = dbStasiun.getStasiunByName(tujuanSpinner.getSelectedItem().toString());
+                                    Log.d("stasiunname", tujuanTemp.getNama());
+                                    for (int j = asalSpinner.getSelectedItemPosition(); j < asalSpinner.getAdapter().getCount(); j++) {
+                                        Stasiun stasiunTemp = dbStasiun.getStasiunByName(asalSpinner.getItemAtPosition(j).toString());
+                                        if (stasiunTemp.equals(tujuanTemp)) {
+                                            break;
+                                        }
+                                        stasiunListAll.add(stasiunTemp);
+                                    }
+                                    stasiunListAll.add(tujuanTemp);
                                 }
-                                stasiunListAll.add(tujuanTemp);
-                            }
 
-                            @Override
-                            public void onNothingSelected(AdapterView<?> adapterView) {
+                                @Override
+                                public void onNothingSelected(AdapterView<?> adapterView) {
 
-                            }
-                        });
-                    }
+                                }
+                            });
+                        }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
 
-                    }
-                });
+                        }
+                    });
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -304,20 +306,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==this.searchBtn.getId()){
+        if(view.getId()==this.searchBtn.getId() && (asalSpinner.getSelectedItemPosition() > -1 && tujuanSpinner.getSelectedItemPosition() > -1)){
             double distance = 0;
-            /** for(int i = 0; i < asalList.size() ; i++){
-             stasiunAwal = asalList.get(i);
-             if(stasiunAwal.getNama().equals(asalSpinner.getSelectedItem().toString())){
-             break;
-             }
-             }
-             for(int i = 0; i < tujuanList.size(); i++){
-             stasiunAkhir = tujuanList.get(i);
-             if(stasiunAkhir.getNama().equals(tujuanSpinner.getSelectedItem().toString())){
-             break;
-             }
-             } */
 
             stasiunAwal=(Stasiun)asalSpinner.getSelectedItem();
             stasiunAkhir=(Stasiun)tujuanSpinner.getSelectedItem();
@@ -325,27 +315,17 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             Log.d("Stasiun", stasiunAwal.getLatitude() + " " + stasiunAwal.getLongitude());
             Log.d("Stasiun", stasiunAkhir.getLatitude() + " " + stasiunAkhir.getLongitude());
 
-            //if(awal != null || tujuan != null){
-                //awal.remove();
             mMap.clear();
             if(!markerList.isEmpty()){
-                //poly.remove();
                 Log.d("markerlog", "polylog");
             }
-            //markerList.clear();
             while(!markerList.isEmpty()){
-                //
-                // markerList.get(0).remove();
                 markerList.remove(0);
                 Log.d("markerlog", "markerlog");
             }
-            //tujuan.remove();
-            //}
 
             LatLng koorAwal = new LatLng(stasiunAwal.getLatitude(),stasiunAwal.getLongitude());
             LatLng koorAkhir = new LatLng(stasiunAkhir.getLatitude(),stasiunAkhir.getLongitude());
-            //awal = mMap.addMarker(new MarkerOptions().position(koorAwal));
-            //tujuan = mMap.addMarker(new MarkerOptions().position(koorAkhir));
 
             for (int i = 0; i< stasiunListAll.size()-1;i++){
                 LatLng first = new LatLng(stasiunListAll.get(i).getLatitude(),stasiunListAll.get(i).getLongitude());
@@ -386,16 +366,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
             mMap.animateCamera(cu);
-            /** for(int i = 0; !temp2.getNama().equals(stasiunAkhir.getNama()); i++){
-             distance += jarak.getDistance(temp1.getLatitude(), temp1.getLongitude(), temp2.getLatitude(), temp2.getLongitude());
-             temp1 = temp2;
-             temp2 = tujuanList.get(i);
-             }
-             */
-
-            /*for(int i = 0; i <= tujuanList.indexOf(stasiunAkhir) - 1; i++){
-                distance += jarak.getDistance(asalList.get(i).getLatitude(), asalList.get(i).getLongitude(), asalList.get(i + 1).getLatitude(), asalList.get(i + 1).getLongitude());
-            }*/
 
             distance=jarak.getDistance(stasiunAwal.getLatitude(),stasiunAwal.getLongitude(),stasiunAkhir.getLatitude(),stasiunAkhir.getLongitude());
             Log.d("Distance", String.format("%.2f", (distance / 1000)));
@@ -430,10 +400,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-
         LatLng myPosition;
-        //  mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 
 
         System.out.println("sebelum permission");
@@ -461,9 +428,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             }
 
         }
-        //if(!isAlarmSet){
-        //    cancelAlarm();
-        //}
         mMap.setMyLocationEnabled(true);
         try{
             LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
