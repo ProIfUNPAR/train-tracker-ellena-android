@@ -481,18 +481,18 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             System.out.println("1");
         }
         else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !isAlarmSet){
-            Toast.makeText(getActivity().getApplicationContext(),"Alarm is already set",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(),"Alarm sudah dinyalakan",Toast.LENGTH_LONG).show();
             isAlarmSet = true;
             System.out.println("2");
         }
         else {
-            Toast.makeText(getActivity().getApplicationContext(), "Cannot set alarm.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Alarm tidak dapat dinyalakan.", Toast.LENGTH_LONG).show();
         }
     }
 
     public void noGPSAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(true)
+        builder.setMessage("GPS dalam kondisi mati. Mohon nyalakan GPS").setCancelable(true)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -509,7 +509,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     public void noInternetAlert() {
         if(getContext() != null) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("Internet is disabled. Please connect to internet using Wi-Fi or Mobile Data.").setCancelable(true)
+            builder.setMessage("Tidak dapat terhubung ke internet. Mohon nyalakan layanan Wi-Fi atau data seluler").setCancelable(true)
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

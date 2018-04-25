@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.commit();
 
         navigationView.setCheckedItem(R.id.navigation_directions);
-        getSupportActionBar().setTitle("Directions");
+        getSupportActionBar().setTitle("Peta");
     }
 
 
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(this.checkSpeedFragment);
             }
             checkProvider();
-            getSupportActionBar().setTitle("Directions");
+            getSupportActionBar().setTitle("Peta");
         }
         else if (id == R.id.navigation_schedule) {
             if(this.scheduleFragment.isAdded()){
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.checkSpeedFragment.isAdded()){
                 ft.hide(this.checkSpeedFragment);
             }
-            getSupportActionBar().setTitle("Schedule");
+            getSupportActionBar().setTitle("Jadwal");
             checkProvider();
         }
         else if (id == R.id.navigation_speed) {
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.scheduleFragment.isAdded()){
                 ft.hide(this.scheduleFragment);
             }
-            getSupportActionBar().setTitle("Check Speed");
+            getSupportActionBar().setTitle("Cek Jarak, Kecepatan & Waktu");
             checkProvider();
         }
 
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void noGPSAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(false)
+        builder.setMessage("GPS dalam kondisi mati. Mohon nyalakan GPS").setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void noInternetAlert() {
         if(this != null) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Internet is disabled. Please connect to internet using Wi-Fi or Mobile Data.").setCancelable(false)
+            builder.setMessage("Tidak dapat terhubung ke internet. Mohon nyalakan layanan Wi-Fi atau data seluler").setCancelable(false)
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -263,15 +263,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("debugCheckSpeed", jarak + " " + time);
         double tempJarak = jarak / 1000;
         double tempJarak2 = jarakNext / 1000;
-        String jarakS = String.format("%.2f km", tempJarak);
-        String jarakS2 = String.format("%.2f km", tempJarak2);
-        String kecepatanString = String.format("%.2f", kecepatan);
+        String jarakS = String.format("%.1f km", tempJarak);
+        String jarakS2 = String.format("%.1f km", tempJarak2);
+        int kecepatanInt = (int) Math.round(kecepatan);
+        String kecepatanString = kecepatanInt + " km/jam";
         Bundle bundle = new Bundle();
         bundle.putString("jarak", jarakS);
         bundle.putString("waktu", time);
         bundle.putString("jarakNext", jarakS2);
         bundle.putString("waktuNext", waktuNext);
-        bundle.putString("kecepatan", String.valueOf(kecepatan));
+        bundle.putString("kecepatan", kecepatanString);
         this.checkSpeedFragment.getArguments().putAll(bundle);
         //this.checkSpeedFragment = CheckspeedFragment.newInstance(String.valueOf(jarak), time);
         this.checkSpeedFragment.setEverything();
