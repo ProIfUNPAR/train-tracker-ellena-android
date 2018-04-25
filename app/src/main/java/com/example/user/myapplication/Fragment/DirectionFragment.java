@@ -170,7 +170,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         asalSpinner.setEnabled(false);
         tujuanSpinner.setEnabled(false);
 
-        ArrayAdapter<Kereta> keretaArrayAdapter = new ArrayAdapter<Kereta>(getContext(), android.R.layout.simple_spinner_item, kereta);
+        ArrayAdapter<Kereta> keretaArrayAdapter = new ArrayAdapter<Kereta>(getContext(), R.layout.spinner_list_items, kereta);
         keretaSpinner.setAdapter(keretaArrayAdapter);
         keretaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -195,7 +195,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     for (int x = 0; x < trackList.size() - 1; x++) {
                         asalList.add(dbStasiun.getStasiunByName(trackList.get(x)));
                     }
-                    ArrayAdapter<Stasiun> asalArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), android.R.layout.simple_spinner_item, asalList);
+                    ArrayAdapter<Stasiun> asalArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), R.layout.spinner_list_items, asalList);
                     asalSpinner.setAdapter(asalArrayAdapter);
                     asalSpinner.setSelection(0);
                     asalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -212,7 +212,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                                 x++;
                             }
 
-                            ArrayAdapter<Stasiun> tujuanArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), android.R.layout.simple_spinner_item, tujuanList);
+                            ArrayAdapter<Stasiun> tujuanArrayAdapter = new ArrayAdapter<Stasiun>(getContext(), R.layout.spinner_list_items, tujuanList);
                             tujuanSpinner.setAdapter(tujuanArrayAdapter);
                             tujuanSpinner.setSelection(tujuanList.size() - 1);
                             tujuanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

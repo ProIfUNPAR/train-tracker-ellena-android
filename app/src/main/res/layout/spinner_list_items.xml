@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/direction_margin"
+    android:paddingBottom="@dimen/direction_margin"
+    android:paddingLeft="@dimen/direction_margin"
+    android:paddingRight="@dimen/direction_margin"
+    />
