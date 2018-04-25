@@ -2,9 +2,9 @@
     <string name="app_name">Train Tracker</string>
     <string name="button">Button</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_Directions">Directions</string>
+    <string name="title_Directions">Peta</string>
     <string name="title_Alarm">Alarm</string>
-    <string name="title_Checkspeed">Check Speed</string>
+    <string name="title_Checkspeed">Cek Kecepatan</string>
     <string name="search_bar1">Pilih Stasiun Keberangkatan</string>
 
     <string-array name="OptionAlarm">
