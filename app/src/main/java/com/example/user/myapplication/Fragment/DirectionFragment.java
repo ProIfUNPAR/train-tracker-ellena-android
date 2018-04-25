@@ -104,7 +104,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     //double jarakResult;
 
     protected Stasiun stasiunAwal, stasiunAkhir;
-    protected boolean isAlarmSet;
+    protected boolean isAlarmSet,isAlarm2Set;
 
     static final int NO_GPS_MESSAGE = 1;
     static final int NO_INTERNET_MESSAGE = 2;
@@ -456,7 +456,9 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         this.alarmIntent = new Intent(getActivity(),AlarmNotificationReceiver.class);
         this.pendingIntent = PendingIntent.getBroadcast(getContext(),0,alarmIntent,0);
         this.alarmFlag = true;
-        this.alarmSwitch.setChecked(false);
+        if(!isAlarm2Set) {
+            this.alarmSwitch.setChecked(false);
+        }
         // 1 minutes = 60.000 millis
         manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }

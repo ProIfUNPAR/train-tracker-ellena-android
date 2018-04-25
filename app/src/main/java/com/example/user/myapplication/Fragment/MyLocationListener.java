@@ -108,15 +108,16 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
 
         dirFragment.listener.setSpeedETA(jarakResult, time, jarakKeStasiunTerdekat, time2, speed);
 
-        if(jarakResult>0 && jarakResult/1000<=2 && dirFragment.isAlarmSet) {
+        if(jarakResult>0 && jarakResult/1000<=5 && dirFragment.isAlarmSet) {
             DirectionFragment.jenisAlarm = 1;
-            dirFragment.startAlarm();
-
-        }
-        if(jarakResult>0 && jarakResult/1000<=0.5 && dirFragment.isAlarmSet){
-            DirectionFragment.jenisAlarm = 0;
+            dirFragment.isAlarm2Set = true;
             dirFragment.startAlarm();
             dirFragment.isAlarmSet = false;
+        }
+        if(jarakResult>0 && jarakResult/1000<=1 && dirFragment.isAlarm2Set){
+            DirectionFragment.jenisAlarm = 0;
+            dirFragment.isAlarm2Set = false;
+            dirFragment.startAlarm();
         }
     }
 
