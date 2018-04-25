@@ -370,6 +370,9 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             distance=jarak.getDistance(stasiunAwal.getLatitude(),stasiunAwal.getLongitude(),stasiunAkhir.getLatitude(),stasiunAkhir.getLongitude());
             Log.d("Distance", String.format("%.2f", (distance / 1000)));
         }
+        else{
+            Toast.makeText(getContext(), "Kereta belum dipilih", Toast.LENGTH_LONG).show();
+        }
     }
 
     public Stasiun getStasiunAwal(){
