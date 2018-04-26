@@ -97,6 +97,41 @@
             android:layout_marginLeft="30dp"
             />
 
+        <TextView
+            android:id="@+id/tv_namaStasiun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_jarak"
+            android:layout_alignStart="@+id/tv_jarak"
+            android:layout_below="@+id/tv_time"
+            android:text="@string/text_namaStasiun"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_marginTop="1.5dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_titikDua6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="44.7dp"
+            android:layout_toEndOf="@id/tv_time"
+            android:layout_toRightOf="@id/tv_time"
+            android:layout_below="@id/tv_titikDua2"
+            android:text="@string/text_titikDua"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            />
+
+        <TextView
+            android:id="@+id/tv_namaStasiun_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_toEndOf="@+id/tv_titikDua2"
+            android:layout_toRightOf="@+id/tv_time"
+            android:layout_below="@id/tv_time_result"
+            android:layout_marginLeft="30dp"
+            />
+
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -154,6 +189,16 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         <TextView
+            android:id="@+id/tv_namaStasiunNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_jarakNext"
+            android:layout_alignStart="@+id/tv_jarakNext"
+            android:layout_below="@+id/tv_timeNext"
+            android:text="@string/text_namaStasiun"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <TextView
             android:id="@+id/tv_titikDua4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -161,6 +206,18 @@
             android:layout_toEndOf="@id/tv_timeNext"
             android:layout_toRightOf="@id/tv_timeNext"
             android:layout_below="@id/tv_jarakNext"
+            android:text="@string/text_titikDua"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            />
+
+        <TextView
+            android:id="@+id/tv_titikDua7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="44.7dp"
+            android:layout_toEndOf="@id/tv_timeNext"
+            android:layout_toRightOf="@id/tv_timeNext"
+            android:layout_below="@id/tv_titikDua4"
             android:text="@string/text_titikDua"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             />
@@ -185,6 +242,17 @@
             android:layout_toEndOf="@+id/tv_titikDua3"
             android:layout_toRightOf="@+id/tv_timeNext"
             android:layout_below="@id/tv_jarakNext"
+            android:layout_marginLeft="30dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_namaStasiunNext_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_toEndOf="@+id/tv_titikDua3"
+            android:layout_toRightOf="@+id/tv_timeNext"
+            android:layout_below="@id/tv_time_result2"
             android:layout_marginLeft="30dp"
             />
 

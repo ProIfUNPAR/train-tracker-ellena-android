@@ -69,6 +69,6 @@
         android:text="@string/text_no_data"
         android:textSize="18dp"
         android:visibility="invisible"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="7dp"
         />
 </RelativeLayout>
