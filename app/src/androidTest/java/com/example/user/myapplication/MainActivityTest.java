@@ -6,10 +6,13 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import com.example.user.myapplication.Fragment.DirectionFragment;
 import com.robotium.solo.Solo;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +22,6 @@ import static org.junit.Assert.*;
 public class MainActivityTest extends ActivityInstrumentationTestCase2 {
 
     private Solo solo;
-    private DirectionFragment dir = new DirectionFragment();
 
     public MainActivityTest() {
         super(MainActivity.class);
@@ -35,24 +37,35 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
     public void test(){
         //implementasi untuk automated testing
 
-        //Looping masih error g bisa ambil jumlah kereta sm stasiun di list
         //Asumsi GPS dan Internet nyala. Belom nanganin kl ada dialog GPS atau network
-        /**
-        for (int i = 0;i< dir.getKeretaSpinner();i++){
-            solo.pressSpinnerItem(0,i);
+
+        ArrayList<Spinner> spin = solo.getCurrentViews(Spinner.class);
+        Spinner kereta = spin.get(0);
+
+        for (int i = 0;i< kereta.getCount();i++){
+            solo.pressSpinnerItem(0,1);
             solo.sleep(1000);
-            for (int j = 0;j< dir.getStasiunAwalSpinner();j++){
-                solo.pressSpinnerItem(1,j);
-                solo.sleep(1000);
-                for (int k = 0;k< dir.getStasiunAkhirSpinner();k++){
-                    solo.pressSpinnerItem(2,k);
-                    solo.sleep(2000);
+
+            spin = solo.getCurrentViews(Spinner.class);
+            Spinner asal = spin.get(1);
+
+            for (int j = 0;j< asal.getCount();j++){
+                Spinner akhir = spin.get(2);
+                for (int k = 0;k< akhir.getCount();k++){
                     solo.clickOnButton("Set Stasiun");
+                    solo.sleep(2000);
+                    solo.pressSpinnerItem(2,-1);
+                    solo.sleep(1000);
                 }
+                solo.pressSpinnerItem(1,1);
+                solo.sleep(1000);
+                spin = solo.getCurrentViews(Spinner.class);
             }
         }
-         */
+
         //pilih kereta sm stasiun
+
+        /**
         solo.pressSpinnerItem(0,20);
         solo.sleep(1000);
         solo.pressSpinnerItem(1,3);
@@ -62,6 +75,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnButton("Set Stasiun");
         solo.sleep(4000);
         solo.sleep(1000);
+         */
 
         //schedule
         swipeRight();
