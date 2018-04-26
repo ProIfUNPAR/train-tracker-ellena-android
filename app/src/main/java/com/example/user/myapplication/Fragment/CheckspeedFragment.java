@@ -21,7 +21,6 @@ public class CheckspeedFragment extends Fragment {
 
 
     FragmentListener listener;
-    //public Button but2;
 
     protected TextView tvJarak;
     protected TextView tvWaktu;
@@ -55,14 +54,16 @@ public class CheckspeedFragment extends Fragment {
         args.putString("jarakNext", "Belum ada data");
         args.putString("waktuNext", "Belum ada data");
         args.putString("kecepatan", "Belum ada data");
-        args.putString("stasiun","Belum ada data");
+        args.putString("stasiunAwal","Belum ada data");
+        args.putString("stasiunAkhir","Belum ada data");
         args.putString("stasiunNext","Belum ada data");
 
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static CheckspeedFragment newInstance(String jarak, String waktu,String stasiun, String jarakNext, String waktuNext,String stasiunNext, String kecepatan) {
+    public static CheckspeedFragment newInstance(String jarak, String waktu, String jarakNext, String waktuNext, String kecepatan,
+                                                 String stasiunAwal, String stasiunAkhir, String stasiunNext) {
         CheckspeedFragment fragment = new CheckspeedFragment();
         Bundle args = new Bundle();
         args.putString("jarak", jarak);
@@ -70,7 +71,8 @@ public class CheckspeedFragment extends Fragment {
         args.putString("jarakNext", jarakNext);
         args.putString("waktuNext", waktuNext);
         args.putString("kecepatan", kecepatan);
-        args.putString("stasiun", stasiun);
+        args.putString("stasiunAwal", stasiunAwal);
+        args.putString("stasiunAkhir", stasiunAkhir);
         args.putString("stasiunNext", stasiunNext);
         fragment.setArguments(args);
         return fragment;
@@ -88,8 +90,6 @@ public class CheckspeedFragment extends Fragment {
         this.tvStasiun = view.findViewById(R.id.tv_namaStasiun_result);
         this.tvStasiunNext = view.findViewById(R.id.tv_namaStasiunNext_result);
 
-        //jarak = this.getArguments().getString("jarak", "");
-        //waktu = this.getArguments().getString("waktu", "");
         if(jarak == null){
             jarak = "Belum ada data";
         }
@@ -112,8 +112,6 @@ public class CheckspeedFragment extends Fragment {
             stasiunNext = "Belum ada data";
         }
 
-
-
         tvJarak.setText(jarak);
         tvWaktu.setText(waktu);
         tvJarakNext.setText(jarakNext);
@@ -122,24 +120,6 @@ public class CheckspeedFragment extends Fragment {
         tvStasiun.setText(stasiun);
         tvStasiunNext.setText(stasiunNext);
 
-        /*Button directionsButton = (Button) view.findViewById(R.id.checkspeed_button);
-        directionsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(),"Check Speed Button",Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
-        /*but2 = (Button) view.findViewById(R.id.checkspeed_button);
-        but2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent toy = new Intent(CheckspeedFragment.super.getContext(),ResultSearchActivity.class);
-                startActivity(toy);
-
-            }
-
-        });*/
         return  view;
     }
     public void setEverything(){
@@ -149,8 +129,8 @@ public class CheckspeedFragment extends Fragment {
         jarakNext = bundle.getString("jarakNext", "");
         waktuNext = bundle.getString("waktuNext", "");
         kecepatan = bundle.getString("kecepatan", "");
-        stasiun = bundle.getString("stasiun","");
-        stasiunNext = bundle.getString("stasiunNext","");
+        stasiun = bundle.getString("stasiunAwal", "") + " - " + bundle.getString("stasiunAkhir", "");
+        stasiunNext = bundle.getString("stasiunAwal", "") + " - " + bundle.getString("stasiunNext", "");
         if(isVisible()) {
             tvJarak.setText(jarak);
             tvWaktu.setText(waktu);
@@ -160,8 +140,6 @@ public class CheckspeedFragment extends Fragment {
             tvStasiun.setText(stasiun);
             tvStasiunNext.setText(stasiunNext);
         }
-        /*tvJarak.setText(jarak);
-        tvWaktu.setText(waktu);*/
     }
 
     public void setTvJarak(String s){

@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
+import com.example.user.myapplication.Database.Stasiun;
 import com.example.user.myapplication.Fragment.AlarmFragment;
 import com.example.user.myapplication.Fragment.CheckspeedFragment;
 import com.example.user.myapplication.Fragment.DirectionFragment;
@@ -110,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             showNoticeDialog();
         }
-        //moveTaskToBack(true);
     }
 
     @Override
@@ -229,9 +229,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        //Intent intent = getActivity().getIntent();
-                        //getActivity().finish();
-                        //startActivity(intent);
                     }
                 });
         final AlertDialog alert = builder.create();
@@ -257,9 +254,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void setSpeedETA(double jarak, String time, double jarakNext, String waktuNext, double kecepatan) {
-        //this.checkSpeedFragment.setTvJarak(String.valueOf(jarak));
-        //this.checkSpeedFragment.setTvWaktu(time);
+    public void setSpeedETA(double jarak, String time, double jarakNext, String waktuNext, double kecepatan,
+                            Stasiun stasiunAwal, Stasiun stasiunAkhir, Stasiun stasiunSelanjutnya) {
         Log.d("debugCheckSpeed", jarak + " " + time);
         double tempJarak = jarak / 1000;
         double tempJarak2 = jarakNext / 1000;
@@ -273,6 +269,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bundle.putString("jarakNext", jarakS2);
         bundle.putString("waktuNext", waktuNext);
         bundle.putString("kecepatan", kecepatanString);
+        if(stasiunAwal != null) {
+            bundle.putString("stasiunAwal", stasiunAwal.getNama());
+        }
+        else{
+            bundle.putString("stasiunAwal", "Stasiun Awal");
+        }
+        if(stasiunAkhir != null) {
+            bundle.putString("stasiunAkhir", stasiunAkhir.getNama());
+        }
+        else{
+            bundle.putString("stasiunAkhir", "Stasiun Akhir");
+        }
+        if(stasiunSelanjutnya != null) {
+            bundle.putString("stasiunNext", stasiunSelanjutnya.getNama());
+        }
+        else{
+            bundle.putString("stasiunNext", "Stasiun Berikutnya");
+        }
         this.checkSpeedFragment.getArguments().putAll(bundle);
         //this.checkSpeedFragment = CheckspeedFragment.newInstance(String.valueOf(jarak), time);
         this.checkSpeedFragment.setEverything();

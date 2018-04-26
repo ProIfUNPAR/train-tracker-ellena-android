@@ -90,24 +90,18 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     protected GoogleMap mMap;
     protected LocationManager locationManager;
-    //protected Marker mark;
-    protected Marker awal, tujuan;
     protected Distance jarak;
     protected Duration dur;
     protected Polyline poly;
     protected boolean alarmFlag;
-    //double latitude, longitude, speed;
 
     AlarmManager manager;
     Intent alarmIntent;
     PendingIntent pendingIntent;
-    //double jarakResult;
 
-    protected Stasiun stasiunAwal, stasiunAkhir;
+    protected Stasiun stasiunAwal, stasiunAkhir, stasiunSelanjutnya;
     protected boolean isAlarmSet,isAlarm2Set;
 
-    static final int NO_GPS_MESSAGE = 1;
-    static final int NO_INTERNET_MESSAGE = 2;
 
     FragmentListener listener;
 
@@ -311,6 +305,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
             stasiunAwal=(Stasiun)asalSpinner.getSelectedItem();
             stasiunAkhir=(Stasiun)tujuanSpinner.getSelectedItem();
+            stasiunSelanjutnya = (Stasiun) tujuanSpinner.getItemAtPosition(0);
 
             Log.d("Stasiun", stasiunAwal.getLatitude() + " " + stasiunAwal.getLongitude());
             Log.d("Stasiun", stasiunAkhir.getLatitude() + " " + stasiunAkhir.getLongitude());
@@ -332,7 +327,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                 LatLng last = new LatLng(stasiunListAll.get(i+1).getLatitude(),stasiunListAll.get(i+1).getLongitude());
                 Marker stasiun1;
                 if(i == 0){
-                    stasiun1 = mMap.addMarker(new MarkerOptions().position(first).title("Start"));
+                    stasiun1 = mMap.addMarker(new MarkerOptions().position(first).title("Mulai"));
                     stasiun1.showInfoWindow();
                 }
                 else{
@@ -340,7 +335,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                 }
                 Marker stasiun2;
                 if(i == stasiunListAll.size() - 2){
-                    stasiun2 = mMap.addMarker(new MarkerOptions().position(last).title("Finish"));
+                    stasiun2 = mMap.addMarker(new MarkerOptions().position(last).title("Berhenti"));
                 }
                 else {
                     stasiun2 = mMap.addMarker(new MarkerOptions().position(last));
@@ -381,6 +376,10 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     public Stasiun getStasiunAkhir(){
         return stasiunAkhir;
+    }
+
+    public Stasiun getStasiunSelanjutnya(){
+        return stasiunSelanjutnya;
     }
 
     public Distance getJarak(){
@@ -500,9 +499,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        //Intent intent = getActivity().getIntent();
-                        //getActivity().finish();
-                        //startActivity(intent);
                     }
                 });
         final AlertDialog alert = builder.create();
@@ -517,9 +513,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
-                            //Intent intent = getActivity().getIntent();
-                            //getActivity().finish();
-                            //startActivity(intent);
                         }
                     });
             final AlertDialog alert = builder.create();
