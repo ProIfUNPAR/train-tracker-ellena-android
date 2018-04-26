@@ -8,20 +8,14 @@
     <string name="search_bar1">Pilih Stasiun Keberangkatan</string>
 
     <string-array name="OptionAlarm">
-        <item>Choose Mode</item>
-        <item>Choose Ringtone</item>
+        <item>Pilih Mode</item>
+        <item>Pilih Ringtone</item>
     </string-array>
 
     <string-array name="OptionAlarmMode">
-        <item>Just Vibrate</item>
-        <item>Just Alarm</item>
-        <item>Alarm and Vibrate</item>
-    </string-array>
-
-    <string-array name="OptionRingtoneMode">
-        <item>Default</item>
-        <item>Lucky1</item>
-        <item>Lucky2</item>
+        <item>Mode getar saja</item>
+        <item>Mode suara saja</item>
+        <item>Mode suara dan getar</item>
     </string-array>
 
     <string-array name="StationName">
@@ -33,6 +27,11 @@
         <item>Stasiun 6, Jember</item>
     </string-array>
 
+    <string-array name="OptionRingtoneMode">
+        <item>Default</item>
+        <item>Lucky1</item>
+        <item>Lucky2</item>
+    </string-array>
 
     <string name="title_activity_maps">Peta</string>
     <string name="settings">Pengaturan</string>
