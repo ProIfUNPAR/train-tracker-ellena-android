@@ -81,7 +81,7 @@ public class Activity extends AppCompatActivity {
 
     private void noGPSAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("GPS is disabled. Please turn on GPS.").setCancelable(false)
+        builder.setMessage("GPS dalam kondisi mati. Mohon nyalakan GPS").setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -97,7 +97,7 @@ public class Activity extends AppCompatActivity {
 
     private void noInternetAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Internet is disabled. Please connect to internet using Wi-Fi or Mobile Data.").setCancelable(false)
+        builder.setMessage("Tidak dapat terhubung ke internet. Mohon nyalakan layanan Wi-Fi atau data seluler").setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

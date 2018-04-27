@@ -1,7 +1,10 @@
 package com.example.user.myapplication;
 
+import android.app.*;
+import android.content.Context;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.net.ConnectivityManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
 import android.view.View;
@@ -12,6 +15,8 @@ import android.widget.SpinnerAdapter;
 import com.example.user.myapplication.Fragment.DirectionFragment;
 import com.robotium.solo.Solo;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -34,8 +39,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
         solo = new Solo(getInstrumentation(),getActivity());
     }
 
-    public void test(){
-        //implementasi untuk automated testing
+
+    //kl error hapus throwsnya sm method turnOnMobileData()
+    public void testPilihKeretaDanStasiun() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        turnOnMobileData();
 
         //Asumsi GPS dan Internet nyala. Belom nanganin kl ada dialog GPS atau network
 
@@ -62,22 +69,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
                 spin = solo.getCurrentViews(Spinner.class);
             }
         }
+    }
 
-        //pilih kereta sm stasiun
-
-        /**
-        solo.pressSpinnerItem(0,20);
-        solo.sleep(1000);
-        solo.pressSpinnerItem(1,3);
-        solo.sleep(1000);
-        solo.pressSpinnerItem(2,0);
-        solo.sleep(1000);
-        solo.clickOnButton("Set Stasiun");
-        solo.sleep(4000);
-        solo.sleep(1000);
-         */
-
-        //schedule
+    public void testSchedule(){
         swipeRight();
         solo.sleep(1000);
         solo.clickOnText("Jadwal");
@@ -103,9 +97,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
         View view = solo.getView("iv_get_schedule_btn");
         solo.clickOnView(view);
         solo.sleep(2000);
+    }
 
-        //alarm
-
+    public void testAlarm(){
         swipeRight();
         solo.sleep(1000);
         solo.clickOnText("Alarm");
@@ -130,7 +124,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
         solo.sleep(1000);
         solo.goBack();
 
-        //nyalain alarm
+        //nyalain alarm dan matiin alarm
         swipeRight();
         solo.sleep(1000);
         solo.clickOnText("Peta");
@@ -138,8 +132,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnToggleButton("Alarm");
         solo.sleep(1000);
         solo.clickOnToggleButton("Alarm");
+    }
 
-        //cek speed
+    public void testCheckSpeed(){
         swipeRight();
         solo.sleep(1000);
         solo.clickOnText("Cek Kecepatan");
@@ -149,6 +144,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnText("Tidak");
         solo.goBack();
         solo.clickOnText("Ya");
+    }
+
+    private void turnOnMobileData() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        ConnectivityManager mobile = (ConnectivityManager) solo.getCurrentActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        Method data = ConnectivityManager.class.getDeclaredMethod("setMobileDataEnabled",boolean.class);
+        data.setAccessible(true);
+        data.invoke(mobile ,true);
 
     }
 
