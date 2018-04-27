@@ -21,16 +21,17 @@
     <LinearLayout
         android:id="@+id/stasiun_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/direction_margin"
-        android:layout_below="@id/kereta_list">
+        android:layout_below="@id/kereta_list"
+        android:gravity="center">
         <com.example.user.myapplication.NoDefaultSpinner
             android:id="@+id/asal_list"
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_marginRight="@dimen/direction_margin_right"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:prompt="@string/text_select_awal"
             android:clickable="false"/>
         <com.example.user.myapplication.NoDefaultSpinner
@@ -38,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_weight="3"
             android:layout_marginRight="@dimen/direction_margin_right"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:prompt="@string/text_select_akhir"
             android:clickable="false"/>
     </LinearLayout>
