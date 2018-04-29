@@ -29,6 +29,9 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:layout_below="@id/tv_jarakTotal"
             android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+
+
             />
 
         <TextView
@@ -86,6 +89,7 @@
             android:layout_below="@id/tv_jarakTotal"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
             />
 
         <TextView
@@ -97,6 +101,7 @@
             android:layout_toRightOf="@+id/tv_time"
             android:layout_below="@id/tv_jarak"
             android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
             />
 
         <TextView
@@ -132,6 +137,7 @@
             android:layout_toRightOf="@+id/tv_time"
             android:layout_below="@id/tv_time_result"
             android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
             />
 
     </RelativeLayout>
@@ -165,6 +171,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:layout_below="@id/tv_jarakNextStasiun"
             android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
             />
 
         <TextView
@@ -236,6 +243,7 @@
             android:layout_below="@id/tv_jarakNextStasiun"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
             />
 
         <TextView
@@ -247,6 +255,7 @@
             android:layout_toRightOf="@+id/tv_timeNext"
             android:layout_below="@id/tv_jarakNext"
             android:layout_marginLeft="30dp"
+            android:layout_marginRight="1dp"
             />
 
         <TextView
@@ -258,6 +267,7 @@
             android:layout_toRightOf="@+id/tv_timeNext"
             android:layout_below="@id/tv_time_result2"
             android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
             />
 
     </RelativeLayout>
@@ -273,16 +283,15 @@
             android:id="@+id/tv_kecepatan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="@string/text_kecepatan"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:gravity="center_horizontal"
             android:background="@color/endblue"
-            android:paddingTop="10px"
+            android:gravity="center_horizontal"
             android:paddingBottom="10px"
-            />
+            android:paddingTop="10px"
+            android:text="@string/text_kecepatan"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         <TextView
             android:id="@+id/tv_kecepatanKereta"
@@ -295,6 +304,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:layout_below="@id/tv_kecepatan"
             android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
             />
 
         <TextView
@@ -311,18 +321,17 @@
             />
 
 
-
         <TextView
             android:id="@+id/tv_kecepatan_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_below="@id/tv_kecepatan"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="0dp"
             android:layout_toEndOf="@+id/tv_titikDua5"
             android:layout_toRightOf="@+id/tv_kecepatanKereta"
-            android:layout_below="@id/tv_kecepatan"
-            android:layout_marginTop="0dp"
-            android:layout_marginLeft="30dp"
-            />
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 
 
