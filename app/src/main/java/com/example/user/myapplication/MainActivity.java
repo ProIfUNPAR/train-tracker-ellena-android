@@ -223,16 +223,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void noGPSAlert() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("GPS dalam kondisi mati. Mohon nyalakan GPS").setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
+        if(this != null) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("GPS dalam kondisi mati. Mohon nyalakan GPS").setCancelable(false)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     public void noInternetAlert() {

@@ -423,6 +423,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
                 final LatLng coordinate = new LatLng(latitude, longitude);
+                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.5f);
+                mMap.animateCamera(yourLocation);
 
                 mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
                     @Override
