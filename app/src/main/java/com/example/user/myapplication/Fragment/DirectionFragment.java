@@ -109,7 +109,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     public static int jenisAlarm;
 
     public DirectionFragment(){
-        Log.d("debuginit", "avv");
     }
 
 
@@ -215,7 +214,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                                     if (!stasiunListAll.isEmpty()) {
                                         stasiunListAll.clear();
                                     }
-                                    //stasiunListAll.addAll(asalSpinner);
                                     Stasiun tujuanTemp = dbStasiun.getStasiunByName(tujuanSpinner.getSelectedItem().toString());
                                     Log.d("stasiunname", tujuanTemp.getNama());
                                     for (int j = asalSpinner.getSelectedItemPosition(); j < asalSpinner.getAdapter().getCount(); j++) {
@@ -279,7 +277,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, loclistenerGPS);
         }
-        //thread.start();
 
         return view;
     }
@@ -301,22 +298,18 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if(view.getId()==this.searchBtn.getId() && (asalSpinner.getSelectedItemPosition() > -1 && tujuanSpinner.getSelectedItemPosition() > -1)){
-            double distance = 0;
+            double distance;
 
             stasiunAwal=(Stasiun)asalSpinner.getSelectedItem();
             stasiunAkhir=(Stasiun)tujuanSpinner.getSelectedItem();
             stasiunSelanjutnya = (Stasiun) tujuanSpinner.getItemAtPosition(0);
 
-            Log.d("Stasiun", stasiunAwal.getLatitude() + " " + stasiunAwal.getLongitude());
-            Log.d("Stasiun", stasiunAkhir.getLatitude() + " " + stasiunAkhir.getLongitude());
-
             mMap.clear();
             if(!markerList.isEmpty()){
-                Log.d("markerlog", "polylog");
+
             }
             while(!markerList.isEmpty()){
                 markerList.remove(0);
-                Log.d("markerlog", "markerlog");
             }
 
             LatLng koorAwal = new LatLng(stasiunAwal.getLatitude(),stasiunAwal.getLongitude());
@@ -363,7 +356,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             mMap.animateCamera(cu);
 
             distance=jarak.getDistance(stasiunAwal.getLatitude(),stasiunAwal.getLongitude(),stasiunAkhir.getLatitude(),stasiunAkhir.getLongitude());
-            Log.d("Distance", String.format("%.2f", (distance / 1000)));
         }
         else{
             Toast.makeText(getContext(), "Kereta belum dipilih", Toast.LENGTH_LONG).show();
@@ -390,10 +382,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         return dur;
     }
 
-    public FragmentListener getListener(){
-        return listener;
-    }
-
     public ArrayList<Marker> getMarkerList(){
         return markerList;
     }
@@ -401,12 +389,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        LatLng myPosition;
-
-
-        System.out.println("sebelum permission");
-
         int MY_PERMISSION_LOCATION = 10;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
@@ -432,7 +414,7 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         }
         mMap.setMyLocationEnabled(true);
         try{
-            LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
+            final LocationManager locationManager = (LocationManager) (getActivity().getSystemService(LOCATION_SERVICE));
             MyLocationListener loclistener = new MyLocationListener(this, mMap);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, loclistener);
             Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -440,16 +422,26 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             if (location != null) {
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
-                LatLng latLng = new LatLng(latitude, longitude);
-                myPosition = new LatLng(latitude, longitude);
+                final LatLng coordinate = new LatLng(latitude, longitude);
 
-                System.out.println("masuk");
-                LatLng coordinate = new LatLng(latitude, longitude);
-                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.5f);
-                mMap.animateCamera(yourLocation);}
+                mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                    @Override
+                    public boolean onMyLocationButtonClick() {
+                        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                            noGPSAlert();
+                        }
+                        else{
+                            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.5f);
+                            mMap.animateCamera(yourLocation);
+                        }
+                        return true;
+                    }
+                });
+
+                }
         }
         catch(Exception e){
-            Log.d("ErrorLog", "Error location");
+
         }
     }
 
@@ -519,4 +511,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             alert.show();
         }
     }
+
+
 }
