@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_jarakTotal"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:layout_toEndOf="@id/tv_jarak"
             android:layout_toRightOf="@id/tv_jarak"
             android:text="@string/text_titikDua"
@@ -72,6 +72,8 @@
             android:text="@string/text_jarakTotal"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:background="@color/endblue"
+            android:paddingBottom="10px"
+            android:paddingTop="10px"
             />
 
         <TextView
@@ -82,7 +84,7 @@
             android:layout_toEndOf="@+id/tv_titikDua"
             android:layout_toRightOf="@+id/tv_titikDua"
             android:layout_below="@id/tv_jarakTotal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:layout_marginLeft="30dp"
             />
 
@@ -149,6 +151,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:gravity="center"
             android:background="@color/endblue"
+            android:paddingTop="10px"
+            android:paddingBottom="10px"
             />
         <TextView
             android:id="@+id/tv_jarakNext"
@@ -173,7 +177,7 @@
             android:layout_below="@id/tv_jarakNextStasiun"
             android:text="@string/text_titikDua"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
 
             />
 
@@ -230,7 +234,7 @@
             android:layout_toEndOf="@+id/tv_titikDua3"
             android:layout_toRightOf="@+id/tv_jarakNext"
             android:layout_below="@id/tv_jarakNextStasiun"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:layout_marginLeft="30dp"
             />
 
@@ -276,6 +280,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:gravity="center_horizontal"
             android:background="@color/endblue"
+            android:paddingTop="10px"
+            android:paddingBottom="10px"
             />
 
         <TextView
@@ -301,7 +307,7 @@
             android:layout_below="@id/tv_kecepatan"
             android:text="@string/text_titikDua"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             />
 
 
@@ -314,7 +320,7 @@
             android:layout_toEndOf="@+id/tv_titikDua5"
             android:layout_toRightOf="@+id/tv_kecepatanKereta"
             android:layout_below="@id/tv_kecepatan"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:layout_marginLeft="30dp"
             />
 
