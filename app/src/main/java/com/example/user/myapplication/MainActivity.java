@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(this.scheduleFragment.isAdded()){
                 ft.hide(this.scheduleFragment);
             }
-            getSupportActionBar().setTitle("Cek Jarak, Kecepatan & Waktu");
+            getSupportActionBar().setTitle("Cek Kecepatan");
             checkProvider();
         }
 
