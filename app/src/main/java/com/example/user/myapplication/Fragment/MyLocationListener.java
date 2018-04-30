@@ -61,9 +61,7 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
         if (stasiunAkhir != null) {
 
             if(jarakKeStasiunTerdekat/1000 < 500 && (i - 1 < akhirList.size() || (i - 1 < akhirList.size() && !(akhirList.get(i - 1).equals(stasiunAkhir))))){
-                Log.d("debugstasiunterdekat", "masuk" + i);
                 i++;
-                Log.d("debugstasiunterdekat", "keluar" + i);
             }
             if(i < markerList.size()) {
                 jarakKeStasiunTerdekat = jarak.getDistance(latitude, longitude, markerList.get(i).getPosition().latitude, markerList.get(i).getPosition().longitude);
@@ -77,7 +75,6 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
         Stasiun stasiunSelanjutnya;
         if(markerList.size() > 0 && i < akhirList.size()) {
             stasiunSelanjutnya = akhirList.get(i - 1);
-            Log.d("haha", "if");
         }
         else if(markerList.size() <= 0){
             stasiunSelanjutnya = new Stasiun("kos" +
@@ -86,14 +83,11 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
                     "" +
                     "" +
                     "ong", "koosng", 0, 0);
-            Log.d("haha", "else if");
         }
         else{
             stasiunSelanjutnya = dirFragment.getStasiunSelanjutnya(akhirList.size()-1);
-            Log.d("haha", "else");
         }
 
-        Log.d("hoho", stasiunSelanjutnya.getNama());
         String time;
         String time2;
         if (speed != 0) {

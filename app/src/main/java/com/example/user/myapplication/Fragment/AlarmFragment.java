@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.user.myapplication.ListViewSecondActivity;
@@ -18,7 +17,6 @@ import com.example.user.myapplication.R;
 
 public class AlarmFragment extends Fragment {
 
-    Toolbar toolbar;
     ListView listViewAlarmMenu;
 
     public AlarmFragment() {

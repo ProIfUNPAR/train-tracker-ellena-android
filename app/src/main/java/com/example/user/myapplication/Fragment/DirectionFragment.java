@@ -1,10 +1,8 @@
 package com.example.user.myapplication.Fragment;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
-import android.location.LocationListener;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -13,12 +11,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -30,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -58,7 +51,6 @@ import com.example.user.myapplication.Database.DatabaseHelper;
 import com.example.user.myapplication.Database.Kereta;
 import com.example.user.myapplication.Database.Stasiun;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -215,7 +207,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                                         stasiunListAll.clear();
                                     }
                                     Stasiun tujuanTemp = dbStasiun.getStasiunByName(tujuanSpinner.getSelectedItem().toString());
-                                    Log.d("stasiunname", tujuanTemp.getNama());
                                     for (int j = asalSpinner.getSelectedItemPosition(); j < asalSpinner.getAdapter().getCount(); j++) {
                                         Stasiun stasiunTemp = dbStasiun.getStasiunByName(asalSpinner.getItemAtPosition(j).toString());
                                         if (stasiunTemp.equals(tujuanTemp)) {

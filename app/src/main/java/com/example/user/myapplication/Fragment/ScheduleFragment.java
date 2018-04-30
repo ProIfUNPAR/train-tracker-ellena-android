@@ -1,12 +1,10 @@
 package com.example.user.myapplication.Fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.user.myapplication.Database.DBKereta;
-import com.example.user.myapplication.Database.DBStasiun;
 import com.example.user.myapplication.Database.DatabaseHelper;
 import com.example.user.myapplication.Database.Kereta;
 import com.example.user.myapplication.Database.Stasiun;
@@ -40,15 +37,11 @@ public class ScheduleFragment extends Fragment implements Runnable, View.OnClick
     private TextView tvWarning;
     protected DatabaseHelper mDBHelper;
     protected DBKereta dbKereta;
-    protected DBStasiun dbStasiun;
     protected ArrayAdapter<Kereta> keretaAdapter;
     protected ScheduleListAdapter jadwalAdapter;
 
-    protected ArrayList<Stasiun> asalList;
-    protected ArrayList<Stasiun> tujuanList;
     protected ArrayList<Kereta> kereta;
     protected ArrayList<Stasiun> stasiun;
-    protected ArrayList<String> trackList;
     ArrayList<Kereta> tempKereta;
     ArrayList<String> tempSchedule;
     //Kereta dummy;
@@ -82,7 +75,6 @@ public class ScheduleFragment extends Fragment implements Runnable, View.OnClick
             }
         });
         this.ivButton.setOnClickListener(this);
-        //this.dummy = new Kereta("Data tidak ditemukan", new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
         return view;
     }
 
@@ -106,7 +98,6 @@ public class ScheduleFragment extends Fragment implements Runnable, View.OnClick
         }
         if(tempKereta.isEmpty()){
             tvWarning.setVisibility(View.VISIBLE);
-            //tempKereta.add(dummy);
         }
         else{
             tvWarning.setVisibility(View.INVISIBLE);
