@@ -289,8 +289,6 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if(view.getId()==this.searchBtn.getId() && (asalSpinner.getSelectedItemPosition() > -1 && tujuanSpinner.getSelectedItemPosition() > -1)){
-            double distance;
-
             stasiunAwal=(Stasiun)asalSpinner.getSelectedItem();
             stasiunAkhir=(Stasiun)tujuanSpinner.getSelectedItem();
             stasiunSelanjutnya = (Stasiun) tujuanSpinner.getItemAtPosition(0);

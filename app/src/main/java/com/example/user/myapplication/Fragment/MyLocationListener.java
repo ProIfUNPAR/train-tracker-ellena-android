@@ -60,7 +60,7 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
 
         if (stasiunAkhir != null) {
 
-            if(jarakKeStasiunTerdekat/1000 < 500 && (i - 1 < akhirList.size() || (i - 1 < akhirList.size() && !(akhirList.get(i - 1).equals(stasiunAkhir))))){
+            if(jarakKeStasiunTerdekat/1000 < 2 && (i - 1 < akhirList.size() || (i - 1 < akhirList.size() && !(akhirList.get(i - 1).equals(stasiunAkhir))))){
                 i++;
             }
             if(i < markerList.size()) {
