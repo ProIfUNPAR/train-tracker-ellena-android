@@ -60,7 +60,7 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
 
         if (stasiunAkhir != null) {
 
-            if(jarakKeStasiunTerdekat/1000 < 500 && i < akhirList.size() && (!(akhirList.get(i).equals(stasiunAkhir)))){
+            if(jarakKeStasiunTerdekat/1000 < 500 && (i - 1 < akhirList.size() || (i - 1 < akhirList.size() && !(akhirList.get(i - 1).equals(stasiunAkhir))))){
                 Log.d("debugstasiunterdekat", "masuk" + i);
                 i++;
                 Log.d("debugstasiunterdekat", "keluar" + i);
@@ -76,7 +76,7 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
         }
         Stasiun stasiunSelanjutnya;
         if(markerList.size() > 0 && i < akhirList.size()) {
-            stasiunSelanjutnya = akhirList.get(i);
+            stasiunSelanjutnya = akhirList.get(i - 1);
             Log.d("haha", "if");
         }
         else if(markerList.size() <= 0){
