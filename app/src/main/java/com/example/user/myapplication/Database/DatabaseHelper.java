@@ -27,11 +27,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        /*if (android.os.Build.VERSION.SDK_INT >= 17)
-            DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
-        else
-            DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";*/
-
         this.mContext = context;
 
         DB_PATH = this.mContext.getDatabasePath(DB_NAME).getPath();
@@ -45,17 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return mDataBase;
     }
 
-    public void updateDataBase() throws IOException {
-        if (mNeedUpdate) {
-            File dbFile = new File(DB_PATH + DB_NAME);
-            if (dbFile.exists())
-                dbFile.delete();
-
-            copyDataBase();
-
-            mNeedUpdate = false;
-        }
-    }
 
     private boolean checkDataBase() {
         File dbFile = new File(DB_PATH + DB_NAME);
@@ -76,7 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private void copyDBFile() throws IOException {
         InputStream mInput = mContext.getAssets().open(DB_NAME);
-        //InputStream mInput = mContext.getResources().openRawResource(R.raw.info);
         OutputStream mOutput = new FileOutputStream(DB_PATH + DB_NAME);
         byte[] mBuffer = new byte[1024];
         int mLength;
@@ -89,7 +72,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public boolean openDataBase() throws SQLException {
         mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        Log.d("Database", mDataBase.toString());
         return mDataBase != null;
     }
 

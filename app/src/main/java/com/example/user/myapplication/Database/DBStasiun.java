@@ -1,9 +1,7 @@
 package com.example.user.myapplication.Database;
 
 import android.database.Cursor;
-import android.util.Log;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +24,6 @@ public class DBStasiun {
     private void getStasiunFromDB(){
         mDBHelper.openDataBase();
 
-        //String query="SELECT * FROM stasiun";
 
         String query="SELECT stasiun.nama,kota.namaKota,stasiun.latitude,stasiun.longitude FROM stasiun INNER JOIN kota ON kota.idKota=stasiun.idKota";
         Cursor cursor = mDBHelper.getmDataBase().rawQuery(query, null);

@@ -1,7 +1,6 @@
 package com.example.user.myapplication.Database;
 
 import android.database.Cursor;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -26,17 +25,12 @@ public class DBKereta {
 
     private void getTrainsFromDB(){
         mDBHelper.openDataBase();
-        ArrayList<Kereta> trains= new ArrayList<Kereta>();
 
         String query="SELECT * FROM track";
         Cursor cursor = mDBHelper.getmDataBase().rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-
-                /*System.out.print(" "+cursor.getString(1)); //nama stasiun
-                System.out.println(" "+cursor.getString(2)); // jadwal dan track, stasiun msh dlm bentuk id*/
-
                 ArrayList<String> routes=new ArrayList<String>();
                 ArrayList<String> waktuBerangkat=new  ArrayList<String>();
                 ArrayList<String> waktuTiba=new  ArrayList<String>();
@@ -46,8 +40,7 @@ public class DBKereta {
 
                 String schedule = "";
                 boolean flag = true;
-              //  System.out.println("Raw : " + trackRaw);
-              //  System.out.print("Route : ");
+
                 for(int i = 0; i < trackRaw.length(); i++){
                     if(flag) {
                         if(trackRaw.charAt(i) != ';'){
@@ -60,7 +53,6 @@ public class DBKereta {
                             Cursor stasiunCur = mDBHelper.getmDataBase().rawQuery(stasiunQuery, null);
                             if(stasiunCur.moveToFirst()) {
                                 routes.add(stasiunCur.getString(1));
-                                //route += stasiunCur.getString(1);
                                 flag = false;
                                 stasiunCur.close();
                             }
@@ -73,10 +65,8 @@ public class DBKereta {
                         if(trackRaw.charAt(i) == ','){
                             flag = true;
                             s = "";
-                           // schedule += ",";
                             waktuTiba.add(schedule);
                             schedule ="";
-                           // route += " -> ";
                         }
                         else{
                             if(trackRaw.charAt(i) != ';'){
@@ -97,12 +87,6 @@ public class DBKereta {
                 String namaKereta=""+cursor.getString(1);
                 Kereta kereta=new Kereta(namaKereta,routes,waktuBerangkat,waktuTiba);
                 this.listTrains.add(kereta);
-                //System.out.println(route);
-                //System.out.println(schedule);
-
-
-
-                //System.out.println(" "+cursor.getString(2)); // jadwal dan track, stasiun msh dlm bentuk id
 
             } while (cursor.moveToNext());
 
@@ -112,24 +96,4 @@ public class DBKereta {
         mDBHelper.close();
 
     }
-
-
-    public Kereta getKeretaByName(String name){
-        Kereta result=null;
-        for (int i=0;i<this.listTrains.size();i++){
-            if(this.listTrains.get(i).getNama().equals(name)){
-                result=this.listTrains.get(i);
-                break;
-            }
-        }
-        return result;
-    }
-
-
-    /*public ArrayList<String> getNamaKereta(){
-        mDBHelper.openDataBase();
-        ArrayList<String> nama = new ArrayList<String>();
-        String query = "SELECT nama FROM track";
-
-    }*/
 }
