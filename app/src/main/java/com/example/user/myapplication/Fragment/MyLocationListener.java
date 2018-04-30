@@ -9,15 +9,12 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.user.myapplication.Database.Stasiun;
 import com.example.user.myapplication.Map.Distance;
 import com.example.user.myapplication.Map.Duration;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
@@ -97,9 +94,6 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
             time = "Tidak bergerak";
             time2 = "Tidak bergerak";
         }
-        Log.d("Distance2", String.format("%.2f", jarakResult));
-        Log.d("Distance3", String.format("%.2f", jarakKeStasiunTerdekat));
-        Log.d("Time", time);
 
         dirFragment.listener.setSpeedETA(jarakResult, time, jarakKeStasiunTerdekat, time2, speed, stasiunAwal, stasiunAkhir, stasiunSelanjutnya);
 
