@@ -1,6 +1,5 @@
 package com.example.user.myapplication;
 
-import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,15 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.user.myapplication.Alarm.AlarmNotificationReceiver;
-import com.example.user.myapplication.Fragment.CheckspeedFragment;
 
 public class ListViewSecondActivity extends AppCompatActivity {
     public static int alarm_mode = 2;
     public static int ringtone_mode = 0;
     android.support.v7.widget.Toolbar mToolbar;
-    Fragment RingtoneFragment;
-    CheckspeedFragment CheckSpeed = new CheckspeedFragment();
     ListView lv;
 
     @Override

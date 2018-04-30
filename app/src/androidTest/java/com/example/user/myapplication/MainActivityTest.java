@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import com.example.user.myapplication.Fragment.DirectionFragment;
+import com.example.user.myapplication.Fragment.MyLocationListener;
 import com.robotium.solo.Solo;
 
 import java.lang.reflect.InvocationTargetException;
@@ -27,6 +28,7 @@ import static org.junit.Assert.*;
 public class MainActivityTest extends ActivityInstrumentationTestCase2 {
 
     private Solo solo;
+    private MyLocationListener loc;
 
     public MainActivityTest() {
         super(MainActivity.class);
@@ -40,9 +42,11 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
     }
 
 
-    //kl error hapus throwsnya sm method turnOnMobileData()
-    public void testPilihKeretaDanStasiun() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        turnOnMobileData();
+
+
+
+
+    public void testPilihKeretaDanStasiun(){
 
         //Asumsi GPS dan Internet nyala. Belom nanganin kl ada dialog GPS atau network
 
@@ -60,6 +64,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
                 Spinner akhir = spin.get(2);
                 for (int k = 0;k< akhir.getCount();k++){
                     solo.clickOnButton("Set Stasiun");
+                    testCheckSpeed();
                     solo.sleep(2000);
                     solo.pressSpinnerItem(2,-1);
                     solo.sleep(1000);
@@ -134,24 +139,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnToggleButton("Alarm");
     }
 
-    public void testCheckSpeed(){
+    private void testCheckSpeed(){
         swipeRight();
         solo.sleep(1000);
         solo.clickOnText("Cek Kecepatan");
-        solo.sleep(6000);
+        solo.sleep(7000);
 
-        solo.goBack();
-        solo.clickOnText("Tidak");
-        solo.goBack();
-        solo.clickOnText("Ya");
-    }
-
-    private void turnOnMobileData() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        ConnectivityManager mobile = (ConnectivityManager) solo.getCurrentActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        Method data = ConnectivityManager.class.getDeclaredMethod("setMobileDataEnabled",boolean.class);
-        data.setAccessible(true);
-        data.invoke(mobile ,true);
-
+        swipeRight();
+        solo.clickOnText("Peta");
     }
 
     private void swipeRight(){
@@ -162,7 +157,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2 {
         float xEnd = width/2;
         solo.drag(xStart,xEnd,height/2,height/2,1);
     }
-
 
     public void tearDown() throws Exception{
         try{

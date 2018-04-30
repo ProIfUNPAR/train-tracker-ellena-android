@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.user.myapplication.Database.Kereta;
 import com.example.user.myapplication.Fragment.ScheduleFragment;
-import com.example.user.myapplication.R;
 
 import java.util.List;
 
@@ -35,11 +34,6 @@ public class ScheduleListAdapter extends BaseAdapter {
         for(int i = 0; i < departureList.size(); i++){
             depDebug = depDebug + " " + departureList.get(i);
         }
-        Log.d("arrdepdebug", "arrival : " + arrDebug);
-        Log.d("arrdepdebug", "departure : " + depDebug);
-        //Log.d("debugStation", String.valueOf(stasiunList.size()));
-        //Log.d("debugStation", String.valueOf(arrivalList.size()));
-        //Log.d("debugStation", String.valueOf(departureList.size()));
     }
 
     @Override
