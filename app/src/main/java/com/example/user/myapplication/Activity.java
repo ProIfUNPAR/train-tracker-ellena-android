@@ -22,20 +22,25 @@ import android.widget.ImageView;
 public class Activity extends AppCompatActivity {
     private ImageView iv;
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         iv = (ImageView) findViewById(R.id.iv);
-        Animation myanim = AnimationUtils.loadAnimation(this,R.anim.mytransition);
+        Animation myanim = AnimationUtils.loadAnimation(this, R.anim.mytransition);
         iv.startAnimation(myanim);
         final LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if(!isNetworkAvailable()){
+        if (!isNetworkAvailable()) {
             noInternetAlert();
-        }
-        else {
+        } else {
             if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 noGPSAlert();
             } else {
@@ -71,7 +76,6 @@ public class Activity extends AppCompatActivity {
             }
         }
     }
-
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -86,9 +90,12 @@ public class Activity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        Intent intent = getIntent();
+                    }
+                })
+                .setNegativeButton("Keluar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
-                        startActivity(intent);
                     }
                 });
         final AlertDialog alert = builder.create();
@@ -102,9 +109,12 @@ public class Activity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
-                        Intent intent = getIntent();
+                    }
+                })
+                .setNegativeButton("Keluar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
-                        startActivity(intent);
                     }
                 });
         final AlertDialog alert = builder.create();
