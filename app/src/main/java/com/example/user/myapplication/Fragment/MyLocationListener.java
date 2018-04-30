@@ -33,6 +33,10 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
     DirectionFragment dirFragment;
     ArrayList<Marker> markerList;
     GoogleMap mMap;
+    static int i = 0;
+    static ArrayList<Stasiun> awalList;
+    static ArrayList<Stasiun> akhirList;
+    static double jarakKeStasiunTerdekat;
 
     public MyLocationListener(DirectionFragment d, GoogleMap mmap){
         this.dirFragment = d;
@@ -43,7 +47,6 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
 
     @Override
     public void onLocationChanged(Location location) {
-        int i = 1;
         markerList = dirFragment.getMarkerList();
         latitude = location.getLatitude();
         longitude = location.getLongitude();
@@ -52,24 +55,45 @@ public class MyLocationListener extends BroadcastReceiver implements LocationLis
         speed = location.getSpeed() * 3.6;
         Stasiun stasiunAwal = dirFragment.getStasiunAwal();
         Stasiun stasiunAkhir = dirFragment.getStasiunAkhir();
-        Stasiun stasiunSelanjutnya = dirFragment.getStasiunSelanjutnya();
 
-        double jarakKeStasiunTerdekat = 0;
         jarakResult = 0;
 
         if (stasiunAkhir != null) {
-            jarakKeStasiunTerdekat = jarak.getDistance(latitude,longitude,markerList.get(i).getPosition().latitude,markerList.get(i).getPosition().longitude);
 
-            if(jarakKeStasiunTerdekat < 2){
+            if(jarakKeStasiunTerdekat/1000 < 500 && i < akhirList.size() && (!(akhirList.get(i).equals(stasiunAkhir)))){
+                Log.d("debugstasiunterdekat", "masuk" + i);
                 i++;
+                Log.d("debugstasiunterdekat", "keluar" + i);
             }
-
+            if(i < markerList.size()) {
+                jarakKeStasiunTerdekat = jarak.getDistance(latitude, longitude, markerList.get(i).getPosition().latitude, markerList.get(i).getPosition().longitude);
+            }
             jarakResult = jarakKeStasiunTerdekat;
             for (int j = i;j< markerList.size()-1;j++){
                 jarakResult += jarak.getDistance(markerList.get(j).getPosition().latitude,markerList.get(j).getPosition().longitude,
                         markerList.get(j+1).getPosition().latitude,markerList.get(j+1).getPosition().longitude);
             }
         }
+        Stasiun stasiunSelanjutnya;
+        if(markerList.size() > 0 && i < akhirList.size()) {
+            stasiunSelanjutnya = akhirList.get(i);
+            Log.d("haha", "if");
+        }
+        else if(markerList.size() <= 0){
+            stasiunSelanjutnya = new Stasiun("kos" +
+                    "" +
+                    "" +
+                    "" +
+                    "" +
+                    "ong", "koosng", 0, 0);
+            Log.d("haha", "else if");
+        }
+        else{
+            stasiunSelanjutnya = dirFragment.getStasiunSelanjutnya(akhirList.size()-1);
+            Log.d("haha", "else");
+        }
+
+        Log.d("hoho", stasiunSelanjutnya.getNama());
         String time;
         String time2;
         if (speed != 0) {

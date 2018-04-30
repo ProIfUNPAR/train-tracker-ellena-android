@@ -354,8 +354,10 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
             mMap.animateCamera(cu);
-
-            distance=jarak.getDistance(stasiunAwal.getLatitude(),stasiunAwal.getLongitude(),stasiunAkhir.getLatitude(),stasiunAkhir.getLongitude());
+            MyLocationListener.i = 0;
+            MyLocationListener.jarakKeStasiunTerdekat = 0;
+            MyLocationListener.awalList = asalList;
+            MyLocationListener.akhirList = tujuanList;
         }
         else{
             Toast.makeText(getContext(), "Kereta belum dipilih", Toast.LENGTH_LONG).show();
@@ -370,8 +372,16 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
         return stasiunAkhir;
     }
 
-    public Stasiun getStasiunSelanjutnya(){
-        return stasiunSelanjutnya;
+    public ArrayList<Stasiun> getAwalList(){
+        return asalList;
+    }
+
+    public ArrayList<Stasiun> getAkhirList(){
+        return tujuanList;
+    }
+
+    public Stasiun getStasiunSelanjutnya(int i){
+        return tujuanList.get(i);
     }
 
     public Distance getJarak(){
