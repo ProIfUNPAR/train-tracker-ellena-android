@@ -1,64 +1,69 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical">
+        <com.example.user.myapplication.NoDefaultSpinner
+            android:id="@+id/kereta_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:prompt="@string/text_select_kereta"/>
+        <LinearLayout
+            android:id="@+id/stasiun_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/direction_margin"
+            android:gravity="center">
+            <com.example.user.myapplication.NoDefaultSpinner
+                android:id="@+id/asal_list"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:prompt="@string/text_select_awal"
+                android:clickable="false"/>
+            <com.example.user.myapplication.NoDefaultSpinner
+                android:id="@+id/tujuan_list"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:prompt="@string/text_select_akhir"
+                android:clickable="false"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:text="@string/search_btn_text"/>
+        <Switch
+            android:id="@+id/sw_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:text="@string/alarm_tv"
+            tools:ignore="SpUsage"
+            android:layout_marginStart="5dp" />
+    </LinearLayout>
     <fragment
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.administrator.myapplication.MainActivity"
-        android:layout_below="@id/sw_alarm"/>
-    <com.example.user.myapplication.NoDefaultSpinner
-        android:id="@+id/kereta_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/direction_margin_right"
-        android:layout_alignParentTop="true"
-        android:prompt="@string/text_select_kereta"/>
-    <LinearLayout
-        android:id="@+id/stasiun_list"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/direction_margin"
-        android:layout_below="@id/kereta_list"
-        android:gravity="center">
-        <com.example.user.myapplication.NoDefaultSpinner
-            android:id="@+id/asal_list"
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_marginRight="@dimen/direction_margin_right"
-            android:layout_height="match_parent"
-            android:prompt="@string/text_select_awal"
-            android:clickable="false"/>
-        <com.example.user.myapplication.NoDefaultSpinner
-            android:id="@+id/tujuan_list"
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_marginRight="@dimen/direction_margin_right"
-            android:layout_height="match_parent"
-            android:prompt="@string/text_select_akhir"
-            android:clickable="false"/>
-    </LinearLayout>
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/stasiun_list"
-        android:text="@string/search_btn_text"/>
-    <Switch
-        android:id="@+id/sw_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_search"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:text="@string/alarm_tv"
-        android:textSize="18dp"
-
-        tools:ignore="SpUsage" />
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="2.3"
+        tools:context="com.example.administrator.myapplication.MainActivity"/>
+</LinearLayout>
