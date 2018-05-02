@@ -46,19 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected CheckspeedFragment checkSpeedFragment;
     private MyLocationListener tempListener;
     private LocationManager locmanager;
+    private boolean isStopped;
 
-    @Override
-    protected void onStop() {
-        Log.d("debugstop", "stopped");
-        directionFragment.killLocationService();
-        super.onStop();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        directionFragment.makeLocationService();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.StationName));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        this.isStopped = false;
 
         this.fragmentManager = getSupportFragmentManager();
 
@@ -114,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         System.out.println("yes");
+        directionFragment.killLocationService();
+        this.isStopped = true;
         super.onBackPressed();
     }
 
