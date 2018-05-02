@@ -1,15 +1,20 @@
 package com.example.user.myapplication;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,7 +32,9 @@ import com.example.user.myapplication.Fragment.AlarmFragment;
 import com.example.user.myapplication.Fragment.CheckspeedFragment;
 import com.example.user.myapplication.Fragment.DirectionFragment;
 import com.example.user.myapplication.Fragment.FragmentListener;
+import com.example.user.myapplication.Fragment.MyLocationListener;
 import com.example.user.myapplication.Fragment.ScheduleFragment;
+import com.google.android.gms.maps.GoogleMap;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentListener, ExitDialogFragment.ExitDialogListener {
 
@@ -37,18 +44,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected DirectionFragment directionFragment;
     protected ScheduleFragment scheduleFragment;
     protected CheckspeedFragment checkSpeedFragment;
+    private MyLocationListener tempListener;
+    private LocationManager locmanager;
+
+    @Override
+    protected void onStop() {
+        Log.d("debugstop", "stopped");
+        directionFragment.killLocationService();
+        super.onStop();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.StationName));
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.StationName));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         this.fragmentManager = getSupportFragmentManager();
-
 
         Toolbar toolbar = this.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,11 +78,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-        this.alarmFragment=AlarmFragment.newInstance();
-        this.directionFragment=DirectionFragment.newInstance();
-        this.scheduleFragment=ScheduleFragment.newInstance();
-        this.checkSpeedFragment=CheckspeedFragment.newInstance();
+        this.alarmFragment = AlarmFragment.newInstance();
+        this.directionFragment = DirectionFragment.newInstance();
+        this.scheduleFragment = ScheduleFragment.newInstance();
+        this.checkSpeedFragment = CheckspeedFragment.newInstance();
 
         FragmentTransaction ft=this.fragmentManager.beginTransaction();
         ft.add(R.id.fragment_container,this.scheduleFragment);

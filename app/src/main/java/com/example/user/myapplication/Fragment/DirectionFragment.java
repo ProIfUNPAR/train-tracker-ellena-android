@@ -75,6 +75,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
     protected ArrayList<String> trackList;
     protected ArrayList<Stasiun> stasiunListAll;
     protected ArrayList<Marker> markerList;
+    private MyLocationListener loclistenerNetwork;
+    private MyLocationListener loclistenerGPS;
 
     protected DatabaseHelper mDBHelper;
     protected DBKereta dbKereta;
@@ -257,8 +259,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
             // for ActivityCompat#requestPermissions for more details.
 
         }
-        MyLocationListener loclistenerNetwork = new MyLocationListener(this, mMap);
-        MyLocationListener loclistenerGPS = new MyLocationListener(this, mMap);
+        this.loclistenerNetwork = new MyLocationListener(this, mMap);
+        this.loclistenerGPS = new MyLocationListener(this, mMap);
         this.getContext().registerReceiver(loclistenerNetwork, filterNet);
         this.getContext().registerReceiver(loclistenerGPS, filterGPS);
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -383,6 +385,27 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
 
     public ArrayList<Marker> getMarkerList(){
         return markerList;
+    }
+
+    public LocationManager getLocationManager(){
+        return this.locationManager;
+    }
+
+    public MyLocationListener getListener(){
+        return new MyLocationListener(this, mMap);
+    }
+
+    public void killLocationService(){
+        Log.d("debugprovidersize", String.valueOf(locationManager.getAllProviders().size()));
+        locationManager.removeUpdates(loclistenerGPS);
+        locationManager.removeUpdates(loclistenerNetwork);
+        Log.d("debugprovidersize", String.valueOf(locationManager.getAllProviders().size()));
+        for(int i = 0; i < locationManager.getAllProviders().size(); i++){
+            Log.d("debugprovidersize", locationManager.getAllProviders().get(i));
+        }
+        locationManager = null;
+        loclistenerGPS = null;
+        loclistenerNetwork = null;
     }
 
     @Override
