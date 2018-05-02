@@ -1,10 +1,10 @@
 Train Tracker 
 
 Dibuat oleh :
-  Muhammad Adam
-  Ellena Angelica
-  Evelyn Wijaya
-  Tegar Muhammad
+  Muhammad Adam, 
+  Ellena Angelica, 
+  Evelyn Wijaya, 
+  Tegar Muhammad, 
   Billy Adiwijaya
   
 Train Tracker adalah sebuah aplikasi yang digunakan untuk mengecek jadwal kereta, mengingatkan pengguna
