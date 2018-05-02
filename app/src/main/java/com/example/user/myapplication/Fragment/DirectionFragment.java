@@ -468,8 +468,8 @@ public class DirectionFragment extends Fragment implements View.OnClickListener,
                         return true;
                     }
                 });
-
-                }
+            }
+            locationManager.removeUpdates(loclistener);
         }
         catch(Exception e){
 
