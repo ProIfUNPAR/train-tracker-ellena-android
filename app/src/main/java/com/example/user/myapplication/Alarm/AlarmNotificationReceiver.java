@@ -41,7 +41,7 @@ public class AlarmNotificationReceiver  extends BroadcastReceiver{
                 builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
             }
             else if (ListViewSecondActivity.ringtone_mode==1){
-                builder.setSound(Uri.parse("android.resource://com.example.user.myapplication/" + R.raw.lucky1));
+                builder.setSound(Uri.parse("android.resource://com.example.user.myapplication/" + R.raw.lucky3));
             }
             else if (ListViewSecondActivity.ringtone_mode==2){
                 builder.setSound(Uri.parse("android.resource://com.example.user.myapplication/" + R.raw.lucky2));
